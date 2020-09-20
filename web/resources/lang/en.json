@@ -1,0 +1,11 @@
+{
+    "Delta-order": "Delta-order",
+
+    // login page
+    "Войти": "Enter",
+    "Зарегистрироваться": "Register",
+    "Логин": "Username",
+    "Пароль": "Password",
+
+    "Завершение": "Ending"
+}

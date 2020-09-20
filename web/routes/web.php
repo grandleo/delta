@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'index');
+Route::view('/manager/{path?}', 'manager');
+Route::view('/worker/{path?}', 'worker');
+Route::view('/guest/{path?}', 'guest');

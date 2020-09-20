@@ -1,0 +1,37 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+// @import url('https://fonts.googleapis.com/css?family=Poppins');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+
+// global
+html, body {
+  height: 100%;
+}
+#app {
+  height: 100%;
+  max-width: 375px;
+  margin: auto;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: $body-color !important;
+}
+
+
+// components
+@import 'components/box-shadow';
+@import 'components/form-label-group';
+
+// forms
+@import 'forms/form-1';
+
+// pages
+@import 'pages/login-page';
+@import 'pages/register-page';
+
