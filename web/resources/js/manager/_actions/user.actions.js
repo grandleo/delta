@@ -11,7 +11,7 @@ export const userActions = {
     delete: _delete
 };
 
-function login(username, password, history, from) {
+function login({ username, password }, history, from) {
     return dispatch => {
         dispatch(request({ username }));
 

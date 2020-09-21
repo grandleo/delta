@@ -25,7 +25,7 @@ function App() {
 
     return (
         <Switch>
-            <PrivateRoute exact path={routes.home} component={HomePage} condition={false} />
+            <PrivateRoute exact path={routes.home} component={HomePage} condition={localStorage.user} />
             <Route path={routes.login} component={LoginPage} />
             <Route path={routes.register} component={RegisterPage} />
             <Redirect from="*" to={routes.home} />

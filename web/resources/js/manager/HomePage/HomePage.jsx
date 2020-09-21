@@ -2,8 +2,19 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { routes } from '../_helpers';
+import { t, routes } from '../_helpers';
 import { userActions } from '../_actions';
+import { Header } from '../_components';
+
+const links = [
+    {to: routes.orders, icon: 'orders.svg', text: t('Заказы')},
+    {to: routes.finances, icon: 'dollar-sign.svg', text: t('Финансы')},
+    {to: routes.rooms, icon: 'tables.svg', text: t('Столы')},
+    {to: routes.menus, icon: 'menu.svg', text: t('Меню')},
+    {to: routes.personal, icon: 'users.svg', text: t('Официанты')},
+    {to: routes.guests, icon: 'users.svg', text: t('Клиенты')},
+    {to: routes.settings, icon: 'settings.svg', text: t('Настройка заведения')},
+];
 
 function HomePage() {
     const users = useSelector(state => state.users);
@@ -19,9 +30,20 @@ function HomePage() {
     }
 
     return (
-        <div className="col-lg-8 offset-lg-2">
-            <h1>Hi {user.firstName}!</h1>
-            <p>You're logged in with React Hooks!!</p>
+        <div className="home-page">
+            <Header
+                headingTop="Казаков Евгений"
+                headingBottom="Казачий курень   |   Администратор"
+            />
+            <div className="content-wrapper">
+                {links.map(link =>
+                    <Link to={link.to} className="btn btn-xlg btn-light btn-block mb-3 text-left shadow-btn-3 text-primary">
+                        <img className="mr-2" src={`/images/icon/${link.icon}`} alt="icon" />
+                        {link.text}
+                    </Link>
+                )}
+            </div>
+
             <h3>All registered users:</h3>
             {users.loading && <em>Loading users...</em>}
             {users.error && <span className="text-danger">ERROR: {users.error}</span>}

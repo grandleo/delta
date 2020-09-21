@@ -24,9 +24,15 @@ input:-webkit-autofill {
 }
 
 
+// mixins
+@import 'mixins';
+
 // components
 @import 'components/box-shadow';
+@import 'components/btn';
 @import 'components/form-label-group';
+@import 'components/logo-wrapper';
+@import 'components/header-main';
 
 // forms
 @import 'forms/form-1';
@@ -34,4 +40,5 @@ input:-webkit-autofill {
 // pages
 @import 'pages/login-page';
 @import 'pages/register-page';
+@import 'pages/home-page';
 

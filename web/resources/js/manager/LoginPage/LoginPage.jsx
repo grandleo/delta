@@ -8,40 +8,67 @@ import { userActions } from '../_actions';
 // import SiteLogoSrc from '../../../../public/images/logo-delta.svg';
 
 function LoginPage() {
-    const [inputs, setInputs] = useState({
+    const [user, setUser] = useState({
         username: '',
         password: ''
     });
     const [submitted, setSubmitted] = useState(false);
-    const { username, password } = inputs;
+    const [showErrors, setShowErrors] = useState(false);
     const loggingIn = useSelector(state => state.authentication.loggingIn);
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
 
-    // reset login status
     useEffect(() => {
-        dispatch(userActions.logout());
+        // TODO: check if logged in
+        // dispatch(userActions.logout());
     }, []);
+
+    useEffect(() => {
+        if (!submitted) return;
+
+        let valRes = null;
+        for (const name in user) {
+            if (valRes = validate(name, user[name])) break;
+        }
+        if (!valRes) {
+            // get return url from location state or default to home page
+            const { from } = location.state || { from: { pathname: "/" } };
+            dispatch(userActions.login(user, history, from));
+        } else {
+            setSubmitted(false);
+        }
+    }, [submitted]);
+
+    function validate(name) {
+        if (!showErrors) return null;
+        const value = user[name];
+        switch(name) {
+            case 'username':
+                if (!value) return t('Логин не заполнен');
+                if (value.length < 3) return t('Логин не может быть меньше 3 символов');
+                break;
+            case 'password':
+                if (!value) return t('Пароль не заполнен');
+                break;
+        }
+        return null;
+    }
 
     function handleChange(e) {
         const { name, value } = e.target;
-        setInputs(inputs => ({ ...inputs, [name]: value }));
+        setUser(user => ({ ...user, [name]: value }));
     }
 
     function handleSubmit(e) {
         e.preventDefault();
 
         setSubmitted(true);
-        if (username && password) {
-            // get return url from location state or default to home page
-            const { from } = location.state || { from: { pathname: "/" } };
-            dispatch(userActions.login(username, password, history, from));
-        }
+        setShowErrors(true);
     }
 
     return (
-        <div className="login-page text-center">
+        <div className="login-page logo-wrapper text-center">
             <img src="/images/logo-delta.svg" className="logo-img"/>
             <hgroup>
                 <h1 className="heading-h1 text-uppercase m-0">{t('Delta-order')}</h1>
@@ -54,13 +81,13 @@ function LoginPage() {
                         type="text"
                         name="username"
                         placeholder={t('Логин')}
-                        value={username}
+                        value={user.username}
                         onChange={handleChange}
-                        className={'form-control' + (submitted && !username ? ' is-invalid' : '')}
+                        className={'form-control' + (validate('username') ? ' is-invalid' : '')}
                     />
                     <label htmlFor="login-form.username">{t('Логин')}</label>
-                    {submitted && !username &&
-                        <div className="invalid-feedback text-right">{t('Логин не заполнен')}</div>
+                    {validate('username') &&
+                        <div className="invalid-feedback text-right">{validate('username')}</div>
                     }
                 </div>
                 <div className="form-group form-label-group">
@@ -69,13 +96,13 @@ function LoginPage() {
                         type="password"
                         name="password"
                         placeholder={t('Пароль')}
-                        value={password}
+                        value={user.password}
                         onChange={handleChange}
-                        className={'form-control' + (submitted && !password ? ' is-invalid' : '')}
+                        className={'form-control' + (validate('password') ? ' is-invalid' : '')}
                     />
                     <label htmlFor="login-form.password">{t('Пароль')}</label>
-                    {submitted && !password &&
-                        <div className="invalid-feedback text-right">{t('Пароль не заполнен')}</div>
+                    {validate('password') &&
+                        <div className="invalid-feedback text-right">{validate('password')}</div>
                     }
                 </div>
                 <div className="form-group mt-4">
@@ -90,6 +117,9 @@ function LoginPage() {
                     </Link>
                 </div>
             </form>
+            <div className="mt-5">
+                <a className="text-black-50" href="/">{t('Главная')}</a>
+            </div>
         </div>
     );
 }

@@ -36,10 +36,6 @@
   }
 
   input {
-    // &::-webkit-input-placeholder,
-    // &:-ms-input-placeholder,
-    // &::-ms-input-placeholder,
-    // &::-moz-placeholder,
     &::placeholder {
       color: transparent;
     }
