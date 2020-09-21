@@ -1,0 +1,44 @@
+.card {
+  &-place {
+    width: 100%;
+    height: 130px;
+    border: 1px solid #e3edf7;
+    border-radius: 16px;
+    overflow: hidden;
+
+    .img-free {
+      width: 130px;
+    }
+  }
+
+  &-service-category-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  &-service-category {
+    //
+  }
+
+  &-service {
+    width: 100%;
+    height: 130px;
+    border: 1px solid #e3edf7;
+    border-radius: 16px;
+    overflow: hidden;
+
+    .img-free {
+      width: 130px;
+    }
+    .btn-service-add {
+      position: absolute;
+      right: 0;
+      top: 42px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 45px;
+      height: 45px;
+    }
+  }
+}

@@ -17,3 +17,5 @@ Route::view('/', 'index');
 Route::view('/manager/{path?}', 'manager');
 Route::view('/worker/{path?}', 'worker');
 Route::view('/guest/{path?}', 'guest');
+
+Route::view('/{path?}/{path1?}', 'guest');

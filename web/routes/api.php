@@ -17,3 +17,15 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('places', function (Request $request) {
+    return \Storage::response('fake-api/places.json');
+});
+
+Route::get('places/{placeId}', function (Request $request) {
+    return \Storage::response('fake-api/placeById.json');
+});
+
+Route::get('places/{placeId}/{serviceCategoryId}', function (Request $request) {
+    return \Storage::response('fake-api/placeServicesByCategory.json');
+});
