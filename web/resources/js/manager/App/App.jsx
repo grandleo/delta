@@ -19,7 +19,7 @@ function App() {
     useEffect(() => {
         history.listen((location, action) => {
             // clear alert on location change
-            dispatch(alertActions.clear());
+            // dispatch(alertActions.clear());
         });
     }, []);
 

@@ -10,9 +10,9 @@
             <h2 class="heading-h2 m-0">{{ __('Система быстрых заказов') }}</h2>
         </hgroup>
     </header>
-    <section class="home-page logo-wrapper">
+    <section class="home-page">
         <div class="content-wrapper">
-            <h2 class="h5 mb-4">Войти как:</h2>
+            <h2 class="h5 mb-4">{{ __('Войти как:') }}</h2>
             <a href="/guest" class="btn btn-xlg btn-light btn-block mb-4 text-left shadow-btn-3 text-primary">
                 <img class="mr-2" src="/images/icon/users.svg" alt="icon" />
                 {{ __('Гость') }}
