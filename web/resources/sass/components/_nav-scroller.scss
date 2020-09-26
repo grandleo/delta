@@ -1,0 +1,38 @@
+.nav-scroller {
+  position: relative;
+  z-index: 2;
+  height: 63px;
+  overflow-y: hidden;
+  background: $light-1;
+
+  .nav {
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav-link {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 100%;
+    opacity: 0.4;
+    padding: 25px 5px 25px 15px;
+
+    &:focus, &:hover {
+      opacity: 1;
+    }
+
+    &.active {
+      text-decoration: underline;
+      opacity: 1;
+    }
+
+    &:last-child {
+      padding-right: 15px;
+    }
+  }
+}

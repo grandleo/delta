@@ -1,0 +1,13 @@
+html, body {
+  min-height: 100vh;
+  height: 100%;
+}
+#app {
+  height: 100%;
+  max-width: 375px;
+  margin: auto;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: $body-color !important;
+}

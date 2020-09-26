@@ -2,54 +2,66 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, routes } from '../_helpers';
+import { t, fMoney, routes } from '../_helpers';
 import { placeActions } from '../_actions';
 
 function HomePage() {
-    const places = useSelector(state => state.places);
-    const user = useSelector(state => state.authentication.user);
+    const placesAll = useSelector(state => state.place.all);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(placeActions.getAll());
+        if (!placesAll.data) {
+            dispatch(placeActions.getAll());
+        }
     }, []);
 
     return (
         <div className="home-page">
             <div className="content-wrapper">
-                <h2 className="h5 mb-3">{t('Рядом со мной')}</h2>
-                {places.loading &&
+                <h2 className="h5 font-weight-600 mb-3">{t('Рядом со мной')}</h2>
+                {placesAll.loading &&
                     <div className="text-center">
                         <div className="spinner-border text-danger m-5" role="status">
                             <span className="sr-only">{t('Загрузка...')}</span>
                         </div>
                     </div>
                 }
-                {places.error && <span className="text-danger h4">Ошибка: {places.error}</span>}
-                {places.items &&
-                    places.items.map((place) =>
-                        <Link
-                            key={place.id}
-                            to={'/'+place.slug}
-                            className="card card-place mb-3 shadow-btn-3"
-                        >
-                            <div className="row no-gutters">
-                                <div className="col-auto">
-                                    <img src={`https://picsum.photos/130?random=${place.id}`} className="img-free" alt={place.name} />
-                                </div>
-                                <div className="col">
-                                    <div className="card-body">
-                                        <h5 className="card-title mb-1">{place.name}</h5>
-                                        <p className="card-text m-0">{place.descr_short}</p>
-                                        <p className="card-text">
-                                            <span className="badge badge-light mr-2 py-1 px-2">{place.price_from}</span>
-                                        </p>
+                {placesAll.error && <span className="text-danger h4">{t('Ошибка')}: {placesAll.error}</span>}
+                {placesAll.data && (placesAll.data.length ?
+                    <div className="card-place-list">
+                        {placesAll.data.map((place) =>
+                            <Link
+                                key={place.id}
+                                to={routes.makeRoute('place', [place.slug])}
+                                className="card card-place mb-3 shadow-btn-3 shadow-move"
+                                >
+                                <div className="row flex-nowrap no-gutters">
+                                    <div className="col-auto">
+                                        <img src={place.image} className="img-free" alt={place.name} />
+                                    </div>
+                                    <div className="col">
+                                        <div className="card-body">
+                                            <h5 className="card-title">{place.name}</h5>
+                                            <p className="card-text mb-2 m-0">
+                                                <span className="rating badge badge-warning mr-2">{place.rating_avg.toFixed(1)}</span>
+                                                <span className="category">{place.placeCategory_name}</span>
+                                            </p>
+                                            <p className="descr card-text m-0 mb-2 pr-3">{place.descr_short}</p>
+                                            <p className="card-text">
+                                                <span className="prices badge">{t('От')+' '+fMoney(place.prices_from, place.currency)}</span>
+                                                <span className="float-right">{place.works_until}</span>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </Link>
-                    )
-                }
+                            </Link>
+                        )}
+                    </div>
+                    : <span className="text-primary">{t('Здесь пока ничего нет.')}</span>
+                )}
+                <div className="mt-5 text-center">
+                    <a href="/" className="text-black-50">{t('Главная')}</a>
+                </div>
             </div>
         </div>
     );

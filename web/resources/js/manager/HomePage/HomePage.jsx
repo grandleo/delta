@@ -28,6 +28,9 @@ function HomePage() {
                         {link.text}
                     </Link>
                 )}
+                <div className="mt-5 text-center">
+                    <a href="/" className="text-black-50">{t('Главная')}</a>
+                </div>
             </div>
         </div>
     );

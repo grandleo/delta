@@ -8,49 +8,58 @@ import { Header } from '../_components';
 
 function PlacePage() {
     const { placeSlug } = useParams();
-    const places = useSelector(state => state.places);
-    const user = useSelector(state => state.authentication.user);
+    const placeCurrent = useSelector(state => state.place.current);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(placeActions.getById(placeSlug));
+        if (!placeCurrent.data || placeCurrent.data.slug !== placeSlug) {
+            dispatch(placeActions.getById(placeSlug));
+        }
     }, []);
 
     return (
-        <div className="home-page">
+        <div className="home-page bg-light-1">
             <Header
-                headingTop={places.current ? places.current.name : t('Загрузка...')}
+                routeBack={routes.home}
+                headingTop={placeCurrent.data ? placeCurrent.data.name : t('Загрузка...')}
                 headingBottom={t('Предзаказ')}
-            />
+                />
             <div className="content-wrapper">
-                <h2 className="h5 mb-3">{t('Меню ресторана')}</h2>
-                {places.loading &&
+                <h2 className="h4 mb-4 font-weight-600 text-primary">{t('Меню ресторана')}</h2>
+                {placeCurrent.loading &&
                     <div className="text-center">
                         <div className="spinner-border text-danger m-5" role="status">
                             <span className="sr-only">{t('Загрузка...')}</span>
                         </div>
                     </div>
                 }
-                {places.error && <span className="text-danger">Ошибка: {places.error}</span>}
-                {places.current &&
-                    <div className="card-service-category-list">
-                        {places.current.service_categories.map((sCat) =>
+                {placeCurrent.error && <span className="text-danger">{t('Ошибка')}: {placeCurrent.error}</span>}
+                {placeCurrent.data && (placeCurrent.data.productCategories.length ?
+                    <div className="card-product-category-list">
+                        {placeCurrent.data.productCategories.map((sCat) =>
                             <Link
                                 key={sCat.id}
-                                to={`/${places.current.slug}/${sCat.slug}`}
-                                className="card card-service-category"
-                            >
-                                <img src={`https://picsum.photos/160?random=${sCat.id}`} className="card-img-top" alt={sCat.name} />
+                                to={routes.makeRoute('placeProductCategory', [placeCurrent.data.slug, sCat.slug, sCat.id])}
+                                className="card card-product-category shadow-btn-4 shadow-move"
+                                >
+                                <div className="bg-light embed-responsive embed-responsive-1by1">
+                                    <img
+                                        src={sCat.image}
+                                        className="card-img-top embed-responsive-item"
+                                        alt={sCat.name}
+                                        />
+                                </div>
                                 <div className="card-body">
                                     <h5 className="card-title mb-1">{sCat.name}</h5>
                                     <p className="card-text">
-                                        <small className="text-muted">({sCat.count})</small>
+                                        <small className="count">({sCat.count})</small>
                                     </p>
                                 </div>
                             </Link>
                         )}
                     </div>
-                }
+                    : <span className="text-primary">{t('Здесь пока ничего нет.')}</span>
+                )}
             </div>
         </div>
     );

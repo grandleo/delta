@@ -7,7 +7,8 @@ import { routes } from '../_helpers';
 import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
 import { HomePage } from '../HomePage';
-import { PlacePage, PlaceServiceCategoryPage } from '../PlacePage';
+import { PlacePage } from '../PlacePage';
+import { ProductCategoryPage } from '../ProductCategoryPage';
 
 function App() {
     const alert = useSelector(state => state.alert);
@@ -24,7 +25,7 @@ function App() {
     return (
         <Switch>
             <Route exact path={routes.home} component={HomePage} />
-            <Route path={routes.placeServiceCategory} component={PlaceServiceCategoryPage} />
+            <Route path={routes.placeProductCategory} component={ProductCategoryPage} />
             <Route path={routes.place} component={PlacePage} />
             <Redirect from="*" to={routes.home} />
         </Switch>

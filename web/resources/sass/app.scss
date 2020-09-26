@@ -1,6 +1,7 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+// @import url('https://fonts.googleapis.com/css?family=Nunito');
 // @import url('https://fonts.googleapis.com/css?family=Poppins');
+@import 'fonts-local';
 
 // Variables
 @import 'variables';
@@ -9,23 +10,14 @@
 @import '~bootstrap/scss/bootstrap';
 
 
-// global
-html, body {
-  height: 100%;
-}
-#app {
-  height: 100%;
-  max-width: 375px;
-  margin: auto;
-}
-
-input:-webkit-autofill {
-  -webkit-text-fill-color: $body-color !important;
-}
-
-
 // mixins
 @import 'mixins';
+
+// utilities
+@import 'utilities';
+
+// global
+@import 'global';
 
 // components
 @import 'components/box-shadow';
@@ -33,6 +25,7 @@ input:-webkit-autofill {
 @import 'components/form-label-group';
 @import 'components/logo-wrapper';
 @import 'components/header-main';
+@import 'components/nav-scroller';
 @import 'components/card';
 
 // forms

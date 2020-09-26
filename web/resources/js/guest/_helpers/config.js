@@ -1,4 +1,4 @@
 export const config = {
-    apiUrl: '/api',
-    pathPrefix: ''
+    apiUrl: '/api/v1/guest',
+    pathPrefix: '',
 };

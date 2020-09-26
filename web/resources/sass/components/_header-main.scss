@@ -1,4 +1,7 @@
 .header-main {
+  position: relative;
+  z-index: 3;
+  display: flex;
   background-color: $blue;
   padding: 21px 14px 17px;
 

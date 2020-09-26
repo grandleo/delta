@@ -1,13 +1,27 @@
 import { config } from './';
 
+const { pathPrefix: pp } = config;
+
 export const routes = {
-    home: config.pathPrefix + '/guest',
+    home: pp + '/guest',
 
-    login: config.pathPrefix + '/login',
-    register: config.pathPrefix + '/register',
+    login: pp + '/login',
+    register: pp + '/register',
 
-    orders: config.pathPrefix + '/orders',
+    orders: pp + '/orders',
 
     place: '/:placeSlug',
-    placeServiceCategory: '/:placeSlug/:serviceCategorySlug',
+    placeProductCategory: '/:placeSlug/:productCategorySlug',
+
+
+    makeRoute(name, params) {
+        switch(name) {
+            case 'place':
+                return '/' + params[0];
+            case 'placeProductCategory':
+                return '/' + params[0] + '/' + params[1] + '-' + params[2];
+            default:
+                return pp + '/guest';
+        }
+    },
 };
