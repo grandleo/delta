@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { config } from './';
+import { config, lsGetItem } from './';
 
 export function fetchClient() {
     const defaultOptions = {
@@ -16,7 +16,7 @@ export function fetchClient() {
 
     // change config before every request if needed
     instance.interceptors.request.use(function (config) {
-        const token = localStorage.getItem('guest_token');
+        const token = lsGetItem('token');
         config.headers.Authorization =  token ? `Bearer ${token}` : '';
         return config;
     });

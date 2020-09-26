@@ -2,7 +2,7 @@ html, body {
   min-height: 100vh;
   height: 100%;
 }
-#app {
+#app, .global-wrapper {
   height: 100%;
   max-width: 375px;
   margin: auto;

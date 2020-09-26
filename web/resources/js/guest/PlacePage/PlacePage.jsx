@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { t, routes } from '../_helpers';
 import { placeActions } from '../_actions';
-import { Header } from '../_components';
+import { Header, CartInfoFixed } from '../_components';
 
 function PlacePage() {
     const { placeSlug } = useParams();
@@ -61,6 +61,7 @@ function PlacePage() {
                     : <span className="text-primary">{t('Здесь пока ничего нет.')}</span>
                 )}
             </div>
+            <CartInfoFixed />
         </div>
     );
 }

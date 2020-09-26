@@ -11,6 +11,9 @@ export const routes = {
     orders: pp + '/orders',
 
     place: '/:placeSlug',
+
+    placeCart: '/:placeSlug/cart',
+
     placeProductCategory: '/:placeSlug/:productCategorySlug',
 
 
@@ -18,6 +21,8 @@ export const routes = {
         switch(name) {
             case 'place':
                 return '/' + params[0];
+            case 'placeCart':
+                return '/' + params[0] + '/cart';
             case 'placeProductCategory':
                 return '/' + params[0] + '/' + params[1] + '-' + params[2];
             default:

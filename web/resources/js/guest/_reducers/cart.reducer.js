@@ -1,18 +1,96 @@
 import { cartConstants } from '../_constants';
 
 const initialState = {
-    items: []
+    places: {},
+    // places: {
+    //     placeId_1: {
+    //         productId_1: { qty, price },
+    //         productId_2: { qty, price },
+    //     }
+    // }
+    current: {
+        loading: false,
+        error: false,
+        data: null,
+        params: {
+            cutlery_qty: 1,
+        },
+    },
 };
 
-export function cart(state = {}, action) {
+function placeProducts(state = {}, action) {
     switch (action.type) {
         case cartConstants.ADD_ITEM:
-            return state
+            const { productId, changeQty, price } = action;
+            return {
+                ...state,
+                [productId]: {
+                    qty: Math.max((state[productId] ? state[productId].qty : 0) + changeQty, 0),
+                    price,
+                },
+            };
         default:
-            return state
+            return state;
     }
 }
 
+function places(state = initialState.places, action) {
+    switch (action.type) {
+        case cartConstants.ADD_ITEM:
+            const { placeId } = action;
+            return {
+                ...state,
+                [placeId]: placeProducts(state[placeId], action),
+            };
+        default:
+            return state;
+    }
+}
+
+function current(state = initialState.current, action) {
+    switch (action.type) {
+        case cartConstants.GETBYID_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: false,
+                data: null,
+            };
+        case cartConstants.GETBYID_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                error: false,
+                data: action.payload.data,
+            };
+        case cartConstants.GETBYID_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+                data: null,
+            };
+
+        case cartConstants.PARAMS_CHANGE:
+            const { name, value } = action;
+            return {
+                ...state,
+                params: { ...state.params, [name]: value },
+            };
+        default:
+            return state;
+    }
+}
+
+export function cart(state = {}, action) {
+    switch (action.type) {
+        default:
+            return {
+                places: places(state.places, action),
+                current: current(state.current, action),
+            };
+    }
+}
 
 /*
 import {

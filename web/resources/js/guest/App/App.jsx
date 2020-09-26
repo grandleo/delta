@@ -9,6 +9,7 @@ import { PrivateRoute } from '../_components';
 import { HomePage } from '../HomePage';
 import { PlacePage } from '../PlacePage';
 import { ProductCategoryPage } from '../ProductCategoryPage';
+import { CartPage } from '../CartPage';
 
 function App() {
     const alert = useSelector(state => state.alert);
@@ -25,6 +26,7 @@ function App() {
     return (
         <Switch>
             <Route exact path={routes.home} component={HomePage} />
+            <Route path={routes.placeCart} component={CartPage} />
             <Route path={routes.placeProductCategory} component={ProductCategoryPage} />
             <Route path={routes.place} component={PlacePage} />
             <Redirect from="*" to={routes.home} />

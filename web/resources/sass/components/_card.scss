@@ -133,4 +133,20 @@
       height: 45px;
     }
   }
+
+  &-cart-product-list {
+    //
+  }
+  &-cart-product {
+    height: auto;
+    padding: 15px 0 20px;
+    border: none;
+    border-bottom: 1px solid #e3edf7;
+    border-radius: 0;
+
+    .rounded-circle {
+      width: 60px;
+      height: 60px;
+    }
+  }
 }

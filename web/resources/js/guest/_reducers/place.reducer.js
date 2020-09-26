@@ -1,16 +1,16 @@
 import { placeConstants } from '../_constants';
 
 const initialState = {
-  all: {
-      loading: false,
-      error: false,
-      data: null,
-  },
-  current: {
-      loading: false,
-      error: false,
-      data: null,
-  },
+    all: {
+        loading: false,
+        error: false,
+        data: null,
+    },
+    current: {
+        loading: false,
+        error: false,
+        data: null,
+    },
 };
 
 function all(state = initialState.all, action) {
@@ -19,16 +19,19 @@ function all(state = initialState.all, action) {
             return {
                 loading: true,
                 error: false,
+                data: null,
             };
         case placeConstants.GETALL_SUCCESS:
             return {
                 loading: false,
+                error: false,
                 data: action.payload.data,
             };
         case placeConstants.GETALL_FAILURE:
             return {
                 loading: false,
                 error: action.error,
+                data: null,
             };
         default:
             return state;
@@ -41,16 +44,19 @@ function current(state = initialState.current, action) {
             return {
                 loading: true,
                 error: false,
+                data: null,
             };
         case placeConstants.GETBYID_SUCCESS:
             return {
                 loading: false,
+                error: false,
                 data: action.payload.data,
             };
         case placeConstants.GETBYID_FAILURE:
             return {
                 loading: false,
                 error: action.error,
+                data: null,
             };
         default:
             return state;

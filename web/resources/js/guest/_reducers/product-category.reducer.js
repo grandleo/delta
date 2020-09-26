@@ -14,16 +14,19 @@ function current(state = initialState.current, action) {
             return {
                 loading: true,
                 error: false,
+                data: null,
             };
         case productCategoryConstants.GETBYID_SUCCESS:
             return {
                 loading: false,
+                error: false,
                 data: action.payload.data,
             };
         case productCategoryConstants.GETBYID_FAILURE:
             return {
                 loading: false,
                 error: action.error,
+                data: null,
             };
         default:
             return state;

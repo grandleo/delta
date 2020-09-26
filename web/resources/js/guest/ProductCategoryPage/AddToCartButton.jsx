@@ -1,10 +1,14 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
-function AddToCartButton({ placeId, productId }) {
+import { cartActions } from '../_actions';
+
+function AddToCartButton({ placeId, productId, productPrice }) {
+    const dispatch = useDispatch();
 
     function handleClick(e) {
         e.preventDefault();
-        console.log('placeId, productId', placeId, productId);
+        dispatch(cartActions.addToCart(placeId, productId, productPrice, 1));
     }
 
     return (

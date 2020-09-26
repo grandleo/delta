@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, routes } from '../_helpers';
 import { placeActions, productCategoryActions } from '../_actions';
-import { Header, NavScroller } from '../_components';
+import { Header, NavScroller, CartInfoFixed } from '../_components';
 import { AddToCartButton } from './AddToCartButton';
 
 function ProductCategoryPage() {
@@ -83,6 +83,7 @@ function ProductCategoryPage() {
                                 <AddToCartButton
                                     placeId={placeCurrent.data.id}
                                     productId={product.id}
+                                    productPrice={product.price}
                                     />
                             </div>
                         )}
@@ -90,6 +91,7 @@ function ProductCategoryPage() {
                     : <span className="text-primary">{t('Здесь пока ничего нет.')}</span>
                 )}
             </div>
+            <CartInfoFixed />
         </div>
     );
 }
