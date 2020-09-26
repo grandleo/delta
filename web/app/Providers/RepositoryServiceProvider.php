@@ -10,6 +10,8 @@ use App\Repositories\PlaceRepositoryInterface;
 use App\Repositories\Eloquent\PlaceRepository;
 use App\Repositories\ProductCategoryRepositoryInterface;
 use App\Repositories\Eloquent\ProductCategoryRepository;
+use App\Repositories\ProductRepositoryInterface;
+use App\Repositories\Eloquent\ProductRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -23,5 +25,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(EloquentRepositoryInterface::class, BaseRepository::class);
         $this->app->bind(PlaceRepositoryInterface::class, PlaceRepository::class);
         $this->app->bind(ProductCategoryRepositoryInterface::class, ProductCategoryRepository::class);
+        $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
     }
 }
