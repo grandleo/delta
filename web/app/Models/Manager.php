@@ -8,9 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Authenticatable
+use App\Helpers\Traits\JsonFieldTrait;
+
+class Manager extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, SoftDeletes, Notifiable;
+    use JsonFieldTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +22,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password',
+        'name_full', 'phone',
+        'image',
     ];
 
     /**
@@ -37,5 +42,12 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'phone_verified_at' => 'datetime',
+        'params' => 'array',
+        /*
+            params: {
+                //
+            }
+        */
     ];
 }
