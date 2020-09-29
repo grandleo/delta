@@ -40,4 +40,13 @@ class BaseRepository implements EloquentRepositoryInterface
     {
         return $this->model->find($id);
     }
+
+    /**
+    * @param array $conditions
+    * @return Model
+    */
+    public function findByWhere(array $conditions): ?Model
+    {
+        return $this->model->where($conditions)->first();
+    }
 }

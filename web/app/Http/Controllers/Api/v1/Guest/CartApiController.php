@@ -67,9 +67,6 @@ class CartApiController extends Controller
             'params' => 'nullable|array',
         ]);
 
-        // TODO: check to be guest id and not other
-        $reqData['guestId'] = \Auth::id();
-
         $place = $this->placeRepository->find($reqData['placeId']);
 
         $productIds = collect($reqData['products'])->pluck('id')->toArray();
@@ -84,7 +81,6 @@ class CartApiController extends Controller
 
         // create draft order
         $order = $this->orderRepository->create([
-            'guest_id' => $reqData['guestId'],
             'place_id' => $reqData['placeId'],
             'table_id' => $reqData['tableId'],
             'currency' => $place->currency,
@@ -103,6 +99,24 @@ class CartApiController extends Controller
                 'qty' => $reqProduct['qty'],
             ]);
         }
+
+        return new OrderResource($order);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $order = $this->orderRepository->find($id);
+        abort_if(!$order, 404);
+
+        $order->guest_id = \Auth::id();
+        $order->save();
 
         return new OrderResource($order);
     }
