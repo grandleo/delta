@@ -1,19 +1,39 @@
 import { alertConstants } from '../_constants';
 
 export const alertActions = {
-    success,
-    error,
-    clear
+    itemAdd,
+    itemAddDirect,
+    itemRemove,
+    itemsClear,
 };
 
-function success(message) {
-    return { type: alertConstants.SUCCESS, message };
+function itemAdd(alertType, message, timeout = 2000) {
+    return dispatch => {
+        const item = {
+            id: Date.now(),
+            alertType,
+            message,
+        };
+
+        // add
+        dispatch(itemAddDirect(item));
+        // remove after timeout
+        if (timeout) {
+            setTimeout(() => {
+                dispatch(itemRemove(item.id));
+            }, timeout);
+        }
+    };
 }
 
-function error(message) {
-    return { type: alertConstants.ERROR, message };
+function itemAddDirect(item) {
+    return { type: alertConstants.ITEM_ADD, item };
 }
 
-function clear() {
-    return { type: alertConstants.CLEAR };
+function itemRemove(id) {
+    return { type: alertConstants.ITEM_REMOVE, id };
+}
+
+function itemsClear() {
+    return { type: alertConstants.ITEMS_CLEAR };
 }

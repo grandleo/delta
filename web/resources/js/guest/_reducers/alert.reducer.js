@@ -1,20 +1,30 @@
 import { alertConstants } from '../_constants';
 
-export function alert(state = {}, action) {
+const initialState = {
+    items: [],
+};
+
+function items(state = initialState.items, action) {
     switch (action.type) {
-        case alertConstants.SUCCESS:
-            return {
-                type: 'alert-success',
-                message: action.message
-            };
-        case alertConstants.ERROR:
-            return {
-                type: 'alert-danger',
-                message: action.message
-            };
-        case alertConstants.CLEAR:
-            return {};
+        case alertConstants.ITEM_ADD:
+            return [
+                ...state,
+                action.item
+            ];
+        case alertConstants.ITEM_REMOVE:
+            return state.filter((val) => val.id !== action.id);
+        case alertConstants.ITEMS_CLEAR:
+            return initialState.items;
         default:
-            return state
+            return state;
+    }
+}
+
+export function alert(state = initialState, action) {
+    switch (action.type) {
+        default:
+            return {
+                items: items(state.items, action),
+            };
     }
 }

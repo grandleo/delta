@@ -16,6 +16,11 @@ const initialState = {
             cutlery_qty: 1,
         },
     },
+    checkout: {
+        loading: false,
+        error: false,
+        data: null,
+    },
 };
 
 function placeProducts(state = {}, action) {
@@ -82,70 +87,41 @@ function current(state = initialState.current, action) {
     }
 }
 
+function checkout(state = initialState.checkout, action) {
+    switch (action.type) {
+        case cartConstants.CHECKOUT_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: false,
+                data: null,
+            };
+        case cartConstants.CHECKOUT_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                error: false,
+                data: action.payload.data,
+            };
+        case cartConstants.CHECKOUT_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error,
+                data: null,
+            };
+        default:
+            return state;
+    }
+}
+
 export function cart(state = {}, action) {
     switch (action.type) {
         default:
             return {
                 places: places(state.places, action),
                 current: current(state.current, action),
+                checkout: checkout(state.checkout, action),
             };
     }
 }
-
-/*
-import {
-  ADD_TO_CART,
-  CHECKOUT_REQUEST,
-  CHECKOUT_FAILURE
-} from '../constants/ActionTypes'
-
-const initialState = {
-  addedIds: [],
-  quantityById: {}
-}
-
-const addedIds = (state = initialState.addedIds, action) => {
-  switch (action.type) {
-    case ADD_TO_CART:
-      if (state.indexOf(action.productId) !== -1) {
-        return state
-      }
-      return [ ...state, action.productId ]
-    default:
-      return state
-  }
-}
-
-const quantityById = (state = initialState.quantityById, action) => {
-  switch (action.type) {
-    case ADD_TO_CART:
-      const { productId } = action
-      return { ...state,
-        [productId]: (state[productId] || 0) + 1
-      }
-    default:
-      return state
-  }
-}
-
-export const getQuantity = (state, productId) =>
-  state.quantityById[productId] || 0
-
-export const getAddedIds = state => state.addedIds
-
-const cart = (state = initialState, action) => {
-  switch (action.type) {
-    case CHECKOUT_REQUEST:
-      return initialState
-    case CHECKOUT_FAILURE:
-      return action.cart
-    default:
-      return {
-        addedIds: addedIds(state.addedIds, action),
-        quantityById: quantityById(state.quantityById, action)
-      }
-  }
-}
-
-export default cart
-*/

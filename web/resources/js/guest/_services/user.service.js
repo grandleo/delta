@@ -1,84 +1,47 @@
-import { config } from '../_helpers';
+import { fetchClient, lsSetItem } from '../_helpers';
 
 export const userService = {
     login,
     logout,
     register,
-    update
 };
 
-function login(username, password) {
+function login(inputs) {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        url: 'auth',
+        data: { ...inputs },
     };
 
-    return fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
-        .then(handleResponse)
-        .then(user => {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('user', JSON.stringify(user));
-
-            return user;
+    return fetchClient()(requestOptions).then(handleResponse)
+        .then(payload => {
+            if (payload.data.token) {
+                lsSetItem('user', payload.data);
+            }
+            return payload;
         });
 }
 
 function logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem('user');
+    lsSetItem('user', null);
 }
 
-function getAll() {
-    const requestOptions = {
-        method: 'GET',
-    };
-
-    return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
-}
-
-function getById(id) {
-    const requestOptions = {
-        method: 'GET',
-    };
-
-    return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
-}
-
-function register(user) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
-
-    return fetch(`${config.apiUrl}/users/register`, requestOptions).then(handleResponse);
-}
-
-function update(user) {
+function register(inputs) {
     const requestOptions = {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
+        url: 'auth',
+        data: { ...inputs },
     };
 
-    return fetch(`${config.apiUrl}/users/${user.id}`, requestOptions).then(handleResponse);;
+    return fetchClient()(requestOptions).then(handleResponse)
+        .then(payload => {
+            if (payload.data.token) {
+                lsSetItem('user', payload.data);
+            }
+            return payload;
+        });
 }
 
 function handleResponse(response) {
-    return response.text().then(text => {
-        const data = text && JSON.parse(text);
-        if (!response.ok) {
-            if (response.status === 401) {
-                // auto logout if 401 response returned from api
-                logout();
-                location.reload(true);
-            }
-
-            const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
-        }
-
-        return data;
-    });
+    return response.data;
 }

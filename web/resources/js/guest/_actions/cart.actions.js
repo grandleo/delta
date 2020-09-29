@@ -5,6 +5,7 @@ export const cartActions = {
     addToCart,
     paramsChange,
     getCurrent,
+    checkout,
 };
 
 function addToCart(placeId, productId, price, changeQty) {
@@ -31,46 +32,18 @@ function getCurrent(placeId, productIds) {
     function failure(error) { return { type: cartConstants.GETBYID_FAILURE, error } }
 }
 
+function checkout(placeId, tableId, products, params) {
+    return dispatch => {
+        dispatch(request());
 
-/*
-import shop from '../api/shop'
-import * as types from '../constants/ActionTypes'
+        return cartService.checkout(placeId, tableId, products, params)
+            .then(
+                payload => dispatch(success(payload)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
 
-const receiveProducts = products => ({
-  type: types.RECEIVE_PRODUCTS,
-  products
-})
-
-export const getAllProducts = () => dispatch => {
-  shop.getProducts(products => {
-    dispatch(receiveProducts(products))
-  })
+    function request() { return { type: cartConstants.CHECKOUT_REQUEST } }
+    function success(payload) { return { type: cartConstants.CHECKOUT_SUCCESS, payload } }
+    function failure(error) { return { type: cartConstants.CHECKOUT_FAILURE, error } }
 }
-
-const addToCartUnsafe = productId => ({
-  type: types.ADD_TO_CART,
-  productId
-})
-
-export const addToCart = productId => (dispatch, getState) => {
-  if (getState().products.byId[productId].inventory > 0) {
-    dispatch(addToCartUnsafe(productId))
-  }
-}
-
-export const checkout = products => (dispatch, getState) => {
-  const { cart } = getState()
-
-  dispatch({
-    type: types.CHECKOUT_REQUEST
-  })
-  shop.buyProducts(products, () => {
-    dispatch({
-      type: types.CHECKOUT_SUCCESS,
-      cart
-    })
-    // Replace the line above with line below to rollback on failure:
-    // dispatch({ type: types.CHECKOUT_FAILURE, cart })
-  })
-}
-*/

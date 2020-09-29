@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, routes } from '../_helpers';
+import { t, fMoney, routes, store } from '../_helpers';
 import { placeActions, cartActions } from '../_actions';
 import { Header, NavScroller } from '../_components';
 import { QtyChanger } from './QtyChanger';
@@ -11,11 +11,13 @@ function CartPage() {
     const { placeSlug } = useParams();
     const placeCurrent = useSelector(state => state.place.current);
     const cartCurrent = useSelector(state => state.cart.current);
+    const cartCheckout = useSelector(state => state.cart.checkout);
     const cartPlaces = useSelector(state => state.cart.places);
-    const productCategory = useSelector(state => state.productCategory.current);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const placeId = placeCurrent.data ? placeCurrent.data.id : null;
+    const tableId = null;
     const productIds = [];
 
     let totalProducts = 0;
@@ -40,6 +42,20 @@ function CartPage() {
         }
     }, [placeCurrent.data]);
 
+    function handleClickCheckout(e) {
+        e.preventDefault();
+        const products = productIds.map((productId) => ({
+            id: +productId,
+            qty: cartPlaceCurrent[productId].qty,
+        }));
+        dispatch(cartActions.checkout(placeId, tableId, products, cartCurrent.params))
+            .then(() => {
+                if (store.getState().cart.checkout.data) {
+                    history.push(routes.makeRoute('placeCartCheckout', [placeSlug]));
+                }
+            });
+    }
+
     return (
         <div className="home-page bg-light-1">
             <Header
@@ -54,7 +70,7 @@ function CartPage() {
                     <span className="text-primary">{t('Здесь пока ничего нет.')}</span>
                 }
 
-                {cartCurrent.loading &&
+                {(cartCurrent.loading || cartCheckout.loading) &&
                     <div className="text-center">
                         <div className="spinner-border text-danger m-5" role="status">
                             <span className="sr-only">{t('Загрузка...')}</span>
@@ -62,7 +78,8 @@ function CartPage() {
                     </div>
                 }
                 {cartCurrent.error && <span className="text-danger">{t('Ошибка')}: {cartCurrent.error}</span>}
-                {cartPlaceCurrent && placeCurrent.data && cartCurrent.data && cartCurrent.data.length &&
+                {cartCheckout.error && <span className="d-block mb-3 text-danger">{t('Ошибка')}: {cartCheckout.error}</span>}
+                {!cartCheckout.loading && cartPlaceCurrent && placeCurrent.data && cartCurrent.data && cartCurrent.data.length &&
                     <>
                         <h3 className="h5 mb-3">{`${t('Ваш заказ')} (${totalProducts})`}</h3>
                         <ul className="card-cart-product-list list-unstyled">
@@ -79,7 +96,7 @@ function CartPage() {
                                     <div className="media-body pr-1">
                                         <h5 className="card-title mb-2 text-primary">{product.name}</h5>
                                         <p className="descr card-text mb-2">{product.descr_short}</p>
-                                        <p className="card-text font-weight-600">
+                                        <p className="card-text font-weight-600 line-height-1">
                                             {fMoney(product.price, placeCurrent.data.currency)}
                                             /
                                             {product.weight} гр.
@@ -121,13 +138,13 @@ function CartPage() {
             {placeCurrent.data && totalSum > 0 &&
                 <div className="cart-info-fixed">
                     <div className="global-wrapper fixed-bottom">
-                        <Link
-                            to={routes.makeRoute('placeCart', [placeCurrent.data.slug])}
-                            className="btn btn-block btn-lg btn-success text-white rounded-pill d-flex justify-content-between"
+                        <button
+                            className="btn btn-block btn-lg btn-success btn-inset-border text-white rounded-pill d-flex justify-content-between"
+                            onClick={handleClickCheckout}
                             >
-                            <b>{t('Подтвердить и оплатить')}</b>
+                            <b>{t('Оплатить онлайн')}</b>
                             <span>{fMoney(totalSum, placeCurrent.data.currency)}</span>
-                        </Link>
+                        </button>
                     </div>
                 </div>
             }

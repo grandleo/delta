@@ -12,9 +12,9 @@ function AddToCartButton({ placeId, productId, productPrice }) {
     }
 
     return (
-        <a href="#" className="btn-product-add btn-danger" onClick={handleClick}>
+        <button className="btn btn-product-add btn-danger" onClick={handleClick}>
             <img src="/images/icon/plus.svg" alt="icon" />
-        </a>
+        </button>
     );
 }
 

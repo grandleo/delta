@@ -1,33 +1,32 @@
 import { userConstants } from '../_constants';
-import { routes } from '../_helpers';
 import { userService } from '../_services';
 import { alertActions } from './';
 
 export const userActions = {
     login,
     logout,
-    register
+    register,
 };
 
-function login({ username, password }, history, from) {
+function login(inputs, history, from) {
     return dispatch => {
-        dispatch(request({ username }));
+        dispatch(request());
 
-        userService.login(username, password)
+        userService.login(inputs)
             .then(
-                user => {
-                    dispatch(success(user));
+                payload => {
+                    dispatch(success(payload));
                     history.push(from);
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
+                    dispatch(alertActions.itemAdd('error', error.toString()));
                 }
             );
     };
 
-    function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
-    function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
+    function request() { return { type: userConstants.LOGIN_REQUEST } }
+    function success(payload) { return { type: userConstants.LOGIN_SUCCESS, payload } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 
@@ -36,25 +35,24 @@ function logout() {
     return { type: userConstants.LOGOUT };
 }
 
-function register(user, history) {
+function register(inputs, history, from) {
     return dispatch => {
-        dispatch(request(user));
+        dispatch(request());
 
-        userService.register(user)
+        userService.register(inputs)
             .then(
-                user => {
-                    dispatch(success());
-                    history.push(routes.login);
-                    dispatch(alertActions.success('Registration successful'));
+                payload => {
+                    dispatch(success(payload));
+                    history.push(from);
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
+                    dispatch(alertActions.itemAdd('error', error.toString()));
                 }
             );
     };
 
-    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
-    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
+    function request() { return { type: userConstants.REGISTER_REQUEST } }
+    function success(payload) { return { type: userConstants.REGISTER_SUCCESS, payload } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 }
