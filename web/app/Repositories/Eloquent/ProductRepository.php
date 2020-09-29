@@ -10,8 +10,6 @@ use Illuminate\Support\Collection;
 class ProductRepository extends BaseRepository implements ProductRepositoryInterface
 {
     /**
-    * UserRepository constructor.
-    *
     * @param Product $model
     */
     public function __construct(Product $model)
@@ -29,6 +27,18 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $this->model
             ->where('place_id', $place_id)
             ->whereIn('id', $product_ids)
+            ->get();
+    }
+
+    /**
+    * @param $product_category_id
+    * @return Collection
+    */
+    public function getByProductCategoryId($product_category_id): Collection
+    {
+        return $this->model
+            ->where('product_category_id', $product_category_id)
+            ->orderBy('sort')
             ->get();
     }
 

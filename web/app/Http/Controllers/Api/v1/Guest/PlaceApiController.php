@@ -15,7 +15,10 @@ class PlaceApiController extends Controller
     private $placeRepository;
     private $productCategoryRepository;
 
-    public function __construct(PlaceRepositoryInterface $placeRepository, ProductCategoryRepositoryInterface $productCategoryRepository)
+    public function __construct(
+        PlaceRepositoryInterface $placeRepository,
+        ProductCategoryRepositoryInterface $productCategoryRepository
+    )
     {
         $this->placeRepository = $placeRepository;
         $this->productCategoryRepository = $productCategoryRepository;

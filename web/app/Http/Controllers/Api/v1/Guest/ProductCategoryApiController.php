@@ -6,15 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Repositories\ProductCategoryRepositoryInterface;
+use App\Repositories\ProductRepositoryInterface;
 use App\Http\Resources\Guest\ProductCategoryWithProductsResource;
 
 class ProductCategoryApiController extends Controller
 {
     private $productCategoryRepository;
 
-    public function __construct(ProductCategoryRepositoryInterface $productCategoryRepository)
+    public function __construct(
+        ProductCategoryRepositoryInterface $productCategoryRepository,
+        ProductRepositoryInterface $productRepository
+    )
     {
         $this->productCategoryRepository = $productCategoryRepository;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -29,12 +34,11 @@ class ProductCategoryApiController extends Controller
         abort_if(!isset($id_match[0]), 404);
 
         $id = $id_match[0];
+
         $productCategory = $this->productCategoryRepository->find($id);
         abort_if(!$productCategory, 404);
 
-        $productCategory->load([
-            'products',
-        ]);
+        $productCategory->products = $this->productRepository->getByProductCategoryId($id);
 
         return new ProductCategoryWithProductsResource($productCategory);
     }

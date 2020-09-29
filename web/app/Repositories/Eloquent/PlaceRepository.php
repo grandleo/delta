@@ -10,8 +10,6 @@ use Illuminate\Support\Collection;
 class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
 {
     /**
-    * UserRepository constructor.
-    *
     * @param Place $model
     */
     public function __construct(Place $model)

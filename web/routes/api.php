@@ -28,6 +28,7 @@ Route::prefix('v1/guest')
         'show',
     ]);
     Route::apiResource('cart', 'CartApiController')->only([
-        'index',
+        'index', 'store',
+    ]);
     ]);
 });

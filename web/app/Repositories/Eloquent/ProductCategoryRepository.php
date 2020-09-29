@@ -10,8 +10,6 @@ use Illuminate\Support\Collection;
 class ProductCategoryRepository extends BaseRepository implements ProductCategoryRepositoryInterface
 {
     /**
-    * UserRepository constructor.
-    *
     * @param ProductCategory $model
     */
     public function __construct(ProductCategory $model)

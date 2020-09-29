@@ -13,4 +13,10 @@ interface ProductRepositoryInterface
     * @return Collection
     */
     public function getByPlaceIdAndProductIds($place_id, $product_ids): Collection;
+
+    /**
+    * @param $product_category_id
+    * @return Collection
+    */
+    public function getByProductCategoryId($product_category_id): Collection;
 }
