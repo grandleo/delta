@@ -8,6 +8,10 @@ export function lsSetItem(name, value) {
     return localStorage.setItem(`${config.localStoragePrefix}_${name}`, value);
 }
 
+export function lsRemoveItem(name, value) {
+    return localStorage.removeItem(`${config.localStoragePrefix}_${name}`);
+}
+
 export function lsLoadState() {
     try {
         const serializedState = lsGetItem('state');

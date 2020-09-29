@@ -28,7 +28,11 @@ const store = createStore(
 
 store.subscribe(throttle(() => {
     lsSaveState({
-        cart: { places: store.getState().cart.places },
+        authentication: store.getState().authentication,
+        cart: {
+            places: store.getState().cart.places,
+            checkout: store.getState().cart.checkout,
+        },
     });
 }, 1000));
 

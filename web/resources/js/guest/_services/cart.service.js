@@ -4,6 +4,7 @@ import { fetchClient } from '../_helpers';
 export const cartService = {
     getCurrent,
     checkout,
+    checkoutSetGuestId,
 };
 
 function getCurrent(placeId, productIds) {
@@ -28,6 +29,15 @@ function checkout(placeId, tableId, products, params) {
             products,
             params,
         },
+    };
+
+    return fetchClient()(requestOptions).then(handleResponse);
+}
+
+function checkoutSetGuestId(orderId) {
+    const requestOptions = {
+        method: 'PUT',
+        url: 'cart/'+orderId,
     };
 
     return fetchClient()(requestOptions).then(handleResponse);

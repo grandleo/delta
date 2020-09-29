@@ -1,17 +1,10 @@
 import { lsGetItem } from '../_helpers';
 import { userConstants } from '../_constants';
 
-let user;
-try {
-    user = JSON.parse(lsGetItem('user'));
-} catch (err) {
-    user = null;
-}
-
 const initialState = {
     loading: false,
     error: false,
-    user,
+    user: null,
 };
 
 export function authentication(state = initialState, action) {
@@ -22,16 +15,19 @@ export function authentication(state = initialState, action) {
                 user: null,
             };
         case userConstants.LOGIN_SUCCESS:
+        case userConstants.REGISTER_SUCCESS:
             return {
-                user: action.data
+                user: action.payload.data,
             };
         case userConstants.LOGIN_FAILURE:
             return {
                 error: action.error,
             };
+
         case userConstants.LOGOUT:
-            return {};
+            return initialState;
+
         default:
-            return state
+            return state;
     }
 }

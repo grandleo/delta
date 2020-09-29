@@ -17,16 +17,22 @@ function CartCheckoutPage() {
     useEffect(() => {
         if (!cartCheckout.data) {
             history.push(routes.makeRoute('place', [placeSlug]));
+            return;
         }
+    }, []);
+
+    useEffect(() => {
         if (!placeCurrent.data || placeCurrent.data.slug !== placeSlug) {
             dispatch(placeActions.getById(placeSlug));
         } else if (placeCurrent.data && placeCurrent.data.id !== cartCheckout.data.place_id) {
             history.push(routes.makeRoute('place', [placeSlug]));
+            return;
         }
-        if (cartCheckout.data && placeCurrent.data.id !== cartCheckout.data.place_id && user) {
+        if (user && cartCheckout.data &&
+            placeCurrent.data && placeCurrent.data.id === cartCheckout.data.place_id) {
             setTimeout(() => {
                 history.push(routes.makeRoute('placeCartPayment', [placeSlug]));
-            }, 1000);
+            }, 2000);
         }
     }, [placeCurrent.data]);
 
@@ -55,13 +61,19 @@ function CartCheckoutPage() {
                     <div className="mt-5 mb-3 mx-4">
                         <Link
                             className="btn btn-lg btn-success btn-block rounded-pill text-white"
-                            to={routes.login}
+                            to={{
+                                pathname: routes.login,
+                                state: { from: routes.makeRoute('placeCartCheckout', [placeSlug]) }
+                            }}
                             >
                             {t('Войти и оплатить')}
                         </Link>
                         <Link
-                            className="btn btn-lg btn-light btn-block rounded-pill"
-                            to={routes.register}
+                            className="btn btn-lg btn-link d-block mt-3 mx-auto"
+                            to={{
+                                pathname: routes.register,
+                                state: { from: routes.makeRoute('placeCartCheckout', [placeSlug]) }
+                            }}
                             >
                             {t('Создать аккаунт')}
                         </Link>

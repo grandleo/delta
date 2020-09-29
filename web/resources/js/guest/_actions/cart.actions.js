@@ -1,11 +1,14 @@
 import { cartConstants } from '../_constants';
 import { cartService } from '../_services';
+import { alertActions } from './';
 
 export const cartActions = {
     addToCart,
     paramsChange,
     getCurrent,
     checkout,
+    checkoutSetGuestId,
+    checkoutClear,
 };
 
 function addToCart(placeId, productId, price, changeQty) {
@@ -46,4 +49,20 @@ function checkout(placeId, tableId, products, params) {
     function request() { return { type: cartConstants.CHECKOUT_REQUEST } }
     function success(payload) { return { type: cartConstants.CHECKOUT_SUCCESS, payload } }
     function failure(error) { return { type: cartConstants.CHECKOUT_FAILURE, error } }
+}
+
+function checkoutSetGuestId(orderId) {
+    return dispatch => {
+        return cartService.checkoutSetGuestId(orderId)
+            .then(
+                payload => dispatch(success(payload)),
+                error => dispatch(alertActions.itemAdd('error', error.toString()))
+            );
+    };
+
+    function success(payload) { return { type: cartConstants.CHECKOUT_SETGUESTID_SUCCESS, payload } }
+}
+
+function checkoutClear(placeId) {
+    return { type: cartConstants.CHECKOUT_CLEAR, placeId };
 }

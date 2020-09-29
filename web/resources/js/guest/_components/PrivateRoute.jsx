@@ -1,13 +1,11 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-import { routes } from '../_helpers';
-
-function PrivateRoute({ component: Component, condition, ...rest }) {
+function PrivateRoute({ component: Component, condition, redirectTo, ...rest }) {
     return (
         <Route {...rest} render={props => {
             if (!condition) {
-                return <Redirect to={{ pathname: routes.login, state: { from: props.location } }} />
+                return <Redirect to={{ pathname: redirectTo, state: { from: props.location } }} />
             }
 
             return <Component {...props} />

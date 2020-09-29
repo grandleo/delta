@@ -4,34 +4,46 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { routes } from '../_helpers';
-import { alertActions } from '../_actions';
 import { PrivateRoute, AlertContainer } from '../_components';
 import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
+import { RegisterPage } from '../RegisterPage';
 import { PlacePage } from '../PlacePage';
 import { ProductCategoryPage } from '../ProductCategoryPage';
-import { CartPage, CartCheckoutPage } from '../CartPage';
+import { CartPage, CartCheckoutPage, CartPaymentPage } from '../CartPage';
+import { ProfilePage } from '../ProfilePage';
 
 function App() {
-    const alert = useSelector(state => state.alert);
+    const user = useSelector(state => state.authentication.user);
     const dispatch = useDispatch();
     const history = useHistory();
-
-    useEffect(() => {
-        history.listen((location, action) => {
-            // clear alert on location change
-            // dispatch(alertActions.itemsClear());
-        });
-    }, []);
 
     return (
         <>
         <Switch>
             <Route exact path={routes.home} component={HomePage} />
+            <Route path={routes.placeCartPayment} component={CartPaymentPage} />
             <Route path={routes.placeCartCheckout} component={CartCheckoutPage} />
             <Route path={routes.placeCart} component={CartPage} />
             <Route path={routes.placeProductCategory} component={ProductCategoryPage} />
-            <Route path={routes.login} component={LoginPage} />
+            <PrivateRoute
+                path={routes.profile}
+                component={ProfilePage}
+                condition={user}
+                redirectTo={routes.login}
+                />
+            <PrivateRoute
+                path={routes.login}
+                component={LoginPage}
+                condition={!user}
+                redirectTo={routes.home}
+                />
+            <PrivateRoute
+                path={routes.register}
+                component={RegisterPage}
+                condition={!user}
+                redirectTo={routes.home}
+                />
             <Route path={routes.place} component={PlacePage} />
             <Redirect from="*" to={routes.home} />
         </Switch>

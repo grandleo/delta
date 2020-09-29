@@ -8,7 +8,11 @@ export const routes = {
     login: pp + '/login',
     register: pp + '/register',
 
+    profile: pp + '/profile',
+    profileCards: pp + '/profile-cards',
+
     orders: pp + '/orders',
+    order: pp + '/order/:orderId',
 
     place: '/:placeSlug',
 
@@ -21,6 +25,8 @@ export const routes = {
 
     makeRoute(name, params) {
         switch(name) {
+            case 'order':
+                return pp + '/order/' + params[0];
             case 'place':
                 return '/' + params[0];
             case 'placeCart':

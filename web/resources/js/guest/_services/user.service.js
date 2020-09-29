@@ -1,4 +1,4 @@
-import { fetchClient, lsSetItem } from '../_helpers';
+import { fetchClient, lsSetItem, lsRemoveItem } from '../_helpers';
 
 export const userService = {
     login,
@@ -9,34 +9,34 @@ export const userService = {
 function login(inputs) {
     const requestOptions = {
         method: 'POST',
-        url: 'auth',
+        url: 'auth/login',
         data: { ...inputs },
     };
 
     return fetchClient()(requestOptions).then(handleResponse)
         .then(payload => {
             if (payload.data.token) {
-                lsSetItem('user', payload.data);
+                lsSetItem('token', payload.data.token);
             }
             return payload;
         });
 }
 
 function logout() {
-    lsSetItem('user', null);
+    lsRemoveItem('token', null);
 }
 
 function register(inputs) {
     const requestOptions = {
-        method: 'PUT',
-        url: 'auth',
+        method: 'POST',
+        url: 'auth/register',
         data: { ...inputs },
     };
 
     return fetchClient()(requestOptions).then(handleResponse)
         .then(payload => {
             if (payload.data.token) {
-                lsSetItem('user', payload.data);
+                lsSetItem('token', payload.data.token);
             }
             return payload;
         });

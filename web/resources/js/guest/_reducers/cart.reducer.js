@@ -40,13 +40,20 @@ function placeProducts(state = {}, action) {
 }
 
 function places(state = initialState.places, action) {
+    const { placeId } = action;
     switch (action.type) {
         case cartConstants.ADD_ITEM:
-            const { placeId } = action;
             return {
                 ...state,
                 [placeId]: placeProducts(state[placeId], action),
             };
+
+        case cartConstants.CHECKOUT_CLEAR:
+            return {
+                ...state,
+                [placeId]: {},
+            };
+
         default:
             return state;
     }
@@ -82,6 +89,7 @@ function current(state = initialState.current, action) {
                 ...state,
                 params: { ...state.params, [name]: value },
             };
+
         default:
             return state;
     }
@@ -110,6 +118,16 @@ function checkout(state = initialState.checkout, action) {
                 error: action.error,
                 data: null,
             };
+
+        case cartConstants.CHECKOUT_SETGUESTID_SUCCESS:
+            return {
+                ...state,
+                data: action.payload.data,
+            };
+
+        case cartConstants.CHECKOUT_CLEAR:
+            return initialState.checkout;
+
         default:
             return state;
     }

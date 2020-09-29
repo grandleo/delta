@@ -17,7 +17,8 @@ export function registration(state = {}, action) {
             return {
                 error: action.error,
             };
+
         default:
-            return state
+            return state;
     }
 }

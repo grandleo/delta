@@ -21,14 +21,24 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1/guest')
 ->namespace('App\Http\Controllers\Api\v1\Guest')
 ->group(function () {
-    Route::apiResource('places', 'PlaceApiController')->only([
+    // auth
+    Route::post('auth/login', 'AuthApiController@login');
+    Route::post('auth/register', 'AuthApiController@register');
+
+    // private
+    Route::middleware('auth:sanctum')
+    ->group(function () {
+        Route::put('cart/{id}', 'CartApiController@update');
+    });
+
+    // public
+    Route::resource('places', 'PlaceApiController')->only([
         'index', 'show',
     ]);
-    Route::apiResource('product-categories', 'ProductCategoryApiController')->only([
+    Route::resource('product-categories', 'ProductCategoryApiController')->only([
         'show',
     ]);
-    Route::apiResource('cart', 'CartApiController')->only([
+    Route::resource('cart', 'CartApiController')->only([
         'index', 'store',
-    ]);
     ]);
 });

@@ -40,6 +40,9 @@ function CartPage() {
         } else if (productIds.length) {
             dispatch(cartActions.getCurrent(placeId, productIds));
         }
+        if (cartCheckout.data && placeCurrent.data && cartCheckout.data.place_id === placeCurrent.data.id) {
+            history.push(routes.makeRoute('placeCartCheckout', [placeSlug]));
+        }
     }, [placeCurrent.data]);
 
     function handleClickCheckout(e) {
