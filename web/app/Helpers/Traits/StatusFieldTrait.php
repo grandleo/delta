@@ -11,7 +11,7 @@ trait StatusFieldTrait
         if (is_array($statusName)) {
             $statusArr = [];
             foreach ($statusName as $name) {
-                $statusArr[] = parent::STATUSES[$name];
+                $statusArr[] = self::STATUSES[$name];
             }
             return $query->whereIn($this->getTable().'.status', $statusArr);
         } else {
@@ -25,6 +25,6 @@ trait StatusFieldTrait
 
     public function setStatus($statusName)
     {
-        $this->status = parent::STATUSES[$statusName];
+        $this->status = self::STATUSES[$statusName];
     }
 }

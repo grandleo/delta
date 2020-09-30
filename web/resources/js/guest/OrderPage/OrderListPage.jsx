@@ -43,7 +43,7 @@ function OrderListPage() {
                                     <div>
                                         <Link
                                             to={routes.makeRoute('order', [order.id])}
-                                            className="h5 font-weight-bold line-height-1"
+                                            className="h5 font-weight-600 line-height-1"
                                             >
                                             {t('Заказ')} #{order.id}
                                         </Link>
