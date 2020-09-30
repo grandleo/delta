@@ -18,7 +18,7 @@ class PlaceWithProductCategoriesResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'image' => $this->image,
+            'image' => $this->image ?? '/storage/test/130.png',
             'descr_short' => $this->descr_short,
             'currency' => $this->currency,
             'placeCategory_name' => $this->placeCategory->name,

@@ -34,12 +34,9 @@ class AuthApiController extends Controller
         $guest = $this->guestRepository->findByWhere([['email', '=', $request->email]]);
 
         if (!$guest || ! Hash::check($request->password, $guest->password)) {
-            // throw \Illuminate\Validation\ValidationException::withMessages([
-            //     'email' => [__('Неверный Email или пароль.')],
-            // ]);
-            return response()->json([
-                'message' => __('Неверный Email или пароль.'),
-            ], 420);
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'email' => [__('Неверный Email или пароль.')],
+            ]);
         }
 
         $token = $guest->createToken('guest_common')->plainTextToken;

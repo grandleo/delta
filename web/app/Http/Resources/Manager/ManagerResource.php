@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Guest;
+namespace App\Http\Resources\Manager;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductCategoryResource extends JsonResource
+class ManagerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,10 +17,9 @@ class ProductCategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'slug' => $this->slug,
-            'image' => $this->image ?? '/storage/test/130.png',
-            'descr_short' => $this->descr_short,
-            'count' => $this->products_count ?? $this->products()->count(),
+            'name_full' => $this->name_full,
+            'image' => $this->image ?? '/storage/test/user-male.png',
+            'token' => $this->token,
         ];
     }
 }

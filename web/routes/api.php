@@ -45,3 +45,17 @@ Route::prefix('v1/guest')
         'index', 'store',
     ]);
 });
+
+Route::prefix('v1/manager')
+->namespace('App\Http\Controllers\Api\v1\Manager')
+->group(function () {
+    // auth
+    Route::post('auth/login', 'AuthApiController@login');
+    Route::post('auth/register', 'AuthApiController@register');
+
+    // private
+    Route::middleware('auth:sanctum')
+    ->group(function () {
+        //
+    });
+});
