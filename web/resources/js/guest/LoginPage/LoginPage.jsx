@@ -17,7 +17,6 @@ function LoginPage() {
     const location = useLocation();
 
     const { from: locationFrom } = location.state || { from: { pathname: routes.home } };
-    console.log('LoginPage', location, locationFrom);
 
     function validate(name, ignoreShowErrors = false) {
         if (!showErrors && !ignoreShowErrors) return null;

@@ -1,3 +1,5 @@
 export const config = {
-    pathPrefix: '/manager'
+    apiUrl: '/api/v1/manager',
+    pathPrefix: '/manager',
+    localStoragePrefix: 'manager',
 };

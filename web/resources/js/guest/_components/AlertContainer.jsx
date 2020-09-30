@@ -16,7 +16,12 @@ function AlertContainer() {
                     className="toast show"
                     role="alert" aria-live="assertive" aria-atomic="true"
                     >
-                    <div className="toast-body">{item.message}</div>
+                    <div
+                        className="toast-body"
+                        dangerouslySetInnerHTML={{
+                            __html: item.message
+                        }}
+                        ></div>
                 </div>
             )}
         </div>

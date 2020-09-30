@@ -1,6 +1,5 @@
 import { cartConstants } from '../_constants';
 import { cartService } from '../_services';
-import { alertActions } from './';
 
 export const cartActions = {
     addToCart,
@@ -56,8 +55,7 @@ function checkoutSetGuestId(orderId) {
     return dispatch => {
         return cartService.checkoutSetGuestId(orderId)
             .then(
-                payload => dispatch(success(payload)),
-                error => dispatch(alertActions.itemAdd('error', error.toString()))
+                payload => dispatch(success(payload))
             );
     };
 
@@ -68,8 +66,7 @@ function checkoutSetStatus(orderId, status) {
     return dispatch => {
         return cartService.checkoutSetStatus(orderId, status)
             .then(
-                payload => dispatch(success(payload)),
-                error => dispatch(alertActions.itemAdd('error', error.toString()))
+                payload => dispatch(success(payload))
             );
     };
 

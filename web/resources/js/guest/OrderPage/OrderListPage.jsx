@@ -29,7 +29,7 @@ function OrderListPage() {
                     </div>
                 }
                 {ordersAll.error && <span className="text-danger">{t('Ошибка')}: {ordersAll.error}</span>}
-                {ordersAll.data &&
+                {ordersAll.data && (ordersAll.data.length ?
                     <div className="">
                         {ordersAll.data.map((order) =>
                             <div
@@ -69,7 +69,19 @@ function OrderListPage() {
                             </div>
                         )}
                     </div>
-                }
+                    :
+                    <>
+                        <span className="text-primary">{t('Здесь пока ничего нет.')}</span>
+                        <div className="mt-5 text-center">
+                            <Link
+                                to={routes.home}
+                                className="btn btn-lg btn-success text-white rounded-pill"
+                                >
+                                {t('Оформить первый заказ!')}
+                            </Link>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );

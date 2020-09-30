@@ -24,10 +24,12 @@ export function fetchClient() {
 
     instance.interceptors.response.use(function (response) {
         // all 2xx status codes
+
         return response;
     }, function (error) {
         // not 2xx status codes
         displayErrorMessage(error.response);
+
         return Promise.reject(error);
     });
 
@@ -35,7 +37,7 @@ export function fetchClient() {
 }
 
 export function displayErrorMessage(errorResponse) {
-    if (!errorResponse || !errorResponse.data) {
+    if (!errorResponse) {
         return;
     }
     const errorData = errorResponse.data;
@@ -51,7 +53,12 @@ export function displayErrorMessage(errorResponse) {
         }
         html += '</ul>';
     } else if (errorData.trace) {
-        html += t('Что-то пошло не так, попробуйте снова.');
+        html += `<b>${new Date}:</b> ` + t('Что-то пошло не так, попробуйте снова.');
+        // let customMessage = { ...errorData };
+        // customMessage.trace = '...';
+        // html += `<p>${t('Возможно, это случайность, но, на всякий случай, сообщите разработчику:')}</p>`
+        //     +`<p>${new Date}</p>`
+        //     +`<p>${JSON.stringify(customMessage)}</p>`;
     } else if (errorData.message) {
         html += errorData.message;
     } else {

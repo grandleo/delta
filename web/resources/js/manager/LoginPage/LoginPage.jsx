@@ -5,48 +5,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { t, routes } from '../_helpers';
 import { userActions } from '../_actions';
 
-// import SiteLogoSrc from '../../../../public/images/logo-delta.svg';
-
 function LoginPage() {
-    const [user, setUser] = useState({
-        username: '',
+    const [inputs, setInputs] = useState({
+        email: '',
         password: ''
     });
-    const [submitted, setSubmitted] = useState(false);
     const [showErrors, setShowErrors] = useState(false);
-    const loggingIn = useSelector(state => state.authentication.loggingIn);
+    const loading = useSelector(state => state.authentication.loading);
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
 
-    useEffect(() => {
-        // TODO: check if logged in
-        // dispatch(userActions.logout());
-    }, []);
+    const { from: locationFrom } = location.state || { from: { pathname: routes.home } };
 
-    useEffect(() => {
-        if (!submitted) return;
-
-        let valRes = null;
-        for (const name in user) {
-            if (valRes = validate(name, user[name])) break;
-        }
-        if (!valRes) {
-            // get return url from location state or default to home page
-            const { from } = location.state || { from: { pathname: "/" } };
-            dispatch(userActions.login(user, history, from));
-        } else {
-            setSubmitted(false);
-        }
-    }, [submitted]);
-
-    function validate(name) {
-        if (!showErrors) return null;
-        const value = user[name];
+    function validate(name, ignoreShowErrors = false) {
+        if (!showErrors && !ignoreShowErrors) return null;
+        const value = inputs[name];
         switch(name) {
-            case 'username':
-                if (!value) return t('Логин не заполнен');
-                if (value.length < 3) return t('Логин не может быть меньше 3 символов');
+            case 'email':
+                if (!value) return t('Email не заполнен');
+                if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) return t('Невалидный Email');
                 break;
             case 'password':
                 if (!value) return t('Пароль не заполнен');
@@ -57,13 +35,20 @@ function LoginPage() {
 
     function handleChange(e) {
         const { name, value } = e.target;
-        setUser(user => ({ ...user, [name]: value }));
+        setInputs(inputs => ({ ...inputs, [name]: value }));
     }
 
     function handleSubmit(e) {
         e.preventDefault();
 
-        setSubmitted(true);
+        let valFailed = null;
+        for (const name in inputs) {
+            if (valFailed = validate(name, true)) break;
+        }
+        if (!valFailed) {
+            dispatch(userActions.login(inputs, history, locationFrom));
+        }
+
         setShowErrors(true);
     }
 
@@ -77,17 +62,17 @@ function LoginPage() {
             <form className="form-1 text-left" onSubmit={handleSubmit}>
                 <div className="form-group form-label-group">
                     <input
-                        id="login-form.username"
-                        type="text"
-                        name="username"
-                        placeholder={t('Логин')}
-                        value={user.username}
+                        id="login-form.email"
+                        type="email"
+                        name="email"
+                        placeholder={t('Email')}
+                        value={inputs.email}
                         onChange={handleChange}
-                        className={'form-control' + (validate('username') ? ' is-invalid' : '')}
-                    />
-                    <label htmlFor="login-form.username">{t('Логин')}</label>
-                    {validate('username') &&
-                        <div className="invalid-feedback text-right">{validate('username')}</div>
+                        className={'form-control' + (validate('email') ? ' is-invalid' : '')}
+                        />
+                    <label htmlFor="login-form.email">{t('Email')}</label>
+                    {validate('email') &&
+                        <div className="invalid-feedback text-right">{validate('email')}</div>
                     }
                 </div>
                 <div className="form-group form-label-group">
@@ -96,19 +81,48 @@ function LoginPage() {
                         type="password"
                         name="password"
                         placeholder={t('Пароль')}
-                        value={user.password}
+                        value={inputs.password}
                         onChange={handleChange}
                         className={'form-control' + (validate('password') ? ' is-invalid' : '')}
-                    />
+                        />
                     <label htmlFor="login-form.password">{t('Пароль')}</label>
                     {validate('password') &&
                         <div className="invalid-feedback text-right">{validate('password')}</div>
                     }
                 </div>
                 <div className="form-group mt-4">
+                    <button
+                        className="login-button text-white btn btn-lg btn-success btn-block rounded-pill"
+                        disabled={loading}
+                        >
+                        {t('Войти')}
+                        {loading && <span className="spinner-border spinner-border-sm ml-1"></span>}
+                    </button>
+                </div>
+                <div className="form-group">
+                    <Link
+                        to={{
+                            pathname: routes.register,
+                            state: { from: locationFrom }
+                        }}
+                        className="register-button btn btn-lg btn-light btn-block rounded-pill"
+                        >
+                        {t('Зарегистрироваться')}
+                    </Link>
+                </div>
+            </form>
+            <div className="mt-5">
+                <a className="text-black-50" href="/">{t('назад')}</a>
+            </div>
+        </div>
+    );
+}
+
+                /*
+                <div className="form-group mt-4">
                     <button className="login-button text-white btn btn-lg btn-success btn-block rounded-pill">
                         {t('Войти')}
-                        {loggingIn && <span className="spinner-border spinner-border-sm ml-1 mb-1"></span>}
+                        {loading && <span className="spinner-border spinner-border-sm ml-1 mb-1"></span>}
                     </button>
                 </div>
                 <div className="form-group">
@@ -116,12 +130,6 @@ function LoginPage() {
                         {t('Зарегистрироваться')}
                     </Link>
                 </div>
-            </form>
-            <div className="mt-5">
-                <a className="text-black-50" href="/">{t('Главная')}</a>
-            </div>
-        </div>
-    );
-}
+                */
 
 export { LoginPage };

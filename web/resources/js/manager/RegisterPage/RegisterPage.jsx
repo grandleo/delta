@@ -6,46 +6,28 @@ import { t, routes } from '../_helpers';
 import { userActions } from '../_actions';
 
 function RegisterPage() {
-    const [user, setUser] = useState({
+    const [inputs, setInputs] = useState({
         full_name: '',
         place_name: '',
         email: '',
-        username: '',
         password: '',
         password_confirmation: ''
     });
-    const [submitted, setSubmitted] = useState(false);
     const [showErrors, setShowErrors] = useState(false);
-    const registering = useSelector(state => state.registration.registering);
+    const loading = useSelector(state => state.registration.loading);
     const dispatch = useDispatch();
     const history = useHistory();
 
-    useEffect(() => {
-        // TODO: check if logged in
-        // dispatch(userActions.logout());
-    }, []);
+    const { from: locationFrom } = location.state || { from: { pathname: routes.home } };
 
-    useEffect(() => {
-        if (!submitted) return;
-
-        let valRes = null;
-        for (const name in user) {
-            if (valRes = validate(name, user[name])) break;
-        }
-        if (!valRes) {
-            dispatch(userActions.register(user, history));
-        } else {
-            setSubmitted(false);
-        }
-    }, [submitted]);
-
-    function validate(name) {
-        if (!showErrors) return null;
-        const value = user[name];
+    function validate(name, ignoreShowErrors = false) {
+        if (!showErrors && !ignoreShowErrors) return null;
+        const value = inputs[name];
         switch(name) {
             case 'full_name':
                 if (!value) return t('ФИО не заполнено');
                 if (value.length < 4) return t('ФИО не заполнено полностью');
+                break;
             case 'place_name':
                 if (!value) return t('Название заведения не заполнено');
                 if (value.length < 4) return t('Название должно быть миниму 4 символа');
@@ -54,16 +36,12 @@ function RegisterPage() {
                 if (!value) return t('Email не заполнен');
                 if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) return t('Невалидный Email');
                 break;
-            case 'username':
-                if (!value) return t('Логин не заполнен');
-                if (value.length < 3) return t('Логин должен быть миниму 3 символа');
-                break;
             case 'password':
                 if (!value) return t('Пароль не заполнен');
                 if (value.length < 8) return t('Пароль должен быть миниму 8 символов');
                 break;
             case 'password_confirmation':
-                if (value !== user.password) return t('Пароли не совпадают');
+                if (value !== inputs.password) return t('Пароли не совпадают');
                 break;
         }
         return null;
@@ -71,13 +49,20 @@ function RegisterPage() {
 
     function handleChange(e) {
         const { name, value } = e.target;
-        setUser(user => ({ ...user, [name]: value }));
+        setInputs(inputs => ({ ...inputs, [name]: value }));
     }
 
     function handleSubmit(e) {
         e.preventDefault();
 
-        setSubmitted(true);
+        let valFailed = null;
+        for (const name in inputs) {
+            if (valFailed = validate(name, true)) break;
+        }
+        if (!valFailed) {
+            dispatch(userActions.register(inputs, history, locationFrom));
+        }
+
         setShowErrors(true);
     }
 
@@ -94,10 +79,10 @@ function RegisterPage() {
                         type="text"
                         name="full_name"
                         placeholder={t('ФИО')}
-                        value={user.full_name}
+                        value={inputs.full_name}
                         onChange={handleChange}
                         className={'form-control' + (validate('full_name') ? ' is-invalid' : '')}
-                    />
+                        />
                     <label htmlFor="register-form.full_name">{t('ФИО')}</label>
                     {validate('full_name') &&
                         <div className="invalid-feedback text-right">{validate('full_name')}</div>
@@ -109,10 +94,10 @@ function RegisterPage() {
                         type="text"
                         name="place_name"
                         placeholder={t('Название заведения')}
-                        value={user.place_name}
+                        value={inputs.place_name}
                         onChange={handleChange}
                         className={'form-control' + (validate('place_name') ? ' is-invalid' : '')}
-                    />
+                        />
                     <label htmlFor="register-form.place_name">{t('Название заведения')}</label>
                     {validate('place_name') &&
                         <div className="invalid-feedback text-right">{validate('place_name')}</div>
@@ -124,28 +109,13 @@ function RegisterPage() {
                         type="email"
                         name="email"
                         placeholder={t('Email')}
-                        value={user.email}
+                        value={inputs.email}
                         onChange={handleChange}
                         className={'form-control' + (validate('email') ? ' is-invalid' : '')}
-                    />
+                        />
                     <label htmlFor="register-form.email">{t('Email')}</label>
                     {validate('email') &&
                         <div className="invalid-feedback text-right">{validate('email')}</div>
-                    }
-                </div>
-                <div className="form-group form-label-group">
-                    <input
-                        id="register-form.username"
-                        type="text"
-                        name="username"
-                        placeholder={t('Логин')}
-                        value={user.username}
-                        onChange={handleChange}
-                        className={'form-control' + (validate('username') ? ' is-invalid' : '')}
-                    />
-                    <label htmlFor="register-form.username">{t('Логин')}</label>
-                    {validate('username') &&
-                        <div className="invalid-feedback text-right">{validate('username')}</div>
                     }
                 </div>
                 <div className="form-group form-label-group">
@@ -154,10 +124,10 @@ function RegisterPage() {
                         type="password"
                         name="password"
                         placeholder={t('Пароль')}
-                        value={user.password}
+                        value={inputs.password}
                         onChange={handleChange}
                         className={'form-control' + (validate('password') ? ' is-invalid' : '')}
-                    />
+                        />
                     <label htmlFor="register-form.password">{t('Пароль')}</label>
                     {validate('password') &&
                         <div className="invalid-feedback text-right">{validate('password')}</div>
@@ -169,23 +139,32 @@ function RegisterPage() {
                         type="password"
                         name="password_confirmation"
                         placeholder={t('Подтвердите пароль')}
-                        value={user.password_confirmation}
+                        value={inputs.password_confirmation}
                         onChange={handleChange}
                         className={'form-control' + (validate('password_confirmation') ? ' is-invalid' : '')}
-                    />
+                        />
                     <label htmlFor="register-form.password_confirmation">{t('Подтвердите пароль')}</label>
                     {validate('password_confirmation') &&
                         <div className="invalid-feedback text-right">{validate('password_confirmation')}</div>
                     }
                 </div>
                 <div className="form-group mt-4">
-                    <button className="login-button text-white btn btn-lg btn-success btn-block rounded-pill">
+                    <button
+                        className="login-button text-white btn btn-lg btn-success btn-block rounded-pill"
+                        disabled={loading}
+                        >
                         {t('Зарегистрироваться')}
-                        {registering && <span className="spinner-border spinner-border-sm ml-1 mb-1"></span>}
+                        {loading && <span className="spinner-border spinner-border-sm ml-1 mb-1"></span>}
                     </button>
                 </div>
                 <div className="form-group">
-                    <Link to={routes.login} className="register-button btn btn-lg btn-light btn-block rounded-pill">
+                    <Link
+                        to={{
+                            pathname: routes.login,
+                            state: { from: locationFrom }
+                        }}
+                        className="register-button btn btn-lg btn-light btn-block rounded-pill"
+                        >
                         {t('Назад')}
                     </Link>
                 </div>

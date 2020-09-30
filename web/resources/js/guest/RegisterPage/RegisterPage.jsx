@@ -13,13 +13,12 @@ function RegisterPage() {
         password_confirmation: ''
     });
     const [showErrors, setShowErrors] = useState(false);
-    const registering = useSelector(state => state.registration.registering);
+    const loading = useSelector(state => state.registration.loading);
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
 
     const { from: locationFrom } = location.state || { from: { pathname: routes.home } };
-    console.log('RegisterPage', location, locationFrom);
 
     function validate(name, ignoreShowErrors = false) {
         if (!showErrors && !ignoreShowErrors) return null;
@@ -131,9 +130,12 @@ function RegisterPage() {
                     }
                 </div>
                 <div className="form-group mt-4">
-                    <button className="login-button text-white btn btn-lg btn-success btn-block rounded-pill">
+                    <button
+                        className="login-button text-white btn btn-lg btn-success btn-block rounded-pill"
+                        disabled={loading}
+                        >
                         {t('Зарегистрироваться')}
-                        {registering && <span className="spinner-border spinner-border-sm ml-1 mb-1"></span>}
+                        {loading && <span className="spinner-border spinner-border-sm ml-1"></span>}
                     </button>
                 </div>
                 <div className="form-group">

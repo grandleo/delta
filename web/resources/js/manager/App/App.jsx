@@ -5,31 +5,44 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { routes } from '../_helpers';
-import { alertActions } from '../_actions';
-import { PrivateRoute } from '../_components';
+import { PrivateRoute, AlertContainer } from '../_components';
 import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
 
 function App() {
-    const alert = useSelector(state => state.alert);
+    const user = useSelector(state => state.authentication.user);
     const dispatch = useDispatch();
     const history = useHistory();
 
-    useEffect(() => {
-        history.listen((location, action) => {
-            // clear alert on location change
-            // dispatch(alertActions.clear());
-        });
-    }, []);
-
     return (
+        <>
         <Switch>
-            <PrivateRoute exact path={routes.home} component={HomePage} condition={localStorage.user} />
-            <Route path={routes.login} component={LoginPage} />
-            <Route path={routes.register} component={RegisterPage} />
+            <PrivateRoute
+                exact
+                path={routes.home}
+                component={HomePage}
+                condition={user}
+                redirectTo={routes.login}
+                />
+
+            <PrivateRoute
+                path={routes.login}
+                component={LoginPage}
+                condition={!user}
+                redirectTo={routes.home}
+                />
+            <PrivateRoute
+                path={routes.register}
+                component={RegisterPage}
+                condition={!user}
+                redirectTo={routes.home}
+                />
+
             <Redirect from="*" to={routes.home} />
         </Switch>
+        <AlertContainer />
+        </>
     );
 }
 
