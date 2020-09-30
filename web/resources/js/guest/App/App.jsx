@@ -11,7 +11,8 @@ import { RegisterPage } from '../RegisterPage';
 import { PlacePage } from '../PlacePage';
 import { ProductCategoryPage } from '../ProductCategoryPage';
 import { CartPage, CartCheckoutPage, CartPaymentPage } from '../CartPage';
-import { ProfilePage } from '../ProfilePage';
+import { ProfilePage, ProfileCardsPage } from '../ProfilePage';
+import { OrderPage, OrderListPage } from '../OrderPage';
 
 function App() {
     const user = useSelector(state => state.authentication.user);
@@ -22,16 +23,37 @@ function App() {
         <>
         <Switch>
             <Route exact path={routes.home} component={HomePage} />
+
             <Route path={routes.placeCartPayment} component={CartPaymentPage} />
             <Route path={routes.placeCartCheckout} component={CartCheckoutPage} />
             <Route path={routes.placeCart} component={CartPage} />
-            <Route path={routes.placeProductCategory} component={ProductCategoryPage} />
+
+            <PrivateRoute
+                path={routes.orders}
+                component={OrderListPage}
+                condition={user}
+                redirectTo={routes.login}
+                />
+            <PrivateRoute
+                path={routes.order}
+                component={OrderPage}
+                condition={user}
+                redirectTo={routes.login}
+                />
+
             <PrivateRoute
                 path={routes.profile}
                 component={ProfilePage}
                 condition={user}
                 redirectTo={routes.login}
                 />
+            <PrivateRoute
+                path={routes.profileCards}
+                component={ProfileCardsPage}
+                condition={user}
+                redirectTo={routes.login}
+                />
+
             <PrivateRoute
                 path={routes.login}
                 component={LoginPage}
@@ -44,6 +66,8 @@ function App() {
                 condition={!user}
                 redirectTo={routes.home}
                 />
+
+            <Route path={routes.placeProductCategory} component={ProductCategoryPage} />
             <Route path={routes.place} component={PlacePage} />
             <Redirect from="*" to={routes.home} />
         </Switch>

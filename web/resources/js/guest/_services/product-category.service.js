@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { fetchClient } from '../_helpers';
 
 export const productCategoryService = {

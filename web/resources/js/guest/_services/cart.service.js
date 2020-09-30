@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { fetchClient } from '../_helpers';
 
 export const cartService = {
     getCurrent,
     checkout,
     checkoutSetGuestId,
+    checkoutSetStatus,
 };
 
 function getCurrent(placeId, productIds) {
@@ -38,6 +38,18 @@ function checkoutSetGuestId(orderId) {
     const requestOptions = {
         method: 'PUT',
         url: 'cart/'+orderId,
+    };
+
+    return fetchClient()(requestOptions).then(handleResponse);
+}
+
+function checkoutSetStatus(orderId, status) {
+    const requestOptions = {
+        method: 'PUT',
+        url: 'cart/'+orderId,
+        data: {
+            status,
+        },
     };
 
     return fetchClient()(requestOptions).then(handleResponse);

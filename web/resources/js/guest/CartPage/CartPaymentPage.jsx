@@ -55,9 +55,11 @@ function CartPaymentPage() {
         setTimeout(() => {
             const orderId = cartCheckout.data.id;
 
-            dispatch(cartActions.checkoutClear(cartCheckout.data.place_id));
-
-            history.push(routes.makeRoute('order', [orderId]));
+            dispatch(cartActions.checkoutSetStatus(cartCheckout.data.id, 'paid'))
+                .then(() => {
+                    dispatch(cartActions.checkoutClear(cartCheckout.data.place_id));
+                    history.push(routes.makeRoute('order', [orderId]));
+                });
         }, 4500);
     }
 

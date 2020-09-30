@@ -6,6 +6,7 @@ import { users } from './users.reducer';
 import { place } from './place.reducer';
 import { productCategory } from './product-category.reducer';
 import { cart } from './cart.reducer';
+import { order } from './order.reducer';
 import { alert } from './alert.reducer';
 
 const rootReducer = combineReducers({
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     place,
     productCategory,
     cart,
-    alert
+    order,
+    alert,
 });
 
 export default rootReducer;

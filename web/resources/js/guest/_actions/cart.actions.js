@@ -8,6 +8,7 @@ export const cartActions = {
     getCurrent,
     checkout,
     checkoutSetGuestId,
+    checkoutSetStatus,
     checkoutClear,
 };
 
@@ -61,6 +62,18 @@ function checkoutSetGuestId(orderId) {
     };
 
     function success(payload) { return { type: cartConstants.CHECKOUT_SETGUESTID_SUCCESS, payload } }
+}
+
+function checkoutSetStatus(orderId, status) {
+    return dispatch => {
+        return cartService.checkoutSetStatus(orderId, status)
+            .then(
+                payload => dispatch(success(payload)),
+                error => dispatch(alertActions.itemAdd('error', error.toString()))
+            );
+    };
+
+    function success(payload) { return { type: cartConstants.CHECKOUT_SETSTATUS_SUCCESS, payload } }
 }
 
 function checkoutClear(placeId) {

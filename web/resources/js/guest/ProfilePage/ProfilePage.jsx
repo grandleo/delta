@@ -26,7 +26,6 @@ function ProfilePage() {
             <Header
                 routeBack={null}
                 headingTop={t('Профиль')}
-                headingBottom={''}
                 />
             <div className="content-wrapper">
                 <div className="mt-4 text-center">

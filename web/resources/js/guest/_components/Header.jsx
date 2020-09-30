@@ -38,12 +38,11 @@ function Header(props) {
             </hgroup>
             {user &&
                 <>
-                    <Link
-                        to={routes.profile}
+                    <button
                         className="btn btn-link mr-1 ml-auto"
                         >
                         <img src="/images/icon/bell.svg" alt="notifs" />
-                    </Link>
+                    </button>
                     <Link
                         to={routes.profile}
                         className="btn btn-link"

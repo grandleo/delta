@@ -1,4 +1,4 @@
-import { placeConstants } from '../_constants';
+import { orderConstants } from '../_constants';
 
 const initialState = {
     all: {
@@ -15,19 +15,19 @@ const initialState = {
 
 function all(state = initialState.all, action) {
     switch (action.type) {
-        case placeConstants.GETALL_REQUEST:
+        case orderConstants.GETALL_REQUEST:
             return {
                 loading: true,
                 error: false,
                 data: null,
             };
-        case placeConstants.GETALL_SUCCESS:
+        case orderConstants.GETALL_SUCCESS:
             return {
                 loading: false,
                 error: false,
                 data: action.payload.data,
             };
-        case placeConstants.GETALL_FAILURE:
+        case orderConstants.GETALL_FAILURE:
             return {
                 loading: false,
                 error: action.error,
@@ -41,19 +41,19 @@ function all(state = initialState.all, action) {
 
 function current(state = initialState.current, action) {
     switch (action.type) {
-        case placeConstants.GETBYID_REQUEST:
+        case orderConstants.GETBYID_REQUEST:
             return {
                 loading: true,
                 error: false,
                 data: null,
             };
-        case placeConstants.GETBYID_SUCCESS:
+        case orderConstants.GETBYID_SUCCESS:
             return {
                 loading: false,
                 error: false,
                 data: action.payload.data,
             };
-        case placeConstants.GETBYID_FAILURE:
+        case orderConstants.GETBYID_FAILURE:
             return {
                 loading: false,
                 error: action.error,
@@ -65,7 +65,7 @@ function current(state = initialState.current, action) {
     }
 }
 
-export function place(state = initialState, action) {
+export function order(state = initialState, action) {
     switch (action.type) {
         default:
             return {

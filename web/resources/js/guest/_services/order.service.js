@@ -1,21 +1,21 @@
 import { fetchClient } from '../_helpers';
 
-export const placeService = {
+export const orderService = {
     getAll,
     getById,
 };
 
 function getAll() {
     const requestOptions = {
-        url: `places`,
+        url: 'orders',
     };
 
     return fetchClient()(requestOptions).then(handleResponse);
 }
 
-function getById(placeId) {
+function getById(orderId) {
     const requestOptions = {
-        url: `places/${placeId}`,
+        url: `orders/${orderId}`,
     };
 
     return fetchClient()(requestOptions).then(handleResponse);

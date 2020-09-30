@@ -125,6 +125,12 @@ function checkout(state = initialState.checkout, action) {
                 data: action.payload.data,
             };
 
+        case cartConstants.CHECKOUT_SETSTATUS_SUCCESS:
+            return {
+                ...state,
+                data: action.payload.data,
+            };
+
         case cartConstants.CHECKOUT_CLEAR:
             return initialState.checkout;
 

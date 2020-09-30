@@ -1,5 +1,4 @@
 import { placeConstants } from '../_constants';
-import { routes } from '../_helpers';
 import { placeService } from '../_services';
 
 export const placeActions = {
