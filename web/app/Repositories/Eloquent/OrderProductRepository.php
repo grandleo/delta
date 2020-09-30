@@ -16,4 +16,14 @@ class OrderProductRepository extends BaseRepository implements OrderProductRepos
     {
         parent::__construct($model);
     }
+
+    /**
+    * @return Collection
+    */
+    public function getByOrderId($order_id): Collection
+    {
+        return $this->model
+            ->where('order_id', $order_id)
+            ->get();
+    }
 }

@@ -10,7 +10,7 @@ use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\OrderProductRepositoryInterface;
 use App\Http\Resources\Guest\ProductResource;
-use App\Http\Resources\Guest\OrderResource;
+use App\Http\Resources\Guest\OrderShortResource;
 
 class CartApiController extends Controller
 {
@@ -77,7 +77,10 @@ class CartApiController extends Controller
             throw new \Exception(__('Какие-то из товаров не найдены в базе.'));
         }
 
-        $amount = $products->sum('price');
+        $amount = collect($reqData['products'])->reduce(function ($carry, $reqProduct) use ($products) {
+            $product = $products->firstWhere('id', $reqProduct['id']);
+            return $carry + $product->price * $reqProduct['qty'];
+        });
 
         // create draft order
         $order = $this->orderRepository->create([
@@ -90,17 +93,17 @@ class CartApiController extends Controller
 
         // create orderProducts
         foreach ($reqData['products'] as $reqProduct) {
-            $repProduct = $products->firstWhere('id', $reqProduct['id']);
+            $product = $products->firstWhere('id', $reqProduct['id']);
             $this->orderProductRepository->create([
                 'order_id' => $order->id,
-                'product_id' => $repProduct->id,
-                'name' => $repProduct->name,
-                'price' => $repProduct->price,
+                'product_id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->price,
                 'qty' => $reqProduct['qty'],
             ]);
         }
 
-        return new OrderResource($order);
+        return new OrderShortResource($order);
     }
 
     /**
@@ -115,9 +118,18 @@ class CartApiController extends Controller
         $order = $this->orderRepository->find($id);
         abort_if(!$order, 404);
 
-        $order->guest_id = \Auth::id();
+        if ($request->status === 'paid') {
+            if ($order->guest_id === \Auth::id()) {
+                $order->setStatus('paid');
+            } else {
+                abort(401);
+            }
+        } elseif (!$order->guest_id) {
+            $order->guest_id = \Auth::id();
+        }
+
         $order->save();
 
-        return new OrderResource($order);
+        return new OrderShortResource($order);
     }
 }

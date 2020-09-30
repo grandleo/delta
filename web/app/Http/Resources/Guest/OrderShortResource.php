@@ -4,7 +4,7 @@ namespace App\Http\Resources\Guest;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OrderResource extends JsonResource
+class OrderShortResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,10 +23,6 @@ class OrderResource extends JsonResource
             'status' => $this->status,
             'currency' => $this->currency,
             'amount' => $this->amount,
-            'created_at' => $this->created_at->toDateTimeString(),
-            'placeCategory_name' => $this->place->placeCategory->name,
-            'place_name' => $this->place->name,
-            'orderProducts' => $this->orderProducts,
         ];
     }
 }

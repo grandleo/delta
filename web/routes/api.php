@@ -29,6 +29,9 @@ Route::prefix('v1/guest')
     Route::middleware('auth:sanctum')
     ->group(function () {
         Route::put('cart/{id}', 'CartApiController@update');
+        Route::resource('orders', 'OrderApiController')->only([
+            'index', 'show',
+        ]);
     });
 
     // public
