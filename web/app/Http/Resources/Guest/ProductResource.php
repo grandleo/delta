@@ -18,7 +18,7 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'image' => $this->image ?? '/storage/test/130.png',
+            'image' => '/storage/test/'. ($this->image ?? '130.png'),
             'price' => $this->price,
             'descr_short' => $this->descr_short,
             'weight' => $this->getJson('params', 'weight', 0),

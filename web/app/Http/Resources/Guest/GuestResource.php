@@ -18,7 +18,7 @@ class GuestResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'name_full' => $this->name_full,
-            'image' => $this->image ?? '/storage/test/user-male.png',
+            'image' => '/storage/test/'. ($this->image ?? 'user-male.png'),
             'token' => $this->token,
         ];
     }
