@@ -57,15 +57,8 @@ return [
 
         'admin' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/test'),
-            'url' => env('APP_URL').'/storage/test',
-            'visibility' => 'public',
-        ],
-
-        'test' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/test'),
-            'url' => env('APP_URL').'/storage/test',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
 

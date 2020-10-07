@@ -16,10 +16,16 @@ class ManagerResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
             'name_full' => $this->name_full,
-            'image' => $this->image ?? '/storage/test/user-male.png',
+            'image' => $this->image,
+            'email' => $this->email,
             'token' => $this->token,
+            'place' => [
+                'id' => $this->place->id,
+                'name' => $this->place->name,
+                'slug' => $this->place->slug,
+                'currency' => $this->place->currency,
+            ],
         ];
     }
 }

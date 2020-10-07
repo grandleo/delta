@@ -43,6 +43,8 @@ class AuthApiController extends Controller
             ]);
         }
 
+        $manager->place = $this->placeRepository->findByWhere([['manager_id', '=', $manager->id]]);
+
         $token = $manager->createToken('manager_common')->plainTextToken;
         $manager->token = $token;
 
@@ -56,9 +58,9 @@ class AuthApiController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'full_name' => ['required', 'string', 'max:255'],
-            'place_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:managers'],
+            'full_name' => ['required', 'string', 'max:250'],
+            'place_name' => ['required', 'string', 'min:3', 'max:250'],
+            'email' => ['required', 'string', 'email', 'max:250', 'unique:managers'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
@@ -70,12 +72,16 @@ class AuthApiController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $slug = $this->placeRepository->getFreeSlug($request->place_name);
+
         $place = $this->placeRepository->create([
             'manager_id' => $manager->id,
             'place_category_id' => 1, // TODO: fix this
             'name' => $request->place_name,
-            'slug' => \Str::slug($request->place_name),
+            'slug' => $slug,
         ]);
+
+        $manager->place = $place;
 
         $token = $manager->createToken('manager_common')->plainTextToken;
         $manager->token = $token;

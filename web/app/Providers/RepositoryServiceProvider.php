@@ -17,6 +17,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $reps = [
+            'PlaceCategory',
             'Place',
             'ProductCategory',
             'Product',

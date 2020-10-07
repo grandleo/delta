@@ -36,4 +36,45 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         return $this->model->where('slug', $slug)->first();
     }
 
+    /**
+    * @param string $name
+    * @param $id
+    * @return string
+    */
+    public function getFreeSlug(string $name, $id = null): string
+    {
+        $slug = \Str::slug($name);
+
+        $query = $this->model->query()
+            ->where('slug', $slug);
+        if ($id) {
+            $query->where('id', '!=', $id);
+        }
+        $count = $query->count();
+
+        return (!$count) ? $slug : $slug.'-'.rand(111, 999);
+    }
+
+    /**
+    * @param $id
+    * @param array $attributes
+    * @return Place
+    */
+    public function updateFromForm($id, array $attributes): ?Place
+    {
+        $model = $this->find($id);
+
+        $model->fill($attributes);
+
+        if (!empty($attributes['params'])) {
+            foreach ($attributes['params'] as $key => $value) {
+                $model->setJson('params', $key, $value);
+            }
+        }
+
+        $model->save();
+
+        return $model;
+    }
+
 }

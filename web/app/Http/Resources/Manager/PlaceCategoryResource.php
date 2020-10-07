@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Guest;
+namespace App\Http\Resources\Manager;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GuestResource extends JsonResource
+class PlaceCategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,7 @@ class GuestResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name_full' => $this->name_full,
-            'image' => '/storage/test/'. ($this->image ?? 'user-male.png'),
-            'token' => $this->token,
+            'name' => $this->name,
         ];
     }
 }

@@ -56,6 +56,14 @@ Route::prefix('v1/manager')
     // private
     Route::middleware('auth:sanctum')
     ->group(function () {
-        //
+        Route::resource('images', 'ImageApiController')->only([
+            'store',
+        ]);
+        Route::resource('user', 'UserApiController')->only([
+            'show',
+        ]);
+        Route::resource('settings', 'SettingsApiController')->only([
+            'show', 'update',
+        ]);
     });
 });
