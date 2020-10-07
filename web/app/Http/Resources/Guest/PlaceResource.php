@@ -18,13 +18,14 @@ class PlaceResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'image' => '/storage/test/'. ($this->image ?? '130.png'),
+            'image' => $this->image ?? 'test/130.png',
             'descr_short' => $this->descr_short,
             'currency' => $this->currency,
             'placeCategory_name' => $this->placeCategory->name,
             'rating_avg' => $this->getJson('params', 'rating_avg', 0),
             'prices_from' => $this->getJson('params', 'prices_from', 0),
-            'works_until' => $this->getJson('params', 'works_until', __('Круглосуточно')),
+            'works_from' => $this->getJson('params', 'works_from', __('00:00')),
+            'works_until' => $this->getJson('params', 'works_until', __('00:00')),
         ];
     }
 }

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, routes, store } from '../_helpers';
+import { t, fMoney, fileSrc, routes, store } from '../_helpers';
 import { placeActions, cartActions } from '../_actions';
 import { Header, NavScroller } from '../_components';
 import { QtyChanger } from './QtyChanger';
@@ -92,7 +92,7 @@ function CartPage() {
                                     className="media card-cart-product card-product"
                                     >
                                     <img
-                                        src={product.image}
+                                        src={fileSrc(product.image)}
                                         className="card-img-top rounded-circle align-self-center mr-3"
                                         alt={product.name}
                                         />

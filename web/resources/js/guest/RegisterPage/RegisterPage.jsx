@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, routes } from '../_helpers';
+import { t, validators, routes } from '../_helpers';
 import { userActions } from '../_actions';
 
 function RegisterPage() {
@@ -26,15 +26,15 @@ function RegisterPage() {
         switch(name) {
             case 'full_name':
                 if (!value) return t('Имя не заполнено');
-                if (value.length < 2) return t('Имя не заполнено полностью');
+                if (!validators.length(value, 2)) return t('Имя не заполнено полностью');
                 break;
             case 'email':
                 if (!value) return t('Email не заполнен');
-                if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) return t('Невалидный Email');
+                if (!validators.email(value)) return t('Невалидный Email');
                 break;
             case 'password':
                 if (!value) return t('Пароль не заполнен');
-                if (value.length < 8) return t('Пароль должен быть миниму 8 символов');
+                if (!validators.length(value, 8)) return t('Пароль должен быть миниму 8 символов');
                 break;
             case 'password_confirmation':
                 if (value !== inputs.password) return t('Пароли не совпадают');

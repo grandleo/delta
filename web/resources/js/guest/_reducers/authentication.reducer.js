@@ -12,10 +12,10 @@ export function authentication(state = initialState, action) {
         case userConstants.LOGIN_REQUEST:
             return {
                 loading: true,
-                user: null,
             };
         case userConstants.LOGIN_SUCCESS:
         case userConstants.REGISTER_SUCCESS:
+        case userConstants.SHOW_SUCCESS:
             return {
                 user: action.payload.data,
             };

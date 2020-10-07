@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, routes } from '../_helpers';
+import { t, fileSrc, routes } from '../_helpers';
 import { placeActions } from '../_actions';
 import { Header, CartInfoFixed } from '../_components';
 
@@ -44,7 +44,7 @@ function PlacePage() {
                                 >
                                 <div className="bg-light embed-responsive embed-responsive-1by1">
                                     <img
-                                        src={sCat.image}
+                                        src={fileSrc(sCat.image)}
                                         className="card-img-top embed-responsive-item"
                                         alt={sCat.name}
                                         />

@@ -13,7 +13,12 @@ function AlertContainer() {
             {alertItems.map((item) =>
                 <div
                     key={item.id}
-                    className="toast show"
+                    className={
+                        'toast show font-weight-500 border-0 shadow-btn-1 text-white ' +
+                        (item.alertType === 'success' ? 'bg-success' : '') +
+                        (item.alertType === 'info' ? 'bg-info' : '') +
+                        (item.alertType === 'error' ? 'bg-danger' : '')
+                    }
                     role="alert" aria-live="assertive" aria-atomic="true"
                     >
                     <div

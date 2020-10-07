@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, routes } from '../_helpers';
+import { t, fMoney, fileSrc, routes } from '../_helpers';
 import { placeActions } from '../_actions';
 
 function HomePage() {
@@ -37,7 +37,7 @@ function HomePage() {
                                 >
                                 <div className="row flex-nowrap no-gutters">
                                     <div className="col-auto">
-                                        <img src={place.image} className="img-free" alt={place.name} />
+                                        <img src={fileSrc(place.image)} className="img-free" alt={place.name} />
                                     </div>
                                     <div className="col">
                                         <div className="card-body">
@@ -49,7 +49,8 @@ function HomePage() {
                                             <p className="descr card-text m-0 mb-2 pr-3">{place.descr_short}</p>
                                             <p className="card-text">
                                                 <span className="prices badge">{t('От')+' '+fMoney(place.prices_from, place.currency)}</span>
-                                                <span className="float-right">{place.works_until}</span>
+                                                <span className="float-right">{place.works_from === place.works_until
+                                                    ? t('Круглосуточно') : t('Работает до ')+place.works_until}</span>
                                             </p>
                                         </div>
                                     </div>

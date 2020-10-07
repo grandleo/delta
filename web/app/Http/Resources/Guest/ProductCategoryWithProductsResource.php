@@ -18,7 +18,7 @@ class ProductCategoryWithProductsResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'image' => '/storage/test/'. ($this->image ?? '130.png'),
+            'image' => $this->image ?? 'test/130.png',
             'descr_short' => $this->descr_short,
             'count' => $this->products->count(),
             'products' => ProductResource::collection($this->products),

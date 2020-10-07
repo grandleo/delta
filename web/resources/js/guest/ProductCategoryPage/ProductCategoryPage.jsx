@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, routes } from '../_helpers';
+import { t, fMoney, fileSrc, routes } from '../_helpers';
 import { placeActions, productCategoryActions } from '../_actions';
 import { Header, NavScroller, CartInfoFixed } from '../_components';
 import { AddToCartButton } from './AddToCartButton';
@@ -63,8 +63,8 @@ function ProductCategoryPage() {
                                 <div className="row flex-nowrap no-gutters">
                                     <div className="col-auto">
                                         <img
-                                            src={product.image}
-                                            className="card-img-top embed-responsive-item"
+                                            src={fileSrc(product.image)}
+                                            className="img-free"
                                             alt={product.name}
                                             />
                                     </div>

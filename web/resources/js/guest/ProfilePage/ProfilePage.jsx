@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, routes } from '../_helpers';
+import { t, fileSrc, routes } from '../_helpers';
 import { Header } from '../_components';
 import { userActions } from '../_actions';
 
@@ -30,7 +30,7 @@ function ProfilePage() {
             <div className="content-wrapper">
                 <div className="mt-4 text-center">
                     <img
-                        src={user.image}
+                        src={fileSrc(user.image)}
                         alt="profile picture"
                         className="shadow-btn-3 rounded-circle"
                         style={{width: '117px', height: '117px'}}
