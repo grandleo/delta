@@ -1,0 +1,50 @@
+.form-control {
+  //
+
+  &-manager-image {
+    > {
+      label {
+        background: $light-3;
+        border: 1px dashed $input-placeholder-color;
+        border-radius: 6px;
+        letter-spacing: 0.02em;
+      }
+    }
+  }
+
+  &-weekday-checkbox {
+    position: relative;
+    z-index: 1;
+    display: block;
+    label {
+      width: 40px;
+      height: 40px;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 38px;
+      color: rgba(72, 100, 125, 0.8);
+      text-align: center;
+      border: 1px solid transparent;
+      border-radius: 8.49398px;
+      background: $light;
+      box-shadow: -3.39759px -1.6988px 13.5904px #fff, 3.39759px 1.6988px 13.5904px rgba($bs-color-1, 0.48);
+    }
+    input:checked ~ label {
+      border: 1px solid #fff;
+      border-radius: 5.94578px;
+      background: $light;
+      box-shadow: inset -2.73504px -2.73504px 6.38177px #fff, inset 2.73504px 2.73504px 6.38177px rgba($bs-color-1, 0.48);
+    }
+  }
+
+}
+
+select.form-control {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 95%;
+  background-position-y: 45%;
+}

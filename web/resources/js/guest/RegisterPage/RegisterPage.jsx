@@ -23,6 +23,12 @@ function RegisterPage() {
     function validate(name, ignoreShowErrors = false) {
         if (!showErrors && !ignoreShowErrors) return null;
         const value = inputs[name];
+
+        switch(name) {
+            case 'full_name': case 'email':
+                if (!validators.length(value, 0, 250)) return t('Максимальная длина 250 символов');
+                break;
+        }
         switch(name) {
             case 'full_name':
                 if (!value) return t('Имя не заполнено');

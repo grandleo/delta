@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, routes } from '../_helpers';
+import { t, validators, routes } from '../_helpers';
 import { userActions } from '../_actions';
 
 function RegisterPage() {
@@ -23,22 +23,28 @@ function RegisterPage() {
     function validate(name, ignoreShowErrors = false) {
         if (!showErrors && !ignoreShowErrors) return null;
         const value = inputs[name];
+
+        switch(name) {
+            case 'full_name': case 'place_name': case 'email':
+                if (!validators.length(value, 0, 250)) return t('Максимальная длина 250 символов');
+                break;
+        }
         switch(name) {
             case 'full_name':
                 if (!value) return t('ФИО не заполнено');
-                if (value.length < 4) return t('ФИО не заполнено полностью');
+                if (!validators.length(value, 4)) return t('ФИО не заполнено полностью');
                 break;
             case 'place_name':
                 if (!value) return t('Название заведения не заполнено');
-                if (value.length < 4) return t('Название должно быть миниму 4 символа');
+                if (!validators.length(value, 3)) return t('Название должно быть миниму 3 символа');
                 break;
             case 'email':
                 if (!value) return t('Email не заполнен');
-                if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) return t('Невалидный Email');
+                if (!validators.email(value)) return t('Невалидный Email');
                 break;
             case 'password':
                 if (!value) return t('Пароль не заполнен');
-                if (value.length < 8) return t('Пароль должен быть миниму 8 символов');
+                if (!validators.length(value, 8)) return t('Пароль должен быть миниму 8 символов');
                 break;
             case 'password_confirmation':
                 if (value !== inputs.password) return t('Пароли не совпадают');

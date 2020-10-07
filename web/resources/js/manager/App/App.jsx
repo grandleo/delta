@@ -9,6 +9,7 @@ import { PrivateRoute, AlertContainer } from '../_components';
 import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
+import { SettingsPage } from '../SettingsPage';
 
 function App() {
     const user = useSelector(state => state.authentication.user);
@@ -23,6 +24,13 @@ function App() {
                 path={routes.home}
                 component={HomePage}
                 condition={user}
+                redirectTo={routes.login}
+                />
+
+            <PrivateRoute
+                path={routes.settings}
+                component={SettingsPage}
+                condition={user && user.place && user.place.id}
                 redirectTo={routes.login}
                 />
 

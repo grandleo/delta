@@ -2,7 +2,7 @@
   position: relative;
 
   > {
-    input {
+    .form-control {
       font-size: 14px;
       height: 50px;
       padding: 15px 20px 12px;
@@ -35,7 +35,7 @@
     }
   }
 
-  input {
+  .form-control {
     &::placeholder {
       color: transparent;
     }
@@ -61,7 +61,7 @@
       display: none;
     }
 
-    input::-ms-input-placeholder {
+    .form-control::-ms-input-placeholder {
       color: $input-placeholder-color;
     }
   }
@@ -75,7 +75,7 @@
       display: none;
     }
 
-    input:-ms-input-placeholder {
+    .form-control:-ms-input-placeholder {
       color: $input-placeholder-color;
     }
   }

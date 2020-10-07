@@ -13,7 +13,7 @@ const links = [
     {to: routes.menus, icon: 'menu.svg', text: t('Меню')},
     {to: routes.workers, icon: 'users.svg', text: t('Официанты')},
     {to: routes.guests, icon: 'users.svg', text: t('Клиенты')},
-    {to: routes.settings, icon: 'settings.svg', text: t('Настройка заведения')},
+    {to: routes.settings, icon: 'settings.svg', text: t('Настройки заведения')},
 ];
 
 function HomePage() {
@@ -29,7 +29,8 @@ function HomePage() {
         <div className="home-page">
             <Header
                 headingTop={user.name_full}
-                headingBottom={t('Администратор')}
+                headingBottom={t('Менеджер')+' \u00A0 | \u00A0 '+user.place.name}
+                routeBack={null}
             />
             <div className="content-wrapper">
                 <div>

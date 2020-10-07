@@ -4,13 +4,15 @@ export const userService = {
     login,
     logout,
     register,
+
+    show,
 };
 
-function login(inputs) {
+function login(data) {
     const requestOptions = {
         method: 'POST',
         url: 'auth/login',
-        data: { ...inputs },
+        data,
     };
 
     return fetchClient()(requestOptions).then(handleResponse)
@@ -26,11 +28,11 @@ function logout() {
     lsRemoveItem('token', null);
 }
 
-function register(inputs) {
+function register(data) {
     const requestOptions = {
         method: 'POST',
         url: 'auth/register',
-        data: { ...inputs },
+        data,
     };
 
     return fetchClient()(requestOptions).then(handleResponse)
@@ -40,6 +42,14 @@ function register(inputs) {
             }
             return payload;
         });
+}
+
+function show(userId) {
+    const requestOptions = {
+        url: `user/${userId}`,
+    };
+
+    return fetchClient()(requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
