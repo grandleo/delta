@@ -9,7 +9,22 @@ interface ProductCategoryRepositoryInterface
 {
     /**
     * @param $place_id
+    * @param $all
     * @return Collection
     */
-    public function getByPlaceIdSorted($place_id): Collection;
+    public function getByPlaceIdSorted($place_id, $all = false): Collection;
+
+    /**
+    * @param $id
+    * @param array $attributes
+    * @return ProductCategory
+    */
+    public function updateFromForm($id, array $attributes): ?ProductCategory;
+
+    /**
+    * @param $place_id
+    * @param array $sort
+    * @return bool
+    */
+    public function resort($place_id, array $sort): bool;
 }

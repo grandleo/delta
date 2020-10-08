@@ -27,4 +27,9 @@ trait StatusFieldTrait
     {
         $this->status = self::STATUSES[$statusName];
     }
+
+    public function hasStatus($statusName)
+    {
+        return $this->status === self::STATUSES[$statusName];
+    }
 }

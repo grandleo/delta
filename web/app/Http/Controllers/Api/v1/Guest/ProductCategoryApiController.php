@@ -12,6 +12,7 @@ use App\Http\Resources\Guest\ProductCategoryWithProductsResource;
 class ProductCategoryApiController extends Controller
 {
     private $productCategoryRepository;
+    private $productRepository;
 
     public function __construct(
         ProductCategoryRepositoryInterface $productCategoryRepository,

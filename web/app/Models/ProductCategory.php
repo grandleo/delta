@@ -6,11 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Helpers\Traits\JsonFieldTrait;
+use App\Helpers\Traits\StatusFieldTrait;
 
 class ProductCategory extends Model
 {
     use SoftDeletes;
-    use JsonFieldTrait;
+    use JsonFieldTrait, StatusFieldTrait;
+
+    const STATUSES = [
+        'draft' => 0,
+        'active' => 1,
+    ];
 
     /**
      * The attributes that are mass assignable.

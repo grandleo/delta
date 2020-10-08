@@ -26,7 +26,7 @@ Route::prefix('v1/guest')
     Route::post('auth/register', 'AuthApiController@register');
 
     // private
-    Route::middleware('auth:sanctum')
+    Route::middleware(['auth:sanctum', 'auth.sanctum.ext:App\Models\Guest'])
     ->group(function () {
         Route::put('cart/{id}', 'CartApiController@update');
         Route::resource('orders', 'OrderApiController')->only([
@@ -54,13 +54,17 @@ Route::prefix('v1/manager')
     Route::post('auth/register', 'AuthApiController@register');
 
     // private
-    Route::middleware('auth:sanctum')
+    Route::middleware(['auth:sanctum', 'auth.sanctum.ext:App\Models\Manager'])
     ->group(function () {
         Route::resource('images', 'ImageApiController')->only([
             'store',
         ]);
         Route::resource('user', 'UserApiController')->only([
             'show',
+        ]);
+        Route::post('product-categories/resort', 'ProductCategoryApiController@resort');
+        Route::resource('product-categories', 'ProductCategoryApiController')->only([
+            'index', 'show', 'update',
         ]);
         Route::resource('settings', 'SettingsApiController')->only([
             'show', 'update',

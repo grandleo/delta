@@ -19,15 +19,56 @@ class ProductCategoryRepository extends BaseRepository implements ProductCategor
 
     /**
     * @param $place_id
+    * @param $all
     * @return Collection
     */
-    public function getByPlaceIdSorted($place_id): Collection
+    public function getByPlaceIdSorted($place_id, $all = false): Collection
     {
-        return $this->model
+        $query = $this->model
             ->where('place_id', $place_id)
             ->withCount('products')
-            ->orderBy('sort')
-            ->get();
+            ->orderBy('sort');
+
+        if (!$all) {
+            $query->status('active');
+        }
+
+        return $query->get();
+    }
+
+    /**
+    * @param $id
+    * @param array $attributes
+    * @return ProductCategory
+    */
+    public function updateFromForm($id, array $attributes): ?ProductCategory
+    {
+        $model = $this->find($id);
+
+        $model->fill($attributes);
+
+        $model->setStatus($attributes['active'] ? 'active' : 'draft');
+
+        $model->save();
+
+        return $model;
+    }
+
+    /**
+    * @param $place_id
+    * @param array $sort
+    * @return bool
+    */
+    public function resort($place_id, array $sort): bool
+    {
+        foreach ($sort as $key => $id) {
+            $this->model->query()
+                ->where('place_id', $place_id)
+                ->where('id', $id)
+                ->update(['sort' => $key]);
+        }
+
+        return true;
     }
 
 }

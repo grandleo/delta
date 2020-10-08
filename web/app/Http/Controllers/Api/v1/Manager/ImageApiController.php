@@ -40,6 +40,15 @@ class ImageApiController extends Controller
                 $res[] = $path.'/'.$fileName.'.jpg';
                 break;
 
+            case 'productCategory_image':
+                $path = 'places/'.$request->dest_id;
+                Storage::disk('public')->makeDirectory($path);
+                $img = Image::make($files[0]);
+                $img->fit(156);
+                $img->save('storage/'.$path.'/'.$fileName.'.jpg');
+                $res[] = $path.'/'.$fileName.'.jpg';
+                break;
+
             default:
                 break;
         }

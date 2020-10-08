@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'index');
-Route::view('/manager/{path?}', 'manager');
+Route::view('/manager/{any?}', 'manager')->where('any', '.*');
 Route::view('/worker/{path?}', 'worker');
 Route::view('/guest/{path?}', 'guest');
 
