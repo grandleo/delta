@@ -37,6 +37,36 @@
     }
   }
 
+  &-switch-checkbox {
+    .custom-control-label {
+      &:before {
+        height: 1.1rem;
+        border-radius: 0.55rem;
+        border: 2px solid #adb5bd;
+      }
+      &:after {
+        border: 2px solid $primary;
+        width: calc(1.1rem - 6px);
+        height: calc(1.1rem - 6px);
+        top: calc(0.22rem + 3px);
+        left: calc(-2.25rem + 3px);
+      }
+    }
+    .custom-control-input:not(:disabled):active ~ .custom-control-label {
+      background-color: #fff;
+      border-color: $primary;
+    }
+    .custom-control-input:checked ~ .custom-control-label {
+      &:before {
+        background-color: #fff;
+      }
+      &:after {
+        background-color: #27ae60;
+        transform: translateX(0.6rem);
+      }
+    }
+  }
+
 }
 
 select.form-control {

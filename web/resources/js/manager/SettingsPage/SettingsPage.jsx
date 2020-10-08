@@ -174,7 +174,7 @@ function SettingsPage() {
                     </div>
                 }
                 {settings.data && inputs['params.works_weekdays'] &&
-                    <form className="form-2" onSubmit={handleSubmit}>
+                    <form className="form-2" autoComplete="off" onSubmit={handleSubmit}>
                         <h3 className="h6 mb-3 font-weight-600 text-primary">{t('Общая информация')}</h3>
                         <div className="form-group form-control-manager-image">
                             <input
@@ -384,10 +384,11 @@ function SettingsPage() {
                                 <div className="invalid-feedback text-right">{validate('user.password_confirmation')}</div>
                             }
                         </div>
+
                         <div className="form-group mt-4 pt-3 text-center">
                             <Link
                                 to={routes.home}
-                                className="btn btn-lg btn-light rounded-pill letter-spacing-010em shadow-btn-1 mr-5"
+                                className="btn btn-lg btn-light rounded-pill letter-spacing-005em shadow-btn-1 mr-4"
                                 >{t('Отменить')}</Link>
                             <button
                                 className="text-white btn btn-lg btn-success rounded-pill letter-spacing-010em font-weight-600 shadow-btn-1"

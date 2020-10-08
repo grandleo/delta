@@ -17,7 +17,7 @@ function update(placeId, data) {
     const requestOptions = {
         method: 'PUT',
         url: `settings/${placeId}`,
-        data
+        data,
     };
 
     return fetchClient()(requestOptions).then(handleResponse);

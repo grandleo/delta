@@ -13,4 +13,9 @@
   &-inset-border {
     //
   }
+
+  &-sm-control {
+    box-shadow: inset 1px 1px 1px rgba(33, 68, 104, 0.4), inset -1px -1px 1px rgba(#fff, 0.4);
+    border-radius: 7px;
+  }
 }
