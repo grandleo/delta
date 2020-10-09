@@ -59,12 +59,12 @@ class Order extends Model
 
     public function table()
     {
-        return $this->hasMany('App\Models\Table');
+        return $this->belongsTo('App\Models\Table');
     }
 
     public function worker()
     {
-        return $this->hasMany('App\Models\Worker');
+        return $this->belongsTo('App\Models\Worker');
     }
 
     public function orderProducts()

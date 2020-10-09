@@ -52,4 +52,12 @@ class Guest extends Authenticatable
             }
         */
     ];
+
+
+    // RELATIONS
+
+    public function orders()
+    {
+        return $this->hasMany('App\Models\Order');
+    }
 }

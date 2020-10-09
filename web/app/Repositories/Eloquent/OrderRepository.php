@@ -36,6 +36,25 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     }
 
     /**
+    * @param $place_id
+    * @return Collection
+    */
+    public function getByPlaceIdSorted($place_id): Collection
+    {
+        $query = $this->model
+            ->with([
+                'table',
+                'guest',
+                'worker',
+            ])
+            ->where('place_id', $place_id)
+            ->status('draft', '!=')
+            ->orderByDesc('id');
+
+        return $query->get();
+    }
+
+    /**
     * @param $id
     * @param $guest_id
     * @return Order

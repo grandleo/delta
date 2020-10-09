@@ -14,6 +14,12 @@ interface OrderRepositoryInterface
     public function getByGuestId($guest_id): Collection;
 
     /**
+    * @param $place_id
+    * @return Collection
+    */
+    public function getByPlaceIdSorted($place_id): Collection;
+
+    /**
     * @param $id
     * @param $guest_id
     * @return Order
