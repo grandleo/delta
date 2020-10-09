@@ -30,16 +30,11 @@ class ProductCategoryApiController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $reqData = $request->validate([
-            'place_id' => 'required',
-        ]);
-
-        $place = $this->getPlace($reqData['place_id']);
+        $place = $this->getPlace();
 
         $productCategories = $this->productCategoryRepository->getByPlaceIdSorted($place->id, true);
 
@@ -49,17 +44,12 @@ class ProductCategoryApiController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        $reqData = $request->validate([
-            'place_id' => 'required',
-        ]);
-
-        $place = $this->getPlace($reqData['place_id']);
+        $place = $this->getPlace();
 
         $productCategory = $this->productCategoryRepository->find($id);
         abort_if(!$productCategory || $productCategory->place_id !== $place->id, 404);
@@ -91,6 +81,9 @@ class ProductCategoryApiController extends Controller
         if ($isNew) {
             $reqData['slug'] = \Str::slug($reqData['name']);
             $productCategory = $this->productCategoryRepository->create($reqData);
+
+            $reqData_loc = ['active' => $reqData['active']];
+            $this->productCategoryRepository->updateFromForm($productCategory->id, $reqData_loc);
         } else {
             $productCategory = $this->productCategoryRepository->find($id);
             abort_if(!$productCategory || $productCategory->place_id !== $place->id, 403);
@@ -98,7 +91,38 @@ class ProductCategoryApiController extends Controller
             $this->productCategoryRepository->updateFromForm($id, $reqData);
         }
 
-        return response()->json(['success' => true, 'productCategoryId' => $productCategory->id]);
+        return response()->json([
+            'success' => true,
+            'alerts' => [[
+                'type' => 'success',
+                'message' => $isNew ? __('Категория создана') : __('Успешно сохранено'),
+            ]],
+            'productCategoryId' => $productCategory->id,
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $place = $this->getPlace();
+
+        $productCategory = $this->productCategoryRepository->find($id);
+        abort_if(!$productCategory || $productCategory->place_id !== $place->id, 403);
+
+        $this->productCategoryRepository->delete($id);
+
+        return response()->json([
+            'success' => true,
+            'alerts' => [[
+                'type' => 'info',
+                'message' => __('Категория удалена'),
+            ]],
+        ]);
     }
 
     /**
@@ -121,9 +145,11 @@ class ProductCategoryApiController extends Controller
     }
 
 
-    private function getPlace($place_id)
+    private function getPlace($place_id = null)
     {
-        $place = $this->placeRepository->find($place_id);
+        $place = $place_id
+            ? $this->placeRepository->find($place_id)
+            : $this->placeRepository->findByWhere([['manager_id', '=', \Auth::id()]]);
         abort_if(!$place || $place->manager_id !== \Auth::id(), 404);
 
         return $place;

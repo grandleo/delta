@@ -64,7 +64,11 @@ Route::prefix('v1/manager')
         ]);
         Route::post('product-categories/resort', 'ProductCategoryApiController@resort');
         Route::resource('product-categories', 'ProductCategoryApiController')->only([
-            'index', 'show', 'update',
+            'index', 'show', 'update', 'destroy',
+        ]);
+        Route::post('products/resort', 'ProductApiController@resort');
+        Route::resource('products', 'ProductApiController')->only([
+            'index', 'show', 'update', 'destroy',
         ]);
         Route::resource('settings', 'SettingsApiController')->only([
             'show', 'update',

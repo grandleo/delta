@@ -9,7 +9,7 @@ interface ProductCategoryRepositoryInterface
 {
     /**
     * @param $place_id
-    * @param $all
+    * @param bool $all
     * @return Collection
     */
     public function getByPlaceIdSorted($place_id, $all = false): Collection;

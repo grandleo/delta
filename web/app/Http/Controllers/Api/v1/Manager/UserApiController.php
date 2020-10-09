@@ -32,10 +32,9 @@ class UserApiController extends Controller
     public function show($id)
     {
         $manager_id = \Auth::id();
-        abort_if($id != $manager_id, 403);
 
-        $manager = $this->managerRepository->find($id);
-        abort_if(!$manager || $manager->id !== $manager_id, 404);
+        $manager = $this->managerRepository->find($manager_id);
+        abort_if(!$manager, 404);
 
         $manager->place = $this->placeRepository->findByWhere([['manager_id', '=', $manager_id]]);
 

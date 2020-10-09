@@ -28,28 +28,39 @@ class ImageApiController extends Controller
 
         $files = $request->file('files');
 
-        $fileName = Str::random(10);
+        $fileName = time();
         $res = [];
         switch ($request->dest) {
             case 'place_image':
+            case 'productCategory_image':
+            case 'product_image':
                 $path = 'places/'.$request->dest_id;
                 Storage::disk('public')->makeDirectory($path);
                 $img = Image::make($files[0]);
+                break;
+        }
+        switch ($request->dest) {
+            case 'place_image':
+                $fileName = 'pl-'.$fileName;
                 $img->fit(130);
-                $img->save('storage/'.$path.'/'.$fileName.'.jpg');
-                $res[] = $path.'/'.$fileName.'.jpg';
                 break;
 
             case 'productCategory_image':
-                $path = 'places/'.$request->dest_id;
-                Storage::disk('public')->makeDirectory($path);
-                $img = Image::make($files[0]);
+                $fileName = 'prcat-'.$fileName;
                 $img->fit(156);
-                $img->save('storage/'.$path.'/'.$fileName.'.jpg');
-                $res[] = $path.'/'.$fileName.'.jpg';
                 break;
 
-            default:
+            case 'product_image':
+                $fileName = 'pr-'.$fileName;
+                $img->fit(130);
+                break;
+        }
+        switch ($request->dest) {
+            case 'place_image':
+            case 'productCategory_image':
+            case 'product_image':
+                $img->save('storage/'.$path.'/'.$fileName.'.jpg');
+                $res[] = $path.'/'.$fileName.'.jpg';
                 break;
         }
 

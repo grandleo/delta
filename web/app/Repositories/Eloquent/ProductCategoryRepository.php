@@ -19,7 +19,7 @@ class ProductCategoryRepository extends BaseRepository implements ProductCategor
 
     /**
     * @param $place_id
-    * @param $all
+    * @param bool $all
     * @return Collection
     */
     public function getByPlaceIdSorted($place_id, $all = false): Collection
@@ -47,7 +47,9 @@ class ProductCategoryRepository extends BaseRepository implements ProductCategor
 
         $model->fill($attributes);
 
-        $model->setStatus($attributes['active'] ? 'active' : 'draft');
+        if (isset($attributes['active'])) {
+            $model->setStatus($attributes['active'] ? 'active' : 'draft');
+        }
 
         $model->save();
 

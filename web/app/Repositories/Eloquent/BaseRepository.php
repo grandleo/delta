@@ -49,4 +49,15 @@ class BaseRepository implements EloquentRepositoryInterface
     {
         return $this->model->where($conditions)->first();
     }
+
+    /**
+    * @param $id
+    * @return Model
+    */
+    public function delete($id): ?Model
+    {
+        $model = $this->model->find($id);
+        $model->delete();
+        return $model;
+    }
 }

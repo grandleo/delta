@@ -74,7 +74,9 @@ class CartApiController extends Controller
         $products = $this->productRepository->getByPlaceIdAndProductIds($reqData['placeId'], $productIds);
 
         if ($products->count() !== count($productIds)) {
-            throw new \Exception(__('Какие-то из товаров не найдены в базе.'));
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'products' => [__('Какие-то из товаров не найдены в базе. Обновите страницу и попробуйте ещё раз.')],
+            ]);
         }
 
         $amount = collect($reqData['products'])->reduce(function ($carry, $reqProduct) use ($products) {

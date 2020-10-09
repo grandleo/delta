@@ -27,19 +27,69 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $this->model
             ->where('place_id', $place_id)
             ->whereIn('id', $product_ids)
+            ->status('active')
             ->get();
     }
 
     /**
     * @param $product_category_id
+    * @param bool $all
     * @return Collection
     */
-    public function getByProductCategoryId($product_category_id): Collection
+    public function getByProductCategoryId($product_category_id, $all = false): Collection
     {
-        return $this->model
+        $query = $this->model
             ->where('product_category_id', $product_category_id)
-            ->orderBy('sort')
-            ->get();
+            ->orderBy('sort');
+
+        if (!$all) {
+            $query->status('active');
+        }
+
+        return $query->get();
+    }
+
+    /**
+    * @param $id
+    * @param array $attributes
+    * @return Product
+    */
+    public function updateFromForm($id, array $attributes): ?Product
+    {
+        $model = $this->find($id);
+
+        $model->fill($attributes);
+
+        if (isset($attributes['active'])) {
+            $model->setStatus($attributes['active'] ? 'active' : 'draft');
+        }
+
+        if (!empty($attributes['params'])) {
+            foreach ($attributes['params'] as $key => $value) {
+                $model->setJson('params', $key, $value);
+            }
+        }
+
+        $model->save();
+
+        return $model;
+    }
+
+    /**
+    * @param $product_category_id
+    * @param array $sort
+    * @return bool
+    */
+    public function resort($product_category_id, array $sort): bool
+    {
+        foreach ($sort as $key => $id) {
+            $this->model->query()
+                ->where('product_category_id', $product_category_id)
+                ->where('id', $id)
+                ->update(['sort' => $key]);
+        }
+
+        return true;
     }
 
 }

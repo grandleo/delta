@@ -23,4 +23,10 @@ interface EloquentRepositoryInterface
     * @return Model
     */
     public function findByWhere(array $conditions): ?Model;
+
+    /**
+    * @param $id
+    * @return Model
+    */
+    public function delete($id): ?Model;
 }

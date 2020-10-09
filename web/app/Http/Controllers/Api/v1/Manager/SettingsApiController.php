@@ -87,6 +87,12 @@ class SettingsApiController extends Controller
 
         $this->managerRepository->updateFromForm($manager_id, $reqData_user['user']);
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'alerts' => [[
+                'type' => 'success',
+                'message' => __('Данные обновлены'),
+            ]],
+        ]);
     }
 }
