@@ -8,9 +8,13 @@ export const routes = {
     login: pp + '/login',
     register: pp + '/register',
 
-    orders: pp + '/orders',
+    orderList: pp + '/order',
+    orderEdit: pp + '/order/:orderId',
+
     finances: pp + '/finances',
-    tables: pp + '/tables',
+
+    tableList: pp + '/table',
+    tableEdit: pp + '/table/:tableId',
 
     prodCatList: pp + '/prodCat',
     prodCatEdit: pp + '/prodCat/:prCatId',
@@ -18,19 +22,31 @@ export const routes = {
     prodList: pp + '/prodCat/:prCatId/list',
     prodEdit: pp + '/prodCat/:prCatId/:prId',
 
-    workers: pp + '/workers',
-    guests: pp + '/guests',
+    workerList: pp + '/worker',
+    workerEdit: pp + '/worker/:workerId',
+
+    guestList: pp + '/guest',
+    guestEdit: pp + '/guest/:guestId/',
+
     settings: pp + '/settings',
 
 
     makeRoute(name, params) {
         switch(name) {
+            case 'orderEdit':
+                return pp + '/order/' + params[0];
+            case 'tableEdit':
+                return pp + '/table/' + params[0];
             case 'prodCatEdit':
                 return pp + '/prodCat/' + params[0];
             case 'prodList':
                 return pp + '/prodCat/' + params[0] + '/list';
             case 'prodEdit':
                 return pp + '/prodCat/' + params[0] + '/' + params[1];
+            case 'workerEdit':
+                return pp + '/worker/' + params[0];
+            case 'guestEdit':
+                return pp + '/guest/' + params[0];
 
             default:
                 return pp;

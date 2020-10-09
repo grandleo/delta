@@ -7,12 +7,12 @@ import { Header } from '../_components';
 import { userActions } from '../_actions';
 
 const links = [
-    {to: routes.orders, icon: 'orders.svg', text: t('Заказы')},
+    {to: routes.orderList, icon: 'orders.svg', text: t('Заказы')},
     {to: routes.finances, icon: 'dollar-sign.svg', text: t('Финансы')},
-    {to: routes.tables, icon: 'tables.svg', text: t('Столы')},
+    {to: routes.tableList, icon: 'tables.svg', text: t('Столы')},
     {to: routes.prodCatList, icon: 'menu.svg', text: t('Меню')},
-    {to: routes.workers, icon: 'users.svg', text: t('Официанты')},
-    {to: routes.guests, icon: 'users.svg', text: t('Клиенты')},
+    {to: routes.workerList, icon: 'users.svg', text: t('Официанты')},
+    {to: routes.guestList, icon: 'users.svg', text: t('Клиенты')},
     {to: routes.settings, icon: 'settings.svg', text: t('Настройки заведения')},
 ];
 

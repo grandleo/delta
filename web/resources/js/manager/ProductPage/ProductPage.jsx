@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc';
 
 import { t, fMoney, fileSrc, routes } from '../_helpers';
-import { Header, ListSubheader } from '../_components';
+import { Header, ListSubheader, LoadingCommon } from '../_components';
 import { productActions } from '../_actions';
 import { productService } from '../_services';
 
@@ -37,10 +37,7 @@ const SortableItem = sortableElement(({value}) => {
                 <span className={'status ' + (value.active ? 'text-success' : 'text-black-50')}>{'\u25CF'}</span>
             </div>
             <div className="">
-                <h5
-                    to={routes.makeRoute('prodList', [value.id])}
-                    className="h5 m-0"
-                    >
+                <h5 className="h5 m-0">
                     {value.name}
                 </h5>
                 <div className="small">{value.weight+' '+t('гр.')+' / '+value.waiting_minutes+' '+t('мин')}</div>
@@ -143,13 +140,7 @@ function ProductPage() {
                 handleFilterModeSwitch={handleFilterModeSwitch}
                 />
             <div className="content-wrapper">
-                {productAll.loading &&
-                    <div className="text-center">
-                        <div className="spinner-border text-danger m-5" role="status">
-                            <span className="sr-only">{t('Загрузка...')}</span>
-                        </div>
-                    </div>
-                }
+                {productAll.loading && <LoadingCommon />}
                 {productAll.data &&
                     <Fragment>
                         {productAll.data.length ?

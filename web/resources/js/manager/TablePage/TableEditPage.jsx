@@ -4,57 +4,50 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { t, validators, fileSrc, routes } from '../_helpers';
 import { Header, LoadingCommon } from '../_components';
-import { productCategoryActions } from '../_actions';
+import { tableActions } from '../_actions';
 import { imageService } from '../_services';
 
-function ProductCategoryEditPage() {
-    const { prCatId } = useParams();
+function TableEditPage() {
+    const { tableId } = useParams();
     const [inputs, setInputs] = useState({
-        image: '',
-        name: '',
-        descr_short: '',
-        active: 0,
+        name: t('Стол №'),
+        active: 1,
     });
     const [showErrors, setShowErrors] = useState(false);
     const user = useSelector(state => state.authentication.user);
-    const productCategoryCurrent = useSelector(state => state.productCategory.current);
+    const tableCurrent = useSelector(state => state.table.current);
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const isNew = prCatId === '0';
+    const isNew = tableId === '0';
 
     useEffect(() => {
         if (!isNew) {
-            dispatch(productCategoryActions.show(prCatId));
+            dispatch(tableActions.show(tableId));
         }
-    }, [prCatId]);
+    }, [tableId]);
 
     useEffect(() => {
-        if (isNew || !productCategoryCurrent.data) {
+        if (isNew || !tableCurrent.data) {
             return;
         }
         setInputs(inputs => ({
-            ...productCategoryCurrent.data,
+            ...tableCurrent.data,
         }));
-    }, [productCategoryCurrent.data]);
+    }, [tableCurrent.data]);
 
     function validate(name, ignoreShowErrors = false) {
         if (!showErrors && !ignoreShowErrors) return null;
         const value = inputs[name];
 
         switch(name) {
-            case 'name': case 'descr_short':
+            case 'name':
                 if (!validators.length(value, 0, 250)) return t('Максимальная длина 250 символов');
                 break;
         }
         switch(name) {
             case 'name':
                 if (!value) return t('Название не заполнено');
-                if (!validators.length(value, 2)) return t('Название должно быть минимум 2 символа');
-                break;
-            case 'descr_short':
-                if (value && !validators.length(value, 4))
-                    return t('Краткое описание должно быть минимум 4 символа');
                 break;
         }
         return null;
@@ -64,17 +57,6 @@ function ProductCategoryEditPage() {
         const { name } = e.target;
         const value = e.target.type === 'checkbox' ? +e.target.checked : e.target.value;
         setInputs(inputs => ({ ...inputs, [name]: value }));
-    }
-
-    function handleChangeImage(e) {
-        if (!e.target.files.length) {
-            setInputs(inputs => ({ ...inputs, image: isNew ? '' : productCategoryCurrent.data.image }));
-            return;
-        }
-        imageService.store('productCategory_image', user.place.id, e.target.files)
-            .then((res) => {
-                res && res[0] && setInputs(inputs => ({ ...inputs, image: res[0] }));
-            });
     }
 
     function handleSubmit(e) {
@@ -89,7 +71,7 @@ function ProductCategoryEditPage() {
                 ...inputs,
                 place_id: user.place.id,
             };
-            dispatch(productCategoryActions.update(prCatId, data, history));
+            dispatch(tableActions.update(tableId, data, history));
         }
 
         setShowErrors(true);
@@ -98,62 +80,26 @@ function ProductCategoryEditPage() {
     return (
         <div className="home-page">
             <Header
-                headingTop={isNew ? t('Создание категории меню') : t('Редактирование категории меню')}
-                routeBack={routes.prodCatList}
+                headingTop={isNew ? t('Создание стола') : t('Редактирование стола')}
+                routeBack={routes.tableList}
                 />
             <div className="content-wrapper">
-                {!isNew && productCategoryCurrent.loading && <LoadingCommon />}
-                {(isNew || (!isNew && productCategoryCurrent.data)) &&
+                {!isNew && tableCurrent.loading && <LoadingCommon />}
+                {(isNew || (!isNew && tableCurrent.data)) &&
                     <form className="form-2" autoComplete="off" onSubmit={handleSubmit}>
-                        <div className="form-group form-control-manager-image">
-                            <input
-                                id="current-form.image"
-                                type="file"
-                                name="image_new"
-                                accept="image/x-png,image/gif,image/jpeg"
-                                onChange={handleChangeImage}
-                                className="d-none"
-                                />
-                            {inputs.image &&
-                                <label htmlFor="current-form.image"
-                                    role="button"
-                                    className="d-block m-0 py-2 text-center"
-                                    ><img src={fileSrc(inputs.image)} alt="logo" /></label>
-                            }
-                            {!inputs.image &&
-                                <label htmlFor="current-form.image"
-                                    role="button"
-                                    className="d-block m-0 py-4 text-center"
-                                    >{t('+ Прикрепите изображение')}</label>
-                            }
-                        </div>
                         <div className="form-group form-label-group">
                             <input
                                 id="current-form.name"
+                                autoFocus
                                 name="name"
-                                placeholder={t('Название категории')}
+                                placeholder={t('Название')}
                                 value={inputs.name}
                                 onChange={handleChange}
                                 className={'form-control' + (validate('name') ? ' is-invalid' : '')}
                                 />
-                            <label htmlFor="current-form.name">{t('Название категории')}</label>
+                            <label htmlFor="current-form.name">{t('Название')}</label>
                             {validate('name') &&
                                 <div className="invalid-feedback text-right">{validate('name')}</div>
-                            }
-                        </div>
-                        <div className="form-group form-label-group">
-                            <textarea
-                                id="current-form.descr_short"
-                                name="descr_short"
-                                placeholder={t('Краткое описание')}
-                                value={inputs.descr_short}
-                                onChange={handleChange}
-                                className={'form-control' + (validate('descr_short') ? ' is-invalid' : '')}
-                                style={{height:'95px',resize:'none'}}
-                                />
-                            <label htmlFor="current-form.descr_short">{t('Краткое описание')}</label>
-                            {validate('descr_short') &&
-                                <div className="invalid-feedback text-right">{validate('descr_short')}</div>
                             }
                         </div>
 
@@ -163,7 +109,7 @@ function ProductCategoryEditPage() {
                                     <label
                                         role="button"
                                         htmlFor="current-form.active"
-                                        >{t('Доступность категории для заказа')}</label>
+                                        >{t('Доступность стола для заказа')}</label>
                                 </div>
                                 <div className="form-control-switch-checkbox custom-control custom-switch">
                                     <input
@@ -185,15 +131,15 @@ function ProductCategoryEditPage() {
 
                         <div className="form-group mt-4 pt-3 text-center">
                             <Link
-                                to={routes.prodCatList}
+                                to={routes.tableList}
                                 className="btn btn-lg btn-light rounded-pill letter-spacing-005em shadow-btn-1 mr-4"
                                 >{t('Отменить')}</Link>
                             <button
                                 className="text-white btn btn-lg btn-success rounded-pill letter-spacing-010em font-weight-600 shadow-btn-1"
-                                disabled={productCategoryCurrent.saving}
+                                disabled={tableCurrent.saving}
                                 >
                                 {isNew ? t('Создать') : t('Применить')}
-                                {productCategoryCurrent.saving && <span className="spinner-border spinner-border-sm ml-1 mb-1"></span>}
+                                {tableCurrent.saving && <span className="spinner-border spinner-border-sm ml-1 mb-1"></span>}
                             </button>
                         </div>
                     </form>
@@ -203,4 +149,4 @@ function ProductCategoryEditPage() {
     );
 }
 
-export { ProductCategoryEditPage };
+export { TableEditPage };

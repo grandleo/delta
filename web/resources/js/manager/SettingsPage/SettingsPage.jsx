@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { t, validators, fileSrc, routes } from '../_helpers';
-import { Header } from '../_components';
+import { Header, LoadingCommon } from '../_components';
 import { settingsActions } from '../_actions';
 import { imageService } from '../_services';
 
@@ -159,13 +159,7 @@ function SettingsPage() {
                 routeBack={routes.home}
                 />
             <div className="content-wrapper">
-                {settings.loading &&
-                    <div className="text-center">
-                        <div className="spinner-border text-danger m-5" role="status">
-                            <span className="sr-only">{t('Загрузка...')}</span>
-                        </div>
-                    </div>
-                }
+                {settings.loading && <LoadingCommon />}
                 {settings.data && inputs['params.works_weekdays'] &&
                     <form className="form-2" autoComplete="off" onSubmit={handleSubmit}>
                         <h3 className="h6 mb-3 font-weight-600 text-primary">{t('Общая информация')}</h3>
@@ -355,21 +349,23 @@ function SettingsPage() {
                                 <div className="invalid-feedback text-right">{validate('user.password')}</div>
                             }
                         </div>
-                        <div className="form-group form-label-group">
-                            <input
-                                id="current-form.user.password_confirmation"
-                                type="password"
-                                name="user.password_confirmation"
-                                placeholder={t('Повторите пароль')}
-                                value={inputs['user.password_confirmation']}
-                                onChange={handleChange}
-                                className={'form-control' + (validate('user.password_confirmation') ? ' is-invalid' : '')}
-                                />
-                            <label htmlFor="current-form.user.password_confirmation">{t('Повторите пароль')}</label>
-                            {validate('user.password_confirmation') &&
-                                <div className="invalid-feedback text-right">{validate('user.password_confirmation')}</div>
-                            }
-                        </div>
+                        {inputs['user.password'] &&
+                            <div className="form-group form-label-group">
+                                <input
+                                    id="current-form.user.password_confirmation"
+                                    type="password"
+                                    name="user.password_confirmation"
+                                    placeholder={t('Повторите пароль')}
+                                    value={inputs['user.password_confirmation']}
+                                    onChange={handleChange}
+                                    className={'form-control' + (validate('user.password_confirmation') ? ' is-invalid' : '')}
+                                    />
+                                <label htmlFor="current-form.user.password_confirmation">{t('Повторите пароль')}</label>
+                                {validate('user.password_confirmation') &&
+                                    <div className="invalid-feedback text-right">{validate('user.password_confirmation')}</div>
+                                }
+                            </div>
+                        }
 
                         <div className="form-group mt-4 pt-3 text-center">
                             <Link

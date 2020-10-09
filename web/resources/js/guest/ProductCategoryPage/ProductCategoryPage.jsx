@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, fileSrc, routes } from '../_helpers';
 import { placeActions, productCategoryActions } from '../_actions';
-import { Header, NavScroller, CartInfoFixed } from '../_components';
+import { Header, NavScroller, CartInfoFixed, LoadingCommon } from '../_components';
 import { AddToCartButton } from './AddToCartButton';
 
 function ProductCategoryPage() {
@@ -45,13 +45,7 @@ function ProductCategoryPage() {
                         </Fragment>
                         : t('Загрузка...')}
                 </h2>
-                {productCategory.loading &&
-                    <div className="text-center">
-                        <div className="spinner-border text-danger m-5" role="status">
-                            <span className="sr-only">{t('Загрузка...')}</span>
-                        </div>
-                    </div>
-                }
+                {productCategory.loading && <LoadingCommon />}
                 {productCategory.error && <span className="text-danger">{t('Ошибка')}: {productCategory.error}</span>}
                 {productCategory.data && placeCurrent.data && (productCategory.data.products.length ?
                     <div className="card-product-list">
@@ -73,9 +67,9 @@ function ProductCategoryPage() {
                                             <h5 className="card-title mb-2 text-primary">{product.name}</h5>
                                             <p className="descr card-text mb-2">{product.descr_short}</p>
                                             <p className="card-text font-weight-600">
-                                                {fMoney(product.price, placeCurrent.data.currency)}
-                                                /
-                                                {product.weight+' '+t('гр.')}
+                                                {fMoney(product.price, placeCurrent.data.currency)+
+                                                ' / '+
+                                                product.weight+' '+t('гр.')}
                                             </p>
                                         </div>
                                     </div>

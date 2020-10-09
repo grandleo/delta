@@ -3,3 +3,5 @@ export * from './image.service';
 export * from './settings.service';
 export * from './product-category.service';
 export * from './product.service';
+export * from './table.service';
+export * from './worker.service';

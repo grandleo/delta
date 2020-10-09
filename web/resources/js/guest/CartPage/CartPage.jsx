@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, fileSrc, routes, store } from '../_helpers';
 import { placeActions, cartActions } from '../_actions';
-import { Header, NavScroller } from '../_components';
+import { Header, NavScroller, LoadingCommon } from '../_components';
 import { QtyChanger } from './QtyChanger';
 
 function CartPage() {
@@ -73,13 +73,7 @@ function CartPage() {
                     <span className="text-primary">{t('Здесь пока ничего нет.')}</span>
                 }
 
-                {(cartCurrent.loading || cartCheckout.loading) &&
-                    <div className="text-center">
-                        <div className="spinner-border text-danger m-5" role="status">
-                            <span className="sr-only">{t('Загрузка...')}</span>
-                        </div>
-                    </div>
-                }
+                {(cartCurrent.loading || cartCheckout.loading) && <LoadingCommon />}
                 {!cartCheckout.loading && cartPlaceCurrent && placeCurrent.data && cartCurrent.data && cartCurrent.data.length &&
                     <Fragment>
                         <h3 className="h5 mb-3">{`${t('Ваш заказ')} (${totalProducts})`}</h3>
@@ -98,9 +92,9 @@ function CartPage() {
                                         <h5 className="card-title mb-2 text-primary">{product.name}</h5>
                                         <p className="descr card-text mb-2">{product.descr_short}</p>
                                         <p className="card-text font-weight-600 line-height-1">
-                                            {fMoney(product.price, placeCurrent.data.currency)}
-                                            /
-                                            {product.weight+' '+t('гр.')}
+                                            {fMoney(product.price, placeCurrent.data.currency)+
+                                            ' / '+
+                                            product.weight+' '+t('гр.')}
                                         </p>
                                     </div>
                                     <QtyChanger

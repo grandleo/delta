@@ -7,6 +7,8 @@ import { users } from './users.reducer';
 import { settings } from './settings.reducer';
 import { productCategory } from './product-category.reducer';
 import { product } from './product.reducer';
+import { table } from './table.reducer';
+import { worker } from './worker.reducer';
 
 const rootReducer = combineReducers({
     alert,
@@ -16,6 +18,8 @@ const rootReducer = combineReducers({
     settings,
     productCategory,
     product,
+    table,
+    worker,
 });
 
 export default rootReducer;

@@ -11,6 +11,8 @@ import { RegisterPage } from '../RegisterPage';
 import { SettingsPage } from '../SettingsPage';
 import { ProductCategoryPage, ProductCategoryEditPage } from '../ProductCategoryPage';
 import { ProductPage, ProductEditPage } from '../ProductPage';
+import { TablePage, TableEditPage } from '../TablePage';
+import { WorkerPage, WorkerEditPage } from '../WorkerPage';
 
 function App() {
     const user = useSelector(state => state.authentication.user);
@@ -25,6 +27,32 @@ function App() {
                 path={routes.home}
                 component={HomePage}
                 condition={user}
+                redirectTo={routes.login}
+                />
+
+            <PrivateRoute
+                path={routes.workerEdit}
+                component={WorkerEditPage}
+                condition={user && user.place && user.place.id}
+                redirectTo={routes.login}
+                />
+            <PrivateRoute
+                path={routes.workerList}
+                component={WorkerPage}
+                condition={user && user.place && user.place.id}
+                redirectTo={routes.login}
+                />
+
+            <PrivateRoute
+                path={routes.tableEdit}
+                component={TableEditPage}
+                condition={user && user.place && user.place.id}
+                redirectTo={routes.login}
+                />
+            <PrivateRoute
+                path={routes.tableList}
+                component={TablePage}
+                condition={user && user.place && user.place.id}
                 redirectTo={routes.login}
                 />
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, fileSrc, routes } from '../_helpers';
+import { LoadingCommon } from '../_components';
 import { placeActions } from '../_actions';
 
 function HomePage() {
@@ -19,13 +20,7 @@ function HomePage() {
         <div className="home-page">
             <div className="content-wrapper">
                 <h2 className="h5 font-weight-600 mb-3">{t('Рядом со мной')}</h2>
-                {placesAll.loading &&
-                    <div className="text-center">
-                        <div className="spinner-border text-danger m-5" role="status">
-                            <span className="sr-only">{t('Загрузка...')}</span>
-                        </div>
-                    </div>
-                }
+                {placesAll.loading && <LoadingCommon />}
                 {placesAll.error && <span className="text-danger h4">{t('Ошибка')}: {placesAll.error}</span>}
                 {placesAll.data && (placesAll.data.length ?
                     <div className="card-place-list">

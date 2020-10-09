@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fileSrc, routes } from '../_helpers';
 import { placeActions } from '../_actions';
-import { Header, CartInfoFixed } from '../_components';
+import { Header, CartInfoFixed, LoadingCommon } from '../_components';
 
 function PlacePage() {
     const { placeSlug } = useParams();
@@ -26,13 +26,7 @@ function PlacePage() {
                 />
             <div className="content-wrapper">
                 <h2 className="h4 mb-4 font-weight-600 text-primary">{t('Меню ресторана')}</h2>
-                {placeCurrent.loading &&
-                    <div className="text-center">
-                        <div className="spinner-border text-danger m-5" role="status">
-                            <span className="sr-only">{t('Загрузка...')}</span>
-                        </div>
-                    </div>
-                }
+                {placeCurrent.loading && <LoadingCommon />}
                 {placeCurrent.error && <span className="text-danger">{t('Ошибка')}: {placeCurrent.error}</span>}
                 {placeCurrent.data && (placeCurrent.data.productCategories.length ?
                     <div className="card-product-category-list">

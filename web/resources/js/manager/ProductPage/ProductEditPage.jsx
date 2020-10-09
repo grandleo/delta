@@ -3,7 +3,7 @@ import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, validators, fileSrc, routes } from '../_helpers';
-import { Header } from '../_components';
+import { Header, LoadingCommon } from '../_components';
 import { productActions } from '../_actions';
 import { imageService } from '../_services';
 
@@ -37,7 +37,7 @@ function ProductEditPage() {
 
     useEffect(() => {
         dispatch(productActions.show(prCatId, prId));
-    }, []);
+    }, [prId]);
 
     useEffect(() => {
         if (isNew || !productCurrent.data) {
@@ -121,13 +121,7 @@ function ProductEditPage() {
                 routeBack={routes.makeRoute('prodList', [prCatId])}
                 />
             <div className="content-wrapper">
-                {productCurrent.loading &&
-                    <div className="text-center">
-                        <div className="spinner-border text-danger m-5" role="status">
-                            <span className="sr-only">{t('Загрузка...')}</span>
-                        </div>
-                    </div>
-                }
+                {productCurrent.loading && <LoadingCommon />}
                 {(productCurrent.data || productCurrent.form) &&
                     <form className="form-2" autoComplete="off" onSubmit={handleSubmit}>
                         <h3 className="h6 mb-3 font-weight-600 text-primary">

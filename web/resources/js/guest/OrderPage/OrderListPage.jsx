@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, routes } from '../_helpers';
 import { orderActions } from '../_actions';
-import { Header } from '../_components';
+import { Header, LoadingCommon } from '../_components';
 
 function OrderListPage() {
     const ordersAll = useSelector(state => state.order.all);
@@ -21,13 +21,7 @@ function OrderListPage() {
                 headingTop={t('Все заказы')}
                 />
             <div className="content-wrapper">
-                {ordersAll.loading &&
-                    <div className="text-center">
-                        <div className="spinner-border text-danger m-5" role="status">
-                            <span className="sr-only">{t('Загрузка...')}</span>
-                        </div>
-                    </div>
-                }
+                {ordersAll.loading && <LoadingCommon />}
                 {ordersAll.error && <span className="text-danger">{t('Ошибка')}: {ordersAll.error}</span>}
                 {ordersAll.data && (ordersAll.data.length ?
                     <div className="">

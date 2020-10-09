@@ -1,11 +1,10 @@
-import { productConstants } from '../_constants';
+import { workerConstants } from '../_constants';
 
 const initialState = {
     all: {
         loading: false,
         error: false,
         data: null,
-        productCategory: null,
     },
     current: {
         loading: false,
@@ -18,16 +17,15 @@ const initialState = {
 
 function all(state = initialState.all, action) {
     switch (action.type) {
-        case productConstants.INDEX_REQUEST:
+        case workerConstants.INDEX_REQUEST:
             return {
                 loading: true,
             };
-        case productConstants.INDEX_SUCCESS:
+        case workerConstants.INDEX_SUCCESS:
             return {
                 data: action.payload.data,
-                productCategory: action.payload.productCategory,
             };
-        case productConstants.INDEX_FAILURE:
+        case workerConstants.INDEX_FAILURE:
             return {
                 error: action.error,
             };
@@ -39,31 +37,31 @@ function all(state = initialState.all, action) {
 
 function current(state = initialState.current, action) {
     switch (action.type) {
-        case productConstants.SHOW_REQUEST:
+        case workerConstants.SHOW_REQUEST:
             return {
                 loading: true,
             };
-        case productConstants.SHOW_SUCCESS:
+        case workerConstants.SHOW_SUCCESS:
             return {
                 data: action.payload.data,
                 form: action.payload.form,
             };
-        case productConstants.SHOW_FAILURE:
+        case workerConstants.SHOW_FAILURE:
             return {
                 error: action.error,
             };
 
-        case productConstants.UPDATE_REQUEST:
+        case workerConstants.UPDATE_REQUEST:
             return {
                 ...state,
                 saving: true,
             };
-        case productConstants.UPDATE_SUCCESS:
+        case workerConstants.UPDATE_SUCCESS:
             return {
                 ...state,
                 saving: false,
             };
-        case productConstants.UPDATE_FAILURE:
+        case workerConstants.UPDATE_FAILURE:
             return {
                 ...state,
                 saving: false,
@@ -75,7 +73,7 @@ function current(state = initialState.current, action) {
     }
 }
 
-export function product(state = initialState, action) {
+export function worker(state = initialState, action) {
     switch (action.type) {
         default:
             return {
