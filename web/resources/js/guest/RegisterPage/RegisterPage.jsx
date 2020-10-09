@@ -40,7 +40,7 @@ function RegisterPage() {
                 break;
             case 'password':
                 if (!value) return t('Пароль не заполнен');
-                if (!validators.length(value, 8)) return t('Пароль должен быть миниму 8 символов');
+                if (!validators.length(value, 8)) return t('Пароль должен быть минимум 8 символов');
                 break;
             case 'password_confirmation':
                 if (value !== inputs.password) return t('Пароли не совпадают');

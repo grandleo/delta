@@ -10,6 +10,7 @@ function ListSubheader(props) {
                 <div className="col-10 p-0 pl-1">
                     <input
                         autoComplete="off"
+                        autoFocus
                         name="search"
                         placeholder={t('Слово для поиска')}
                         value={props.filter.search}

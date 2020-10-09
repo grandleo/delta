@@ -36,7 +36,7 @@ function RegisterPage() {
                 break;
             case 'place_name':
                 if (!value) return t('Название заведения не заполнено');
-                if (!validators.length(value, 3)) return t('Название должно быть миниму 3 символа');
+                if (!validators.length(value, 3)) return t('Название должно быть минимум 3 символа');
                 break;
             case 'email':
                 if (!value) return t('Email не заполнен');
@@ -44,7 +44,7 @@ function RegisterPage() {
                 break;
             case 'password':
                 if (!value) return t('Пароль не заполнен');
-                if (!validators.length(value, 8)) return t('Пароль должен быть миниму 8 символов');
+                if (!validators.length(value, 8)) return t('Пароль должен быть минимум 8 символов');
                 break;
             case 'password_confirmation':
                 if (value !== inputs.password) return t('Пароли не совпадают');

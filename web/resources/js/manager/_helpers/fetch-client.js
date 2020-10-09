@@ -24,6 +24,7 @@ export function fetchClient() {
 
     instance.interceptors.response.use(function (response) {
         // all 2xx status codes
+        displayOkMessage(response);
 
         return response;
     }, function (error) {
@@ -36,7 +37,17 @@ export function fetchClient() {
     return instance;
 }
 
-export function displayErrorMessage(errorResponse) {
+function displayOkMessage(response) {
+    if (!response.data || !response.data.alerts) {
+        return;
+    }
+
+    response.data.alerts.forEach((v) => {
+        store.dispatch(alertActions.itemAdd(v.type, v.message, v.timeout || 5000));
+    });
+}
+
+function displayErrorMessage(errorResponse) {
     if (!errorResponse) {
         return;
     }

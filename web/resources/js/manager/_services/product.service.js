@@ -1,6 +1,6 @@
 import { fetchClient } from '../_helpers';
 
-export const productCategoryService = {
+export const productService = {
     index,
     show,
     update,
@@ -9,36 +9,45 @@ export const productCategoryService = {
     resort,
 };
 
-function index() {
+function index(productCategoryId) {
     const requestOptions = {
-        url: 'product-categories',
+        url: 'products',
+        params: {
+            product_category_id: productCategoryId
+        },
     };
 
     return fetchClient()(requestOptions).then(handleResponse);
 }
 
-function show(productCategoryId) {
+function show(productCategoryId, productId) {
     const requestOptions = {
-        url: `product-categories/${productCategoryId}`,
+        url: `products/${productId}`,
+        params: {
+            product_category_id: productCategoryId
+        },
     };
 
     return fetchClient()(requestOptions).then(handleResponse);
 }
 
-function update(productCategoryId, data) {
+function update(productId, data) {
     const requestOptions = {
         method: 'PUT',
-        url: `product-categories/${productCategoryId}`,
+        url: `products/${productId}`,
         data,
     };
 
     return fetchClient()(requestOptions).then(handleResponse);
 }
 
-function destroy(productCategoryId) {
+function destroy(productCategoryId, productId) {
     const requestOptions = {
         method: 'DELETE',
-        url: `product-categories/${productCategoryId}`,
+        url: `products/${productId}`,
+        params: {
+            product_category_id: productCategoryId
+        },
     };
 
     return fetchClient()(requestOptions).then(handleResponse);
@@ -47,7 +56,7 @@ function destroy(productCategoryId) {
 function resort(data) {
     const requestOptions = {
         method: 'POST',
-        url: 'product-categories/resort',
+        url: 'products/resort',
         data,
     };
 

@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { t, validators, fileSrc, routes } from '../_helpers';
 import { Header } from '../_components';
-import { settingsActions, userActions, alertActions } from '../_actions';
-import { settingsConstants } from '../_constants';
+import { settingsActions } from '../_actions';
 import { imageService } from '../_services';
 
 const wTimeOptions = [];
@@ -65,11 +64,11 @@ function SettingsPage() {
                 break;
             case 'name':
                 if (!value) return t('Название заведения не заполнено');
-                if (!validators.length(value, 3)) return t('Название должно быть миниму 3 символа');
+                if (!validators.length(value, 3)) return t('Название должно быть минимум 3 символа');
                 break;
             case 'descr_short':
                 if (value && !validators.length(value, 4))
-                    return t('Краткое описание должно быть миниму 4 символа');
+                    return t('Краткое описание должно быть минимум 4 символа');
                 break;
 
             case 'params.works_weekdays':
@@ -87,7 +86,7 @@ function SettingsPage() {
                 break;
             case 'user.password':
                 if (value && !validators.length(value, 8))
-                    return t('Новый пароль должен быть миниму 8 символов');
+                    return t('Новый пароль должен быть минимум 8 символов');
                 break;
             case 'user.password_confirmation':
                 if (inputs['user.password'] && value !== inputs['user.password'])
@@ -147,13 +146,7 @@ function SettingsPage() {
                     password_confirmation: inputs['user.password_confirmation'],
                 },
             };
-            dispatch(settingsActions.update(user.place.id, data))
-                .then((res) => {
-                    if (res.type === settingsConstants.UPDATE_SUCCESS) {
-                        dispatch(userActions.show(user.id));
-                        dispatch(alertActions.itemAdd('success', t('Успешно сохранено!'), 4000));
-                    }
-                });
+            dispatch(settingsActions.update(user.place.id, data));
         }
 
         setShowErrors(true);
@@ -164,7 +157,7 @@ function SettingsPage() {
             <Header
                 headingTop={t('Настройки заведения')}
                 routeBack={routes.home}
-            />
+                />
             <div className="content-wrapper">
                 {settings.loading &&
                     <div className="text-center">
@@ -191,23 +184,16 @@ function SettingsPage() {
                                     className="d-block m-0 py-2 text-center"
                                     ><img src={fileSrc(inputs.image)} alt="logo" /></label>
                             }
-                            {!inputs.image && !inputs.image_new &&
+                            {!inputs.image &&
                                 <label htmlFor="current-form.image"
                                     role="button"
                                     className="d-block m-0 py-4 text-center"
                                     >{t('+ Прикрепите лого')}</label>
                             }
-                            {inputs.image_new &&
-                                <label htmlFor="current-form.image"
-                                    role="button"
-                                    className="d-block m-0 py-2 text-center"
-                                    >{t('Новое лого выбрано')}</label>
-                            }
                         </div>
                         <div className="form-group form-label-group">
                             <select
                                 id="current-form.place_category_id"
-                                type="text"
                                 name="place_category_id"
                                 placeholder={t('Тип заведения')}
                                 value={inputs.place_category_id}

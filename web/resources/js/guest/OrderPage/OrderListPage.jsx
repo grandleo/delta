@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -70,7 +70,7 @@ function OrderListPage() {
                         )}
                     </div>
                     :
-                    <>
+                    <Fragment>
                         <span className="text-primary">{t('Здесь пока ничего нет.')}</span>
                         <div className="mt-5 text-center">
                             <Link
@@ -80,7 +80,7 @@ function OrderListPage() {
                                 {t('Оформить первый заказ!')}
                             </Link>
                         </div>
-                    </>
+                    </Fragment>
                 )}
             </div>
         </div>

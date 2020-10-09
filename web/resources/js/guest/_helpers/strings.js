@@ -18,7 +18,7 @@ export function fMoney(amount, currency) {
 
 export const validators = {
     length(value, min, max = null) {
-        return (value.trim()).length >= min && (!max || (value.trim()).length <= max);
+        return (''+value).trim().length >= min && (!max || (''+value).trim().length <= max);
     },
     email(value) {
         return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value);

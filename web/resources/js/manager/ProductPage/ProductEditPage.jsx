@@ -2,41 +2,52 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, validators, fileSrc, routes } from '../_helpers';
+import { t, fMoney, validators, fileSrc, routes } from '../_helpers';
 import { Header } from '../_components';
-import { productCategoryActions } from '../_actions';
+import { productActions } from '../_actions';
 import { imageService } from '../_services';
 
-function ProductCategoryEditPage() {
-    const { prCatId } = useParams();
+const wMinutesOptions = [
+    {key: 5, name: `5 ${t('минут')}`},
+    {key: 10, name: `10 ${t('минут')}`},
+    {key: 15, name: `15 ${t('минут')}`},
+    {key: 20, name: `20 ${t('минут')}`},
+    {key: 30, name: `30 ${t('минут')}`},
+    {key: 45, name: `45 ${t('минут')}`},
+];
+
+function ProductEditPage() {
+    const { prCatId, prId } = useParams();
     const [inputs, setInputs] = useState({
         image: '',
         name: '',
         descr_short: '',
+        price: '',
+        weight: '',
+        waiting_minutes: 15,
         active: 0,
     });
     const [showErrors, setShowErrors] = useState(false);
     const user = useSelector(state => state.authentication.user);
-    const productCategoryCurrent = useSelector(state => state.productCategory.current);
+    const productCurrent = useSelector(state => state.product.current);
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const isNew = prCatId === '0';
+    const isNew = prId === '0';
 
     useEffect(() => {
-        if (!isNew) {
-            dispatch(productCategoryActions.show(prCatId));
-        }
+        dispatch(productActions.show(prCatId, prId));
     }, []);
 
     useEffect(() => {
-        if (isNew || !productCategoryCurrent.data) {
+        if (isNew || !productCurrent.data) {
             return;
         }
         setInputs(inputs => ({
-            ...productCategoryCurrent.data,
+            ...productCurrent.data,
+            price: productCurrent.data.price / 100,
         }));
-    }, [productCategoryCurrent.data]);
+    }, [productCurrent.data]);
 
     function validate(name, ignoreShowErrors = false) {
         if (!showErrors && !ignoreShowErrors) return null;
@@ -56,6 +67,14 @@ function ProductCategoryEditPage() {
                 if (value && !validators.length(value, 4))
                     return t('Краткое описание должно быть минимум 4 символа');
                 break;
+            case 'weight':
+                if (!value) return t('Вес не указан');
+                if (!validators.length(value, 0, 100)) return t('This is too much..');
+                break;
+            case 'price':
+                if (!value) return t('Стоимость не указана');
+                if (!validators.length(value, 0, 7)) return t('This is too much..');
+                break;
         }
         return null;
     }
@@ -68,10 +87,10 @@ function ProductCategoryEditPage() {
 
     function handleChangeImage(e) {
         if (!e.target.files.length) {
-            setInputs(inputs => ({ ...inputs, image: isNew ? '' : productCategoryCurrent.data.image }));
+            setInputs(inputs => ({ ...inputs, image: isNew ? '' : productCurrent.data.image }));
             return;
         }
-        imageService.store('productCategory_image', user.place.id, e.target.files)
+        imageService.store('product_image', user.place.id, e.target.files)
             .then((res) => {
                 res && res[0] && setInputs(inputs => ({ ...inputs, image: res[0] }));
             });
@@ -87,9 +106,9 @@ function ProductCategoryEditPage() {
         if (!valFailed) {
             const data = {
                 ...inputs,
-                place_id: user.place.id,
+                product_category_id: prCatId,
             };
-            dispatch(productCategoryActions.update(prCatId, data, history));
+            dispatch(productActions.update(prId, data, history));
         }
 
         setShowErrors(true);
@@ -98,19 +117,23 @@ function ProductCategoryEditPage() {
     return (
         <div className="home-page">
             <Header
-                headingTop={isNew ? t('Создание категории меню') : t('Редактирование категории меню')}
-                routeBack={routes.prodCatList}
+                headingTop={isNew ? t('Создание блюда') : t('Редактирование блюда')}
+                routeBack={routes.makeRoute('prodList', [prCatId])}
                 />
             <div className="content-wrapper">
-                {!isNew && productCategoryCurrent.loading &&
+                {productCurrent.loading &&
                     <div className="text-center">
                         <div className="spinner-border text-danger m-5" role="status">
                             <span className="sr-only">{t('Загрузка...')}</span>
                         </div>
                     </div>
                 }
-                {(isNew || (!isNew && productCategoryCurrent.data)) &&
+                {(productCurrent.data || productCurrent.form) &&
                     <form className="form-2" autoComplete="off" onSubmit={handleSubmit}>
+                        <h3 className="h6 mb-3 font-weight-600 text-primary">
+                            {t('Блюдо категории')}
+                            <big className="ml-1">{productCurrent.form.productCategory.name}</big>
+                        </h3>
                         <div className="form-group form-control-manager-image">
                             <input
                                 id="current-form.image"
@@ -124,7 +147,7 @@ function ProductCategoryEditPage() {
                                 <label htmlFor="current-form.image"
                                     role="button"
                                     className="d-block m-0 py-2 text-center"
-                                    ><img src={fileSrc(inputs.image)} alt="logo" /></label>
+                                    ><img src={fileSrc(inputs.image)} alt="image" /></label>
                             }
                             {!inputs.image &&
                                 <label htmlFor="current-form.image"
@@ -137,16 +160,68 @@ function ProductCategoryEditPage() {
                             <input
                                 id="current-form.name"
                                 name="name"
-                                placeholder={t('Название категории')}
+                                placeholder={t('Название блюда')}
                                 value={inputs.name}
                                 onChange={handleChange}
                                 className={'form-control' + (validate('name') ? ' is-invalid' : '')}
                                 />
-                            <label htmlFor="current-form.name">{t('Название категории')}</label>
+                            <label htmlFor="current-form.name">{t('Название блюда')}</label>
                             {validate('name') &&
                                 <div className="invalid-feedback text-right">{validate('name')}</div>
                             }
                         </div>
+
+                        <div className="form-group form-label-group">
+                            <select
+                                id="current-form.waiting_minutes"
+                                name="waiting_minutes"
+                                placeholder={t('Время приготовления')}
+                                value={inputs.waiting_minutes}
+                                onChange={handleChange}
+                                className="form-control"
+                                >
+                                {wMinutesOptions.map((wOpt) =>
+                                    <option
+                                        key={wOpt.key}
+                                        value={wOpt.key}
+                                        >{wOpt.name}</option>
+                                )}
+                            </select>
+                            <label htmlFor="current-form.waiting_minutes">{t('Время приготовления')}</label>
+                        </div>
+                        <div className="form-group form-label-group">
+                            <input
+                                id="current-form.weight"
+                                type="number"
+                                min="0"
+                                name="weight"
+                                placeholder={t('Вес (в граммах)')}
+                                value={inputs.weight}
+                                onChange={handleChange}
+                                className={'form-control' + (validate('weight') ? ' is-invalid' : '')}
+                                />
+                            <label htmlFor="current-form.weight">{t('Вес (в граммах)')}</label>
+                            {validate('weight') &&
+                                <div className="invalid-feedback text-right">{validate('weight')}</div>
+                            }
+                        </div>
+                        <div className="form-group form-label-group">
+                            <input
+                                id="current-form.price"
+                                type="number"
+                                min="0"
+                                name="price"
+                                placeholder={t('Стоимость (в '+user.place.currency+')')}
+                                value={inputs.price}
+                                onChange={handleChange}
+                                className={'form-control' + (validate('price') ? ' is-invalid' : '')}
+                                />
+                            <label htmlFor="current-form.price">{t('Стоимость (в '+user.place.currency+')')}</label>
+                            {validate('price') &&
+                                <div className="invalid-feedback text-right">{validate('price')}</div>
+                            }
+                        </div>
+
                         <div className="form-group form-label-group">
                             <textarea
                                 id="current-form.descr_short"
@@ -169,7 +244,7 @@ function ProductCategoryEditPage() {
                                     <label
                                         role="button"
                                         htmlFor="current-form.active"
-                                        >{t('Доступность категории для заказа')}</label>
+                                        >{t('Доступность блюда для заказа')}</label>
                                 </div>
                                 <div className="form-control-switch-checkbox custom-control custom-switch">
                                     <input
@@ -191,15 +266,15 @@ function ProductCategoryEditPage() {
 
                         <div className="form-group mt-4 pt-3 text-center">
                             <Link
-                                to={routes.prodCatList}
+                                to={routes.makeRoute('prodList', [prCatId])}
                                 className="btn btn-lg btn-light rounded-pill letter-spacing-005em shadow-btn-1 mr-4"
                                 >{t('Отменить')}</Link>
                             <button
                                 className="text-white btn btn-lg btn-success rounded-pill letter-spacing-010em font-weight-600 shadow-btn-1"
-                                disabled={productCategoryCurrent.saving}
+                                disabled={productCurrent.saving}
                                 >
                                 {isNew ? t('Создать') : t('Применить')}
-                                {productCategoryCurrent.saving && <span className="spinner-border spinner-border-sm ml-1 mb-1"></span>}
+                                {productCurrent.saving && <span className="spinner-border spinner-border-sm ml-1 mb-1"></span>}
                             </button>
                         </div>
                     </form>
@@ -209,4 +284,4 @@ function ProductCategoryEditPage() {
     );
 }
 
-export { ProductCategoryEditPage };
+export { ProductEditPage };

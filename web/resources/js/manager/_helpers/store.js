@@ -5,7 +5,9 @@ import throttle from 'lodash/throttle';
 import rootReducer from '../_reducers';
 import { lsLoadState, lsSaveState } from './';
 
-const loggerMiddleware = createLogger();
+const loggerMiddleware = createLogger({
+    collapsed: true,
+});
 
 const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})

@@ -29,6 +29,8 @@ export const routes = {
                 return pp + '/prodCat/' + params[0];
             case 'prodList':
                 return pp + '/prodCat/' + params[0] + '/list';
+            case 'prodEdit':
+                return pp + '/prodCat/' + params[0] + '/' + params[1];
 
             default:
                 return pp;

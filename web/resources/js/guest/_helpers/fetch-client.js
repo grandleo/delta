@@ -24,14 +24,27 @@ export function fetchClient() {
 
     instance.interceptors.response.use(function (response) {
         // all 2xx status codes
+        displayOkMessage(response);
+
         return response;
     }, function (error) {
         // not 2xx status codes
         displayErrorMessage(error.response);
+
         return Promise.reject(error);
     });
 
     return instance;
+}
+
+function displayOkMessage(response) {
+    if (!response.data || !response.data.alerts) {
+        return;
+    }
+
+    response.data.alerts.forEach((v) => {
+        store.dispatch(alertActions.itemAdd(v.type, v.message, v.timeout || 5000));
+    });
 }
 
 export function displayErrorMessage(errorResponse) {

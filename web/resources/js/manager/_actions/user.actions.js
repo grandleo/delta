@@ -56,11 +56,11 @@ function register(inputs, history, from) {
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 }
 
-function show(userId) {
+function show() {
     return dispatch => {
         dispatch(request());
 
-        return userService.show(userId)
+        return userService.show()
             .then(
                 payload => dispatch(success(payload)),
                 error => dispatch(failure(error.toString()))

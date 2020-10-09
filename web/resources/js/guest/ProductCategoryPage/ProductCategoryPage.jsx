@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -40,9 +40,9 @@ function ProductCategoryPage() {
             <div className="content-wrapper">
                 <h2 className="h5 mb-4 font-weight-600 text-primary">
                     {productCategory.data ?
-                        <>
+                        <Fragment>
                             {productCategory.data.name} <span className="opacity-03">({productCategory.data.count})</span>
-                        </>
+                        </Fragment>
                         : t('Загрузка...')}
                 </h2>
                 {productCategory.loading &&
@@ -75,7 +75,7 @@ function ProductCategoryPage() {
                                             <p className="card-text font-weight-600">
                                                 {fMoney(product.price, placeCurrent.data.currency)}
                                                 /
-                                                {product.weight} гр.
+                                                {product.weight+' '+t('гр.')}
                                             </p>
                                         </div>
                                     </div>

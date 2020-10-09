@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -37,7 +37,7 @@ function Header(props) {
                 {props.headingBottom && <h2 className="heading-h2 m-0 mt-2">{props.headingBottom}</h2>}
             </hgroup>
             {user &&
-                <>
+                <Fragment>
                     <button
                         className="btn btn-link mr-1 ml-auto"
                         >
@@ -49,7 +49,7 @@ function Header(props) {
                         >
                         <img src="/images/icon/user.svg" alt="profile" />
                     </Link>
-                </>
+                </Fragment>
             }
         </header>
     );

@@ -44,9 +44,9 @@ function register(data) {
         });
 }
 
-function show(userId) {
+function show() {
     const requestOptions = {
-        url: `user/${userId}`,
+        url: 'user/0',
     };
 
     return fetchClient()(requestOptions).then(handleResponse);

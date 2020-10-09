@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -80,10 +80,8 @@ function CartPage() {
                         </div>
                     </div>
                 }
-                {cartCurrent.error && <span className="text-danger">{t('Ошибка')}: {cartCurrent.error}</span>}
-                {cartCheckout.error && <span className="d-block mb-3 text-danger">{t('Ошибка')}: {cartCheckout.error}</span>}
                 {!cartCheckout.loading && cartPlaceCurrent && placeCurrent.data && cartCurrent.data && cartCurrent.data.length &&
-                    <>
+                    <Fragment>
                         <h3 className="h5 mb-3">{`${t('Ваш заказ')} (${totalProducts})`}</h3>
                         <ul className="card-cart-product-list list-unstyled">
                             {cartCurrent.data.map((product) => cartPlaceCurrent[product.id] &&
@@ -102,7 +100,7 @@ function CartPage() {
                                         <p className="card-text font-weight-600 line-height-1">
                                             {fMoney(product.price, placeCurrent.data.currency)}
                                             /
-                                            {product.weight} гр.
+                                            {product.weight+' '+t('гр.')}
                                         </p>
                                     </div>
                                     <QtyChanger
@@ -135,7 +133,7 @@ function CartPage() {
                                 />
                             </li>
                         </ul>
-                    </>
+                    </Fragment>
                 }
             </div>
             {placeCurrent.data && totalSum > 0 &&

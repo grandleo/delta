@@ -1,12 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { sortableContainer, sortableElement, sortableHandle } from 'react-sortable-hoc';
 
-import { t, fileSrc, routes } from '../_helpers';
+import { t, fMoney, fileSrc, routes } from '../_helpers';
 import { Header, ListSubheader } from '../_components';
-import { productCategoryActions } from '../_actions';
-import { productCategoryService } from '../_services';
+import { productActions } from '../_actions';
+import { productService } from '../_services';
 
 const SortableDragHandle = sortableHandle(() => {
     return (
@@ -17,13 +17,15 @@ const SortableDragHandle = sortableHandle(() => {
 });
 
 const SortableItem = sortableElement(({value}) => {
+    const { prCatId } = useParams();
     const dispatch = useDispatch();
+    const user = useSelector(state => state.authentication.user);
 
-    function handleDelete(prCatId) {
-        if (!confirm(t('Вы уверены что хотите удалить эту категорию?'))) return;
-        productCategoryService.destroy(prCatId)
+    function handleDelete(prId) {
+        if (!confirm(t('Вы уверены что хотите удалить это блюдо?'))) return;
+        productService.destroy(prCatId, prId)
             .then((res) => {
-                dispatch(productCategoryActions.index());
+                dispatch(productActions.index(prCatId));
             });
     }
 
@@ -35,17 +37,18 @@ const SortableItem = sortableElement(({value}) => {
                 <span className={'status ' + (value.active ? 'text-success' : 'text-black-50')}>{'\u25CF'}</span>
             </div>
             <div className="">
-                <Link
+                <h5
                     to={routes.makeRoute('prodList', [value.id])}
                     className="h5 m-0"
                     >
                     {value.name}
-                </Link>
-                <div>{t('Количество блюд')+': '+value.count}</div>
+                </h5>
+                <div className="small">{value.weight+' '+t('гр.')+' / '+value.waiting_minutes+' '+t('мин')}</div>
+                <div className="font-weight-600">{fMoney(value.price, user.place.currency)}</div>
             </div>
             <div className="ml-auto">
                 <Link
-                    to={routes.makeRoute('prodCatEdit', [value.id])}
+                    to={routes.makeRoute('prodEdit', [prCatId, value.id])}
                     className="btn btn-light btn-sm btn-sm-control mr-1"
                     >
                     <img src="/images/icon/pencil.svg" alt="edit" />
@@ -63,7 +66,7 @@ const SortableItem = sortableElement(({value}) => {
 
 const SortableList = sortableContainer(({items, disabled}) => {
     return (
-        <div className="card-manager-product-category-list">
+        <div className="card-manager-product-category">
             {items.map((value, index) => (
                 <SortableItem key={value.id} index={index} disabled={disabled} value={value} />
             ))}
@@ -71,26 +74,27 @@ const SortableList = sortableContainer(({items, disabled}) => {
     );
 });
 
-function ProductCategoryPage() {
+function ProductPage() {
+    const { prCatId } = useParams();
     const [items, setItems] = useState([]);
     const [filter, setFilter] = useState({
         search: '',
     });
     const [filterMode, setFilterMode] = useState(false);
     const user = useSelector(state => state.authentication.user);
-    const productCategoryAll = useSelector(state => state.productCategory.all);
+    const productAll = useSelector(state => state.product.all);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(productCategoryActions.index());
+        dispatch(productActions.index(prCatId));
     }, []);
 
     useEffect(() => {
-        if (!productCategoryAll.data) {
+        if (!productAll.data) {
             return;
         }
-        setItems((items) => [...productCategoryAll.data]);
-    }, [productCategoryAll.data]);
+        setItems((items) => [...productAll.data]);
+    }, [productAll.data]);
 
     function getFilteredItems() {
         if (!filterMode || !filter.search) {
@@ -108,9 +112,10 @@ function ProductCategoryPage() {
 
         const resortData = {
             place_id: user.place.id,
+            product_category_id: prCatId,
             sort: itemsOld.map((v) => v.id),
         };
-        productCategoryService.resort(resortData);
+        productService.resort(resortData);
     }
 
     function handleFilterInputChange(e) {
@@ -126,35 +131,35 @@ function ProductCategoryPage() {
     return (
         <div className="home-page">
             <Header
-                headingTop={t('Категории меню')}
-                routeBack={routes.home}
+                headingTop={productAll.data ? productAll.productCategory.name : t('Загрузка...')}
+                routeBack={routes.prodCatList}
                 />
             <ListSubheader
-                addNewRoute={routes.makeRoute('prodCatEdit', [0])}
-                addNewText={t('Новая категория')}
+                addNewRoute={routes.makeRoute('prodEdit', [prCatId, 0])}
+                addNewText={t('Добавить блюдо')}
                 filter={filter}
                 filterMode={filterMode}
                 handleFilterInputChange={handleFilterInputChange}
                 handleFilterModeSwitch={handleFilterModeSwitch}
                 />
             <div className="content-wrapper">
-                {productCategoryAll.loading &&
+                {productAll.loading &&
                     <div className="text-center">
                         <div className="spinner-border text-danger m-5" role="status">
                             <span className="sr-only">{t('Загрузка...')}</span>
                         </div>
                     </div>
                 }
-                {productCategoryAll.data &&
+                {productAll.data &&
                     <Fragment>
-                        {productCategoryAll.data.length ?
+                        {productAll.data.length ?
                             <SortableList
                                 items={getFilteredItems()}
                                 disabled={filterMode}
                                 onSortEnd={handleSortEnd}
                                 useDragHandle
                                 />
-                            : <span className="text-primary">{t('Вы ещё не создали ни одной категории.')}</span>
+                            : <span className="text-primary">{t('В этой пока категории нет ни одного блюда.')}</span>
                         }
                     </Fragment>
                 }
@@ -163,4 +168,4 @@ function ProductCategoryPage() {
     );
 }
 
-export { ProductCategoryPage };
+export { ProductPage };

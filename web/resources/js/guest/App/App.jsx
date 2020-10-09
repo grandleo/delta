@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Route, Switch, Redirect, useParams } from 'react-router-dom';
+import React, { Fragment, useEffect } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -20,7 +20,7 @@ function App() {
     const history = useHistory();
 
     return (
-        <>
+        <Fragment>
         <Switch>
             <Route exact path={routes.home} component={HomePage} />
 
@@ -72,7 +72,7 @@ function App() {
             <Redirect from="*" to={routes.home} />
         </Switch>
         <AlertContainer />
-        </>
+        </Fragment>
     );
 }
 

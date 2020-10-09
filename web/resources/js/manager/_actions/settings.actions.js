@@ -1,5 +1,6 @@
 import { settingsConstants } from '../_constants';
 import { settingsService } from '../_services';
+import { userActions } from './';
 
 export const settingsActions = {
     show,
@@ -28,7 +29,10 @@ function update(placeId, data) {
 
         return settingsService.update(placeId, data)
             .then(
-                payload => dispatch(success(payload)),
+                payload => {
+                    dispatch(success(payload));
+                    dispatch(userActions.show());
+                },
                 error => dispatch(failure(error.toString()))
             );
     };

@@ -31,7 +31,7 @@ function HomePage() {
                 headingTop={user.name_full}
                 headingBottom={t('Менеджер')+' \u00A0 | \u00A0 '+user.place.name}
                 routeBack={null}
-            />
+                />
             <div className="content-wrapper">
                 <div className="">
                     {links.map(link =>

@@ -6,6 +6,7 @@ import { registration } from '../../guest/_reducers/registration.reducer';
 import { users } from './users.reducer';
 import { settings } from './settings.reducer';
 import { productCategory } from './product-category.reducer';
+import { product } from './product.reducer';
 
 const rootReducer = combineReducers({
     alert,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     users,
     settings,
     productCategory,
+    product,
 });
 
 export default rootReducer;
