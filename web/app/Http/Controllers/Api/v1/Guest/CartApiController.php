@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Repositories\PlaceRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
+use App\Repositories\TableRepositoryInterface;
+use App\Repositories\WorkerRepositoryInterface;
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\OrderProductRepositoryInterface;
 use App\Http\Resources\Guest\ProductResource;
@@ -16,18 +18,24 @@ class CartApiController extends Controller
 {
     private $placeRepository;
     private $productRepository;
+    private $tableRepository;
+    private $workerRepository;
     private $orderRepository;
     private $orderProductRepository;
 
     public function __construct(
         PlaceRepositoryInterface $placeRepository,
         ProductRepositoryInterface $productRepository,
+        TableRepositoryInterface $tableRepository,
+        WorkerRepositoryInterface $workerRepository,
         OrderRepositoryInterface $orderRepository,
         OrderProductRepositoryInterface $orderProductRepository
     )
     {
         $this->placeRepository = $placeRepository;
         $this->productRepository = $productRepository;
+        $this->tableRepository = $tableRepository;
+        $this->workerRepository = $workerRepository;
         $this->orderRepository = $orderRepository;
         $this->orderProductRepository = $orderProductRepository;
     }
@@ -79,6 +87,18 @@ class CartApiController extends Controller
             ]);
         }
 
+        $tables = $this->tableRepository->getByPlaceIdSorted($place->id);
+        if (!$reqData['tableId'] && $tables->count()) {
+            $reqData['tableId'] = $tables->first()->id;
+        }
+
+        $reqData['worker_id'] = null;
+
+        $workers = $this->workerRepository->getByPlaceIdSorted($place->id);
+        if ($workers->count()) {
+            $reqData['worker_id'] = $workers->first()->id;
+        }
+
         $amount = collect($reqData['products'])->reduce(function ($carry, $reqProduct) use ($products) {
             $product = $products->firstWhere('id', $reqProduct['id']);
             return $carry + $product->price * $reqProduct['qty'];
@@ -88,6 +108,7 @@ class CartApiController extends Controller
         $order = $this->orderRepository->create([
             'place_id' => $reqData['placeId'],
             'table_id' => $reqData['tableId'],
+            'worker_id' => $reqData['worker_id'],
             'currency' => $place->currency,
             'amount' => $amount,
             'params' => $reqData['params'],
