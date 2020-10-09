@@ -13,6 +13,8 @@ import { ProductCategoryPage, ProductCategoryEditPage } from '../ProductCategory
 import { ProductPage, ProductEditPage } from '../ProductPage';
 import { TablePage, TableEditPage } from '../TablePage';
 import { WorkerPage, WorkerEditPage } from '../WorkerPage';
+import { OrderPage } from '../OrderPage';
+import { GuestPage } from '../GuestPage';
 
 function App() {
     const user = useSelector(state => state.authentication.user);
@@ -27,6 +29,20 @@ function App() {
                 path={routes.home}
                 component={HomePage}
                 condition={user}
+                redirectTo={routes.login}
+                />
+
+            <PrivateRoute
+                path={routes.guestList}
+                component={GuestPage}
+                condition={user && user.place && user.place.id}
+                redirectTo={routes.login}
+                />
+
+            <PrivateRoute
+                path={routes.orderList}
+                component={OrderPage}
+                condition={user && user.place && user.place.id}
                 redirectTo={routes.login}
                 />
 

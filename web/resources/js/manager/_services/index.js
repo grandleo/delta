@@ -5,3 +5,5 @@ export * from './product-category.service';
 export * from './product.service';
 export * from './table.service';
 export * from './worker.service';
+export * from './order.service';
+export * from './guest.service';

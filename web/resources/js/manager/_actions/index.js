@@ -5,3 +5,5 @@ export * from './product-category.actions';
 export * from './product.actions';
 export * from './table.actions';
 export * from './worker.actions';
+export * from './order.actions';
+export * from './guest.actions';
