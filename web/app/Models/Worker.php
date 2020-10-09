@@ -9,11 +9,17 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Helpers\Traits\JsonFieldTrait;
+use App\Helpers\Traits\StatusFieldTrait;
 
 class Worker extends Authenticatable
 {
     use HasFactory, SoftDeletes, Notifiable;
-    use JsonFieldTrait;
+    use JsonFieldTrait, StatusFieldTrait;
+
+    const STATUSES = [
+        'draft' => 0,
+        'active' => 1,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +27,7 @@ class Worker extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'place_id',
         'name', 'email', 'password',
         'name_full', 'phone',
         'image',

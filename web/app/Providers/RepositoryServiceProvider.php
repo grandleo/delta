@@ -25,6 +25,8 @@ class RepositoryServiceProvider extends ServiceProvider
             'OrderProduct',
             'Guest',
             'Manager',
+            'Table',
+            'Worker',
         ];
 
         // Eloquent

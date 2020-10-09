@@ -34,6 +34,7 @@ class ImageApiController extends Controller
             case 'place_image':
             case 'productCategory_image':
             case 'product_image':
+            case 'worker_image':
                 $path = 'places/'.$request->dest_id;
                 Storage::disk('public')->makeDirectory($path);
                 $img = Image::make($files[0]);
@@ -54,11 +55,17 @@ class ImageApiController extends Controller
                 $fileName = 'pr-'.$fileName;
                 $img->fit(130);
                 break;
+
+            case 'worker_image':
+                $fileName = 'wk-'.$fileName;
+                $img->fit(120);
+                break;
         }
         switch ($request->dest) {
             case 'place_image':
             case 'productCategory_image':
             case 'product_image':
+            case 'worker_image':
                 $img->save('storage/'.$path.'/'.$fileName.'.jpg');
                 $res[] = $path.'/'.$fileName.'.jpg';
                 break;
