@@ -153,6 +153,7 @@ function ProductEditPage() {
                         <div className="form-group form-label-group">
                             <input
                                 id="current-form.name"
+                                autoFocus={isNew}
                                 name="name"
                                 placeholder={t('Название блюда')}
                                 value={inputs.name}

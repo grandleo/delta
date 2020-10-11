@@ -130,6 +130,7 @@ function ProductCategoryEditPage() {
                         <div className="form-group form-label-group">
                             <input
                                 id="current-form.name"
+                                autoFocus={isNew}
                                 name="name"
                                 placeholder={t('Название категории')}
                                 value={inputs.name}

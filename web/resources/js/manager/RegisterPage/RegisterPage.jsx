@@ -82,6 +82,7 @@ function RegisterPage() {
                 <div className="form-group form-label-group">
                     <input
                         id="register-form.full_name"
+                        autoFocus
                         type="text"
                         name="full_name"
                         placeholder={t('ФИО')}

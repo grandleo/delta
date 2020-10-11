@@ -48,12 +48,10 @@ function update(tableId, data, history) {
             .then(
                 payload => {
                     dispatch(success(payload));
-                    if (tableId === '0') {
-                        history.push({
-                            pathname: routes.makeRoute('tableEdit', [payload.tableId]),
-                            state: {from: routes.tableList},
-                        });
-                    }
+                    history.push({
+                        pathname: routes.tableList,
+                        state: {from: routes.makeRoute('tableEdit', [payload.tableId])},
+                    });
                 },
                 error => dispatch(failure(error.toString()))
             );

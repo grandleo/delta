@@ -97,7 +97,10 @@ class WorkerApiController extends Controller
         if ($isNew) {
             $worker = $this->workerRepository->create($reqData);
 
-            $reqData_loc = ['active' => $reqData['active']];
+            $reqData_loc = [
+                'params' => $reqData['params'],
+                'active' => $reqData['active'],
+            ];
             $this->workerRepository->updateFromForm($worker->id, $reqData_loc);
         } else {
             $worker = $this->workerRepository->find($id);
@@ -107,7 +110,7 @@ class WorkerApiController extends Controller
         }
 
         return response()->json([
-            'success' => true,
+            'status' => 'success',
             'alerts' => [[
                 'type' => 'success',
                 'message' => $isNew ? __('Официант создан') : __('Успешно сохранено'),
@@ -132,7 +135,7 @@ class WorkerApiController extends Controller
         $this->workerRepository->delete($id);
 
         return response()->json([
-            'success' => true,
+            'status' => 'success',
             'alerts' => [[
                 'type' => 'info',
                 'message' => __('Официант удалён'),

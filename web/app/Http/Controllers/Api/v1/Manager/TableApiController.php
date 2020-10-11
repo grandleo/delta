@@ -85,7 +85,7 @@ class TableApiController extends Controller
         }
 
         return response()->json([
-            'success' => true,
+            'status' => 'success',
             'alerts' => [[
                 'type' => 'success',
                 'message' => $isNew ? __('Стол создан') : __('Успешно сохранено'),
@@ -110,7 +110,7 @@ class TableApiController extends Controller
         $this->tableRepository->delete($id);
 
         return response()->json([
-            'success' => true,
+            'status' => 'success',
             'alerts' => [[
                 'type' => 'info',
                 'message' => __('Стол удалён'),

@@ -92,7 +92,7 @@ class ProductCategoryApiController extends Controller
         }
 
         return response()->json([
-            'success' => true,
+            'status' => 'success',
             'alerts' => [[
                 'type' => 'success',
                 'message' => $isNew ? __('Категория создана') : __('Успешно сохранено'),
@@ -117,7 +117,7 @@ class ProductCategoryApiController extends Controller
         $this->productCategoryRepository->delete($id);
 
         return response()->json([
-            'success' => true,
+            'status' => 'success',
             'alerts' => [[
                 'type' => 'info',
                 'message' => __('Категория удалена'),
@@ -141,7 +141,7 @@ class ProductCategoryApiController extends Controller
 
         $this->productCategoryRepository->resort($reqData['place_id'], $reqData['sort']);
 
-        return response()->json(['success' => true]);
+        return response()->json(['status' => 'success']);
     }
 
 

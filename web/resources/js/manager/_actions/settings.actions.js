@@ -1,6 +1,7 @@
 import { settingsConstants } from '../_constants';
 import { settingsService } from '../_services';
 import { userActions } from './';
+import { routes } from '../_helpers';
 
 export const settingsActions = {
     show,
@@ -23,7 +24,7 @@ function show(placeId) {
     function failure(error) { return { type: settingsConstants.SHOW_FAILURE, error } }
 }
 
-function update(placeId, data) {
+function update(placeId, data, history) {
     return dispatch => {
         dispatch(request());
 
@@ -32,6 +33,10 @@ function update(placeId, data) {
                 payload => {
                     dispatch(success(payload));
                     dispatch(userActions.show());
+                    history.push({
+                        pathname: routes.home,
+                        state: {from: routes.settings},
+                    });
                 },
                 error => dispatch(failure(error.toString()))
             );

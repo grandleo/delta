@@ -48,12 +48,10 @@ function update(workerId, data, history) {
             .then(
                 payload => {
                     dispatch(success(payload));
-                    if (workerId === '0') {
-                        history.push({
-                            pathname: routes.makeRoute('workerEdit', [payload.workerId]),
-                            state: {from: routes.workerList},
-                        });
-                    }
+                    history.push({
+                        pathname: routes.workerList,
+                        state: {from: routes.makeRoute('workerEdit', [payload.workerId])},
+                    });
                 },
                 error => dispatch(failure(error.toString()))
             );

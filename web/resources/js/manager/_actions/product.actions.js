@@ -48,12 +48,10 @@ function update(productId, data, history) {
             .then(
                 payload => {
                     dispatch(success(payload));
-                    if (productId === '0') {
-                        history.push({
-                            pathname: routes.makeRoute('prodEdit', [data.product_category_id, payload.productId]),
-                            state: {from: routes.makeRoute('prodList', [data.product_category_id])},
-                        });
-                    }
+                    history.push({
+                        pathname: routes.makeRoute('prodList', [data.product_category_id]),
+                        state: {from: routes.makeRoute('prodEdit', [data.product_category_id, payload.productId])},
+                    });
                 },
                 error => dispatch(failure(error.toString()))
             );

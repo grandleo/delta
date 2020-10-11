@@ -63,6 +63,7 @@ function LoginPage() {
                 <div className="form-group form-label-group">
                     <input
                         id="login-form.email"
+                        autoFocus
                         type="email"
                         name="email"
                         placeholder={t('Email')}

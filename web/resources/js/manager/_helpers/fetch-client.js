@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { alertActions } from '../_actions';
+import { alertActions, userActions } from '../_actions';
 import { config, lsGetItem, store, t } from './';
 
 export function fetchClient() {
@@ -30,6 +30,11 @@ export function fetchClient() {
     }, function (error) {
         // not 2xx status codes
         displayErrorMessage(error.response);
+
+        console.log(error.response);
+        if (error.response && error.response.status === 401) {
+            store.dispatch(userActions.logout());
+        }
 
         return Promise.reject(error);
     });

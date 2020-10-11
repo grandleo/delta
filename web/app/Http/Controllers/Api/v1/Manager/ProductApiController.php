@@ -134,7 +134,7 @@ class ProductApiController extends Controller
         }
 
         return response()->json([
-            'success' => true,
+            'status' => 'success',
             'alerts' => [[
                 'type' => 'success',
                 'message' => $isNew ? __('Блюдо создано') : __('Успешно сохранено'),
@@ -164,7 +164,7 @@ class ProductApiController extends Controller
         $this->productRepository->delete($id);
 
         return response()->json([
-            'success' => true,
+            'status' => 'success',
             'alerts' => [[
                 'type' => 'info',
                 'message' => __('Блюдо удалено'),
@@ -189,7 +189,7 @@ class ProductApiController extends Controller
 
         $this->productRepository->resort($reqData['product_category_id'], $reqData['sort']);
 
-        return response()->json(['success' => true]);
+        return response()->json(['status' => 'success']);
     }
 
 

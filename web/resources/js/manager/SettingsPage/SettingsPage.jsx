@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { t, validators, fileSrc, routes } from '../_helpers';
@@ -26,6 +26,7 @@ function SettingsPage() {
     const user = useSelector(state => state.authentication.user);
     const settings = useSelector(state => state.settings);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
         dispatch(settingsActions.show(user.place.id));
@@ -146,7 +147,7 @@ function SettingsPage() {
                     password_confirmation: inputs['user.password_confirmation'],
                 },
             };
-            dispatch(settingsActions.update(user.place.id, data));
+            dispatch(settingsActions.update(user.place.id, data, history));
         }
 
         setShowErrors(true);

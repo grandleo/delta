@@ -90,7 +90,7 @@ function TableEditPage() {
                         <div className="form-group form-label-group">
                             <input
                                 id="current-form.name"
-                                autoFocus
+                                autoFocus={isNew}
                                 name="name"
                                 placeholder={t('Название')}
                                 value={inputs.name}

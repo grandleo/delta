@@ -154,6 +154,7 @@ function WorkerEditPage() {
                         <div className="form-group form-label-group">
                             <input
                                 id="current-form.name_full"
+                                autoFocus={isNew}
                                 type="text"
                                 name="name_full"
                                 placeholder={t('ФИО')}
