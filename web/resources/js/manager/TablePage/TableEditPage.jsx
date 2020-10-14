@@ -11,6 +11,7 @@ import { imageService } from '../_services';
 function TableEditPage() {
     const { tableId } = useParams();
     const [inputs, setInputs] = useState({
+        marker_code: '',
         name: t('Стол №'),
         workers: [],
         active: 1,
@@ -95,6 +96,24 @@ function TableEditPage() {
                 {tableCurrent.loading && <LoadingCommon />}
                 {((isNew && tableCurrent.form) || (!isNew && tableCurrent.data)) &&
                     <form className="form-2" autoComplete="off" onSubmit={handleSubmit}>
+                        <div className="form-group form-label-group">
+                            <input
+                                id="current-form.marker_code"
+                                name="marker_code"
+                                placeholder={t('Код для привязки')}
+                                value={inputs.marker_code}
+                                onChange={handleChange}
+                                className={'form-control' + (validate('marker_code') ? ' is-invalid' : '')}
+                                />
+                            <label htmlFor="current-form.marker_code">{t('Код для привязки')}</label>
+                            <small className="form-text text-muted text-right">
+                                {t('Узнать его вы можете из QR кода ментки')}
+                            </small>
+                            {validate('marker_code') &&
+                                <div className="invalid-feedback text-right">{validate('marker_code')}</div>
+                            }
+                        </div>
+
                         <div className="form-group form-label-group">
                             <input
                                 id="current-form.name"

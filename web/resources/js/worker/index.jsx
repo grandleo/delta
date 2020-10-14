@@ -1,13 +1,16 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+
+import { store } from './_helpers';
+import { App } from './App';
 
 render(
-    <div className="home-page">
-        <div className="content-wrapper">
-            <h2 className="h5 mb-3">В разработке</h2>
-            <a href="/">Назад</a>
-        </div>
-    </div>
-    ,
+    <Provider store={store}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </Provider>,
     document.getElementById('app')
 );

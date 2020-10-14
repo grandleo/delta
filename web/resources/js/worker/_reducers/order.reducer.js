@@ -11,23 +11,24 @@ const initialState = {
         loading: false,
         error: false,
         data: null,
+        form: null,
     },
 };
 
 function all(state = initialState.all, action) {
     switch (action.type) {
-        case orderConstants.GETALL_REQUEST:
+        case orderConstants.INDEX_REQUEST:
             return {
                 ...state,
                 loading: true,
                 data: null,
             };
-        case orderConstants.GETALL_SUCCESS:
+        case orderConstants.INDEX_SUCCESS:
             return {
                 data: action.payload.data,
                 orderStatusPhases: action.payload.orderStatusPhases,
             };
-        case orderConstants.GETALL_FAILURE:
+        case orderConstants.INDEX_FAILURE:
             return {
                 error: action.error,
             };
@@ -39,16 +40,17 @@ function all(state = initialState.all, action) {
 
 function current(state = initialState.current, action) {
     switch (action.type) {
-        case orderConstants.GETBYID_REQUEST:
+        case orderConstants.SHOW_REQUEST:
             return {
                 ...state,
                 loading: true,
             };
-        case orderConstants.GETBYID_SUCCESS:
+        case orderConstants.SHOW_SUCCESS:
             return {
                 data: action.payload.data,
+                form: action.payload.form,
             };
-        case orderConstants.GETBYID_FAILURE:
+        case orderConstants.SHOW_FAILURE:
             return {
                 error: action.error,
             };
@@ -57,7 +59,6 @@ function current(state = initialState.current, action) {
             return state;
     }
 }
-
 export function order(state = initialState, action) {
     switch (action.type) {
         default:

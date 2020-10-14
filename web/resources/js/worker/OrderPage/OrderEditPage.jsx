@@ -7,18 +7,37 @@ import { orderActions } from '../_actions';
 import { orderService } from '../_services';
 import { Header, LoadingCommon } from '../_components';
 
-function OrderPage() {
+function OrderEditPage() {
     const [messageText, setMessageText] = useState('');
+    const [quickAnswers, setQuickAnswers] = useState([
+        {text: 'Здравствуйте!'},
+        {text: 'Заказ скоро будет передан на кухню'},
+        {text: 'Небольшая задержка'},
+    ]);
     const { orderId } = useParams();
     const orderCurrent = useSelector(state => state.order.current);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(orderActions.getById(orderId));
-    }, []);
-
     const order = orderCurrent.data && orderId == orderCurrent.data.id
         ? orderCurrent.data : null;
+
+    useEffect(() => {
+        dispatch(orderActions.show(orderId));
+    }, []);
+
+    useEffect(() => {
+        if (!order) return;
+        setQuickAnswers(quickAnswers => quickAnswers.filter(v => {
+            return order.messages.findIndex(v1 => v.text == v1.text) < 0
+        }));
+    }, [order]);
+
+    function sendMessage(message) {
+        orderService.sendMessage(orderId, message)
+            .then((response) => {
+                dispatch(orderActions.show(orderId));
+            });
+    }
 
     function handleChangeMessageText(e) {
         setMessageText(e.target.value);
@@ -27,31 +46,40 @@ function OrderPage() {
     function handleSubmit(e) {
         e.preventDefault();
         if (!(messageText.trim())) return;
-        orderService.sendMessage(orderId, {text: messageText})
+        sendMessage({text: messageText});
+        setMessageText('');
+    }
+
+    function handleClickStatus(orderStatusId, e) {
+        orderService.setOrderStatus(orderId, orderStatusId)
             .then((response) => {
-                setMessageText('');
-                dispatch(orderActions.getById(orderId));
+                dispatch(orderActions.show(orderId));
             });
     }
 
     return (
         <div className="d-flex flex-column home-page">
             <Header
-                routeBack={routes.orders}
+                routeBack={routes.orderList}
                 headingTop={t('Заказ')+' #'+orderId}
                 />
             <div className="pt-4 d-flex flex-grow-1">
                 {!order && orderCurrent.loading && <div className="w-100"><LoadingCommon /></div>}
                 {orderCurrent.error && <span className="text-danger">{t('Ошибка')}: {orderCurrent.error}</span>}
                 {order &&
-                    <div className="px-3 py-4 pb-5 bg-white w-100 rounded-xl">
-                        <div className="d-flex justify-content-between align-items-start">
-                            <h2 className="h4 font-weight-bold line-height-1">{t('Заказ')} #{order.id}</h2>
+                    <div className="px-3 pb-5 bg-white w-100 rounded-xl">
+                        <div className="text-right pr-2" style={{marginTop:-12}}>
                             <span
                                 className={'badge badge-primary px-2 py-1 font-weight-500 badge-' + order.orderStatus_color}
                                 >
                                 {order.orderStatus_name || t('Ожидает обработки')}
                             </span>
+                        </div>
+                        <div className="mt-2">
+                            <h5 className="h5 font-weight-600 line-height-1">
+                                <b>{order.table_name}</b> / {t('Заказ')} #{order.id}
+                            </h5>
+                            <p className="m-0 small">{t('создан')+' '+order.created_at}</p>
                         </div>
                         <div className="mt-2">
                             {order.orderProducts.map((orderProduct) =>
@@ -95,6 +123,43 @@ function OrderPage() {
                                 </div>
                             )}
                         </div>
+                        <div className="my-3 p-3 bg-dark text-white">
+                            {quickAnswers.length > 0 &&
+                                <div className="mb-2">
+                                    <h6 className="text-warning">{t('Быстрые ответы:')}</h6>
+                                    {quickAnswers.map((qAnswer) =>
+                                        <a href="#"
+                                            key={qAnswer.text}
+                                            className="text-white mr-4"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                sendMessage({text: qAnswer.text});
+                                                setQuickAnswers((quickAnswers) => quickAnswers.filter((v) => v.text !== qAnswer.text));
+                                            }}
+                                            >
+                                            [{qAnswer.text}]
+                                        </a>
+                                    )}
+                                </div>
+                            }
+                            {orderCurrent.form.orderStatuses.length > 0 &&
+                                <div className="mb-2">
+                                    <h6 className="text-info">{t('Статусы:')}</h6>
+                                    {orderCurrent.form.orderStatuses.map((oStatus) =>
+                                        <button
+                                            key={oStatus.id}
+                                            className={
+                                                'btn btn-sm px-1 py-1 line-height-1 mr-4 mb-2 btn-'
+                                                + oStatus.color
+                                            }
+                                            onClick={handleClickStatus.bind(this, oStatus.id)}
+                                            >
+                                            {oStatus.name}
+                                        </button>
+                                    )}
+                                </div>
+                            }
+                        </div>
                         <div className="fixed-bottom">
                             <form
                                 className="position-relative global-wrapper shadow-btn-1 overflow-hidden"
@@ -122,4 +187,4 @@ function OrderPage() {
     );
 }
 
-export { OrderPage };
+export { OrderEditPage };

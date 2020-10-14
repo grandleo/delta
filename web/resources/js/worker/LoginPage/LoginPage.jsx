@@ -100,17 +100,6 @@ function LoginPage() {
                         {loading && <span className="spinner-border spinner-border-sm ml-1"></span>}
                     </button>
                 </div>
-                <div className="form-group">
-                    <Link
-                        to={{
-                            pathname: routes.register,
-                            state: { from: locationFrom }
-                        }}
-                        className="register-button btn btn-lg btn-light btn-block rounded-pill"
-                        >
-                        {t('Зарегистрироваться')}
-                    </Link>
-                </div>
             </form>
             <div className="mt-5">
                 <a className="text-black-50" href="/">{t('назад')}</a>

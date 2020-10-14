@@ -23,6 +23,13 @@ function OrderListItem({ order }) {
                         {t('Заказ')} #{order.id}
                     </Link>
                     <p className="m-0 small">{t('создан')+' '+order.created_at}</p>
+                    {(order.table_name || order.worker_name) &&
+                        <p className="m-0 mt-1">
+                            {order.table_name ? order.table_name + ' / ' : ''}
+                            {order.worker_name ? t('Официант: ')+' '+order.worker_name : ''}
+                        </p>
+                    }
+                    <p className="m-0 mt-1 small">{t('Кол-во сообщений: ')+' '+order.messages_count}</p>
                 </div>
                 <span
                     className={'badge badge-primary px-2 py-1 font-weight-500 badge-' + order.orderStatus_color}
@@ -45,13 +52,19 @@ function OrderListItem({ order }) {
             <div className="mt-2 text-right">
                 <b>{t('Итого:')} {fMoney(order.amount, order.currency)}</b>
             </div>
+            <hr />
+            <div className="mt-4 text-center">
+                <a href="#"
+                    onClick={(e) => {e.preventDefault()}}
+                    >{t('Скачать счёт')}</a>
+            </div>
         </div>
     );
 }
 
 function OrderListPage() {
     const [orderStatusPhaseId, setOrderStatusPhaseId] = useState(0);
-    const ordersAll = useSelector(state => state.order.all);
+    const orderAll = useSelector(state => state.order.all);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -59,10 +72,10 @@ function OrderListPage() {
     }, []);
 
     useEffect(() => {
-        if (!orderStatusPhaseId && ordersAll.orderStatusPhases) {
-            setOrderStatusPhaseId(ordersAll.orderStatusPhases[0].id);
+        if (!orderStatusPhaseId && orderAll.orderStatusPhases) {
+            setOrderStatusPhaseId(orderAll.orderStatusPhases[0].id);
         }
-    }, [ordersAll.orderStatusPhases]);
+    }, [orderAll.orderStatusPhases]);
 
     function handleClickNavItem(id, e) {
         e.preventDefault();
@@ -76,7 +89,7 @@ function OrderListPage() {
                 headingTop={t('Все заказы')}
                 />
             <NavScroller>
-                {ordersAll.orderStatusPhases && ordersAll.orderStatusPhases.map((item) => (
+                {orderAll.orderStatusPhases && orderAll.orderStatusPhases.map((item) => (
                     <a href="#"
                         key={item.id}
                         className={'nav-link '+ (item.id == orderStatusPhaseId ? 'active text-'+item.color : '')}
@@ -85,11 +98,11 @@ function OrderListPage() {
                 ))}
             </NavScroller>
             <div className="content-wrapper">
-                {ordersAll.loading && <LoadingCommon />}
-                {ordersAll.error && <span className="text-danger">{t('Ошибка')}: {ordersAll.error}</span>}
-                {ordersAll.data && (ordersAll.data.length ?
+                {orderAll.loading && <LoadingCommon />}
+                {orderAll.error && <span className="text-danger">{t('Ошибка')}: {orderAll.error}</span>}
+                {orderAll.data && (orderAll.data.length ?
                     <div className="">
-                        {ordersAll.data
+                        {orderAll.data
                             .filter((v) => (v.orderStatus_phase_id == orderStatusPhaseId))
                             .map((order) =>
                             <OrderListItem key={order.id} order={order} />
