@@ -6,20 +6,25 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Repositories\PlaceRepositoryInterface;
+use App\Repositories\WorkerRepositoryInterface;
 use App\Repositories\TableRepositoryInterface;
+use App\Http\Resources\Manager\WorkerShortResource;
 use App\Http\Resources\Manager\TableResource;
 
 class TableApiController extends Controller
 {
     private $placeRepository;
+    private $workerRepository;
     private $tableRepository;
 
     public function __construct(
         PlaceRepositoryInterface $placeRepository,
+        WorkerRepositoryInterface $workerRepository,
         TableRepositoryInterface $tableRepository
     )
     {
         $this->placeRepository = $placeRepository;
+        $this->workerRepository = $workerRepository;
         $this->tableRepository = $tableRepository;
     }
 
@@ -45,12 +50,30 @@ class TableApiController extends Controller
      */
     public function show($id)
     {
+        $isNew = $id == '0';
+
         $place = $this->getPlace();
 
-        $table = $this->tableRepository->find($id);
+        $workers = $this->workerRepository->getByPlaceIdSorted($place->id, true);
+
+        if ($isNew) {
+            return response()->json([
+                'data' => null,
+                'form' => [
+                    'workers' => WorkerShortResource::collection($workers),
+                ],
+            ]);
+        }
+
+        $table = $this->tableRepository->find($id, ['workers']);
         abort_if(!$table || $table->place_id !== $place->id, 404);
 
-        return new TableResource($table);
+        return (new TableResource($table))
+            ->additional([
+                'form' => [
+                    'workers' => WorkerShortResource::collection($workers)
+                ],
+            ]);
     }
 
     /**
@@ -65,7 +88,11 @@ class TableApiController extends Controller
         $reqData = $request->validate([
             'place_id' => 'required',
             'name' => 'required|string|min:2|max:250',
+
             'active' => 'required|numeric',
+
+            'workers' => 'present|array',
+            'workers.*' => 'required|numeric',
         ]);
 
         $isNew = $id == '0';
@@ -75,7 +102,10 @@ class TableApiController extends Controller
         if ($isNew) {
             $table = $this->tableRepository->create($reqData);
 
-            $reqData_loc = ['active' => $reqData['active']];
+            $reqData_loc = [
+                'active' => $reqData['active'],
+                'workers' => $reqData['workers'],
+            ];
             $this->tableRepository->updateFromForm($table->id, $reqData_loc);
         } else {
             $table = $this->tableRepository->find($id);

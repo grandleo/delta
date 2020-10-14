@@ -25,6 +25,7 @@ class ManagerResource extends JsonResource
                 'name' => $this->place->name,
                 'slug' => $this->place->slug,
                 'currency' => $this->place->currency,
+                'worker_shifts' => $this->place->getJson('params', 'worker_shifts', []),
             ],
         ];
     }

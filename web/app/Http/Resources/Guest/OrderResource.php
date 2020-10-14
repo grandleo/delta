@@ -26,7 +26,10 @@ class OrderResource extends JsonResource
             'created_at' => $this->created_at->toDateTimeString(),
             'placeCategory_name' => $this->place->placeCategory->name,
             'place_name' => $this->place->name,
-            'orderProducts' => $this->orderProducts,
+            'orderStatus_phase_id' => optional($this->orderStatus)->order_status_phase_id ?? $this->orderStatus_phase_id,
+            'orderStatus_name' => optional($this->orderStatus)->name,
+            'orderStatus_color' => optional($this->orderStatus)->color,
+            'orderProducts' => OrderProductResource::collection($this->orderProducts),
         ];
     }
 }

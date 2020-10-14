@@ -27,6 +27,8 @@ class RepositoryServiceProvider extends ServiceProvider
             'Manager',
             'Table',
             'Worker',
+            'OrderStatus',
+            'OrderStatusPhase',
         ];
 
         // Eloquent

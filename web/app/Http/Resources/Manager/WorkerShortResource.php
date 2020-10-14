@@ -4,7 +4,7 @@ namespace App\Http\Resources\Manager;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TableResource extends JsonResource
+class WorkerShortResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,7 @@ class TableResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'active' => +$this->hasStatus('active'),
-            'workers' => WorkerShortResource::collection($this->workers),
+            'name_full' => $this->name_full,
         ];
     }
 }

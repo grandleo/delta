@@ -25,6 +25,7 @@ class WorkerRepository extends BaseRepository implements WorkerRepositoryInterfa
     public function getByPlaceIdSorted($place_id, $all = false): Collection
     {
         $query = $this->model
+            ->with(['tables'])
             ->where('place_id', $place_id)
             ->orderBy('name');
 
@@ -54,6 +55,10 @@ class WorkerRepository extends BaseRepository implements WorkerRepositoryInterfa
             foreach ($attributes['params'] as $key => $value) {
                 $model->setJson('params', $key, $value);
             }
+        }
+
+        if (isset($attributes['tables'])) {
+            $model->tables()->sync($attributes['tables']);
         }
 
         $model->save();

@@ -14,9 +14,10 @@ interface EloquentRepositoryInterface
 
     /**
     * @param $id
+    * @param array $with
     * @return Model
     */
-    public function find($id): ?Model;
+    public function find($id, $with = []): ?Model;
 
     /**
     * @param array $conditions

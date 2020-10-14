@@ -25,4 +25,11 @@ interface OrderRepositoryInterface
     * @return Order
     */
     public function findByIdAndGuestId($id, $guest_id): ?Order;
+
+    /**
+    * @param $id
+    * @param array $attributes
+    * @return Order
+    */
+    public function updateFromForm($id, array $attributes): ?Order;
 }

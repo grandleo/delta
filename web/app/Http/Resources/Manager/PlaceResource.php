@@ -22,8 +22,9 @@ class PlaceResource extends JsonResource
             'place_category_id' => $this->place_category_id,
             'params' => [
                 'works_weekdays' => $this->getJson('params', 'works_weekdays', [1,1,1,1,1,1,1]),
-                'works_from' => $this->getJson('params', 'works_from', __('09:00')),
-                'works_until' => $this->getJson('params', 'works_until', __('20:00')),
+                'works_from' => $this->getJson('params', 'works_from', '09:00'),
+                'works_until' => $this->getJson('params', 'works_until', '20:00'),
+                'worker_shifts' => $this->getJson('params', 'worker_shifts', []),
             ],
         ];
     }

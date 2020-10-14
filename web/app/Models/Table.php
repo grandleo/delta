@@ -35,4 +35,9 @@ class Table extends Model
     {
         return $this->belongsTo('App\Models\Place');
     }
+
+    public function workers()
+    {
+        return $this->belongsToMany('App\Models\Worker');
+    }
 }

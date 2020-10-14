@@ -25,6 +25,7 @@ class TableRepository extends BaseRepository implements TableRepositoryInterface
     public function getByPlaceIdSorted($place_id, $all = false): Collection
     {
         $query = $this->model
+            ->with(['workers'])
             ->where('place_id', $place_id)
             ->orderBy('name');
 
@@ -48,6 +49,10 @@ class TableRepository extends BaseRepository implements TableRepositoryInterface
 
         if (isset($attributes['active'])) {
             $model->setStatus($attributes['active'] ? 'active' : 'draft');
+        }
+
+        if (isset($attributes['workers'])) {
+            $model->workers()->sync($attributes['workers']);
         }
 
         $model->save();

@@ -11,6 +11,9 @@ use App\Repositories\TableRepositoryInterface;
 use App\Repositories\WorkerRepositoryInterface;
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\OrderProductRepositoryInterface;
+
+use App\Events\OrderStatusPaid;
+
 use App\Http\Resources\Guest\ProductResource;
 use App\Http\Resources\Guest\OrderShortResource;
 
@@ -138,20 +141,25 @@ class CartApiController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $guest = \Auth::user();
+
         $order = $this->orderRepository->find($id);
         abort_if(!$order, 404);
 
+        $reqData_loc = [];
+
         if ($request->status === 'paid') {
-            if ($order->guest_id === \Auth::id()) {
-                $order->setStatus('paid');
+            if ($order->guest_id === $guest->id) {
+                event(new OrderStatusPaid($id, get_class($guest), $guest->id));
+                $reqData_loc['status'] = 'paid';
             } else {
                 abort(401);
             }
         } elseif (!$order->guest_id) {
-            $order->guest_id = \Auth::id();
+            $reqData_loc['guest_id'] = $guest->id;
         }
 
-        $order->save();
+        $order = $this->orderRepository->updateFromForm($order->id, $reqData_loc);
 
         return new OrderShortResource($order);
     }

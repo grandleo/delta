@@ -28,6 +28,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                 'place',
                 'place.placeCategory',
                 'orderProducts',
+                'orderStatus',
             ])
             ->where('guest_id', $guest_id)
             ->status('draft', '!=')
@@ -66,10 +67,41 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                 'place',
                 'place.placeCategory',
                 'orderProducts',
+                'orderStatus',
             ])
             ->where('id', $id)
             ->where('guest_id', $guest_id)
             ->status('draft', '!=')
             ->first();
+    }
+
+    /**
+    * @param $id
+    * @param array $attributes
+    * @return Order
+    */
+    public function updateFromForm($id, array $attributes): ?Order
+    {
+        $model = $this->find($id);
+
+        $model->fill($attributes);
+
+        if (isset($attributes['status'])) {
+            $model->setStatus($attributes['status']);
+        }
+
+        if (!empty($attributes['params'])) {
+            foreach ($attributes['params'] as $key => $value) {
+                $model->setJson('params', $key, $value);
+            }
+        }
+
+        if (!empty($attributes['orderStatuses'])) {
+            $model->orderStatuses()->attach($attributes['orderStatuses']);
+        }
+
+        $model->save();
+
+        return $model;
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Helpers\Traits\JsonFieldTrait;
 
-class Place extends Model
+class OrderStatusPhase extends Model
 {
     use SoftDeletes;
     use JsonFieldTrait;
@@ -18,9 +18,8 @@ class Place extends Model
      * @var array
      */
     protected $fillable = [
-        'manager_id', 'place_category_id',
-        'name', 'slug', 'image',
-        'descr_short',
+        'place_category_id',
+        'name', 'color',
         'sort',
     ];
 
@@ -33,9 +32,7 @@ class Place extends Model
         'params' => 'array',
         /*
             params: {
-                rating_avg: int, // 0 to 5
-                prices_from: int,
-                works_until: string,
+                //
             }
         */
     ];
@@ -43,23 +40,13 @@ class Place extends Model
 
     // RELATIONS
 
-    public function manager()
-    {
-        return $this->belongsTo('App\Models\Manager');
-    }
-
     public function placeCategory()
     {
         return $this->belongsTo('App\Models\PlaceCategory');
     }
 
-    public function table()
+    public function orderStatuses()
     {
-        return $this->hasMany('App\Models\Table');
-    }
-
-    public function productCategories()
-    {
-        return $this->hasMany('App\Models\ProductCategory');
+        return $this->hasMany('App\Models\OrderStatus');
     }
 }

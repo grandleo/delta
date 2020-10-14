@@ -57,4 +57,17 @@ class Worker extends Authenticatable
             }
         */
     ];
+
+
+    // RELATIONS
+
+    public function place()
+    {
+        return $this->belongsTo('App\Models\Place');
+    }
+
+    public function tables()
+    {
+        return $this->belongsToMany('App\Models\Table');
+    }
 }

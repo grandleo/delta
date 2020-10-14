@@ -8,20 +8,27 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 
 use App\Repositories\PlaceRepositoryInterface;
+use App\Repositories\TableRepositoryInterface;
 use App\Repositories\WorkerRepositoryInterface;
+use App\Http\Resources\Manager\TableShortResource;
 use App\Http\Resources\Manager\WorkerResource;
+
+
 
 class WorkerApiController extends Controller
 {
     private $placeRepository;
+    private $tableRepository;
     private $workerRepository;
 
     public function __construct(
         PlaceRepositoryInterface $placeRepository,
+        TableRepositoryInterface $tableRepository,
         WorkerRepositoryInterface $workerRepository
     )
     {
         $this->placeRepository = $placeRepository;
+        $this->tableRepository = $tableRepository;
         $this->workerRepository = $workerRepository;
     }
 
@@ -47,12 +54,30 @@ class WorkerApiController extends Controller
      */
     public function show($id)
     {
+        $isNew = $id == '0';
+
         $place = $this->getPlace();
+
+        $tables = $this->tableRepository->getByPlaceIdSorted($place->id, true);
+
+        if ($isNew) {
+            return response()->json([
+                'data' => null,
+                'form' => [
+                    'tables' => TableShortResource::collection($tables),
+                ],
+            ]);
+        }
 
         $worker = $this->workerRepository->find($id);
         abort_if(!$worker || $worker->place_id !== $place->id, 404);
 
-        return new WorkerResource($worker);
+        return (new WorkerResource($worker))
+            ->additional([
+                'form' => [
+                    'tables' => TableShortResource::collection($tables)
+                ],
+            ]);
     }
 
     /**
@@ -79,8 +104,12 @@ class WorkerApiController extends Controller
 
             'card_number' => 'nullable|string',
             'orders_see_all' => 'required|numeric',
+            'shift_key' => 'nullable|numeric',
 
             'active' => 'required|numeric',
+
+            'tables' => 'present|array',
+            'tables.*' => 'required|numeric',
         ]);
 
         $place = $this->getPlace($reqData['place_id']);
@@ -91,8 +120,9 @@ class WorkerApiController extends Controller
             unset($reqData['password']);
         }
 
-        $reqData['params']['card_number'] = $reqData['card_number'];
+        $reqData['params']['card_number'] = $reqData['card_number'] ?? '';
         $reqData['params']['orders_see_all'] = +$reqData['orders_see_all'];
+        $reqData['params']['shift_key'] = +$reqData['shift_key'] ?? null;
 
         if ($isNew) {
             $worker = $this->workerRepository->create($reqData);
@@ -100,6 +130,7 @@ class WorkerApiController extends Controller
             $reqData_loc = [
                 'params' => $reqData['params'],
                 'active' => $reqData['active'],
+                'tables' => $reqData['tables'],
             ];
             $this->workerRepository->updateFromForm($worker->id, $reqData_loc);
         } else {

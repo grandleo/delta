@@ -16,6 +16,7 @@ class PlaceCategory extends Model
      */
     protected $fillable = [
         'name', 'image',
+        'sort',
     ];
 
     /**

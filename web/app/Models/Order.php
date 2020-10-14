@@ -26,6 +26,7 @@ class Order extends Model
     protected $fillable = [
         'guest_id', 'worker_id',
         'place_id', 'table_id',
+        'order_status_id', 'order_status_at',
         'currency', 'amount',
         'params',
     ];
@@ -76,5 +77,18 @@ class Order extends Model
     {
         return $this->belongsToMany('App\Models\Product')
             ->withPivot('name', 'price', 'qty');
+    }
+
+    public function orderStatus()
+    {
+        return $this->belongsTo('App\Models\OrderStatus');
+    }
+
+    public function orderStatuses()
+    {
+        return $this->belongsToMany('App\Models\OrderStatus')
+            ->using('App\Models\OrderOrderStatus')
+            ->withPivot(['userable_id', 'userable_type'])
+            ->withTimestamps();
     }
 }

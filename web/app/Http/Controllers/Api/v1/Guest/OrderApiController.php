@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\OrderProductRepositoryInterface;
+use App\Repositories\OrderStatusPhaseRepositoryInterface;
 use App\Http\Resources\Guest\OrderResource;
+use App\Http\Resources\Guest\OrderStatusPhaseResource;
 
 class OrderApiController extends Controller
 {
@@ -16,11 +18,13 @@ class OrderApiController extends Controller
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        OrderProductRepositoryInterface $orderProductRepository
+        OrderProductRepositoryInterface $orderProductRepository,
+        OrderStatusPhaseRepositoryInterface $orderStatusPhaseRepository
     )
     {
         $this->orderRepository = $orderRepository;
         $this->orderProductRepository = $orderProductRepository;
+        $this->orderStatusPhaseRepository = $orderStatusPhaseRepository;
     }
 
     /**
@@ -31,9 +35,21 @@ class OrderApiController extends Controller
     public function index()
     {
         $guest_id = \Auth::id();
+
+        $orderStatusPhases = $this->orderStatusPhaseRepository->getByPlaceCategoryId(null);
+
         $orders = $this->orderRepository->getByGuestId($guest_id);
 
-        return OrderResource::collection($orders);
+        foreach ($orders as $order) {
+            $orStPh = $orderStatusPhases->firstWhere('id', optional($order->orderStatus)->id);
+            !$orStPh && ($orStPh = $orderStatusPhases->first()) && ($order->orderStatus_phase_id = $orStPh->id);
+            $orStPh->orders_count = ($orStPh->orders_count ?? 0) + 1;
+        }
+
+        return OrderResource::collection($orders)
+            ->additional([
+                'orderStatusPhases' => OrderStatusPhaseResource::collection($orderStatusPhases),
+            ]);
     }
 
     /**

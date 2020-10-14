@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Manager;
+namespace App\Http\Resources\Guest;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TableResource extends JsonResource
+class OrderProductResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,8 +17,8 @@ class TableResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'active' => +$this->hasStatus('active'),
-            'workers' => WorkerShortResource::collection($this->workers),
+            'price' => $this->price,
+            'qty' => $this->qty,
         ];
     }
 }

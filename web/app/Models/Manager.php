@@ -52,4 +52,12 @@ class Manager extends Authenticatable
             }
         */
     ];
+
+
+    // RELATIONS
+
+    public function tables()
+    {
+        return $this->belongsToMany('App\Models\Table');
+    }
 }
