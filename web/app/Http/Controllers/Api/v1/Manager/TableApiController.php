@@ -87,6 +87,7 @@ class TableApiController extends Controller
     {
         $reqData = $request->validate([
             'place_id' => 'required',
+            'marker_code' => 'nullable|string|min:1|max:10',
             'name' => 'required|string|min:2|max:250',
 
             'active' => 'required|numeric',

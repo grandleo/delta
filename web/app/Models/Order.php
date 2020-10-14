@@ -91,4 +91,9 @@ class Order extends Model
             ->withPivot(['userable_id', 'userable_type'])
             ->withTimestamps();
     }
+
+    public function messages()
+    {
+        return $this->morphMany('App\Models\Message', 'messageable');
+    }
 }

@@ -26,7 +26,9 @@ class ProductCategoryRepository extends BaseRepository implements ProductCategor
     {
         $query = $this->model
             ->where('place_id', $place_id)
-            ->withCount('products')
+            ->withCount(['products' => function ($query) {
+                $query->status('active');
+            }])
             ->orderBy('sort');
 
         if (!$all) {

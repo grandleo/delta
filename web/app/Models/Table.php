@@ -24,6 +24,7 @@ class Table extends Model
      */
     protected $fillable = [
         'place_id',
+        'marker_code',
         'name', 'descr_short',
         'sort',
     ];

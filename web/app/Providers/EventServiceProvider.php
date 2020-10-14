@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\OrderStatusPaid' => [
             'App\Listeners\OrderSetOrderStatusFirst',
         ],
+        'App\Events\OrderOrderStatusSet' => [
+            'App\Listeners\OrderSetOrderStatusAny',
+        ],
     ];
 
     /**

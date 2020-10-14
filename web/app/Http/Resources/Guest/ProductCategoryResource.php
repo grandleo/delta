@@ -20,7 +20,7 @@ class ProductCategoryResource extends JsonResource
             'slug' => $this->slug,
             'image' => $this->image ?? 'test/130.png',
             'descr_short' => $this->descr_short,
-            'count' => $this->products_count ?? $this->products()->count(),
+            'count' => isset($this->products_count) ? $this->products_count : $this->products->count(),
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Guest;
+namespace App\Http\Resources\Worker;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,15 +20,14 @@ class OrderResource extends JsonResource
             'place_id' => $this->place_id,
             'table_id' => $this->table_id,
             'worker_id' => $this->worker_id,
-            'status' => $this->status,
             'currency' => $this->currency,
             'amount' => $this->amount,
             'created_at' => $this->created_at->toDateTimeString(),
-            'placeCategory_name' => $this->place->placeCategory->name,
-            'place_name' => $this->place->name,
-            'table_name' => optional($this->table)->name,
-            'worker_name' => optional($this->worker)->name,
-            'worker_image' => optional($this->worker)->image ?? 'test/user-male.png',
+            'guest_name' => $this->guest->name_full,
+            'table_name' => optional($this->table)->name ?? 'Стол ?',
+            'worker_name' => optional($this->worker)->name_full ?? '---',
+
+            'worker_image' => optional($this->worker)->image,
             'orderStatus_phase_id' => optional($this->orderStatus)->order_status_phase_id ?? $this->orderStatus_phase_id,
             'orderStatus_name' => optional($this->orderStatus)->name,
             'orderStatus_color' => optional($this->orderStatus)->color,

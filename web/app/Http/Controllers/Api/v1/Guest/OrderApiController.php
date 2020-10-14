@@ -41,7 +41,7 @@ class OrderApiController extends Controller
         $orders = $this->orderRepository->getByGuestId($guest_id);
 
         foreach ($orders as $order) {
-            $orStPh = $orderStatusPhases->firstWhere('id', optional($order->orderStatus)->id);
+            $orStPh = $orderStatusPhases->firstWhere('id', optional($order->orderStatus)->order_status_phase_id);
             !$orStPh && ($orStPh = $orderStatusPhases->first()) && ($order->orderStatus_phase_id = $orStPh->id);
             $orStPh->orders_count = ($orStPh->orders_count ?? 0) + 1;
         }
@@ -65,5 +65,30 @@ class OrderApiController extends Controller
         abort_if(!$order, 404);
 
         return new OrderResource($order);
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function storeMessage(Request $request, $id)
+    {
+        $reqData = $request->validate([
+            'text' => 'required|string|min:1|max:250',
+        ]);
+
+        $guest = \Auth::user();
+        $order = $this->orderRepository->findByIdAndGuestId($id, $guest->id);
+        abort_if(!$order, 404);
+
+        $reqData['userable_id'] = $guest->id;
+        $reqData['userable_type'] = get_class($guest);
+
+        $this->orderRepository->messageCreate($order->id, $reqData);
+
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 }

@@ -45,7 +45,7 @@ class CreateOrderStatusesTable extends Migration
         Schema::create('order_order_status', function (Blueprint $table) {
             $table->foreignId('order_id')->constrained();
             $table->foreignId('order_status_id')->constrained();
-            $table->morphs('userable');
+            $table->nullableMorphs('userable');
             $table->timestamps();
         });
     }

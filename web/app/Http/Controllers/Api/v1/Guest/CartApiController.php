@@ -97,11 +97,6 @@ class CartApiController extends Controller
 
         $reqData['worker_id'] = null;
 
-        $workers = $this->workerRepository->getByPlaceIdSorted($place->id);
-        if ($workers->count()) {
-            $reqData['worker_id'] = $workers->first()->id;
-        }
-
         $amount = collect($reqData['products'])->reduce(function ($carry, $reqProduct) use ($products) {
             $product = $products->firstWhere('id', $reqProduct['id']);
             return $carry + $product->price * $reqProduct['qty'];
@@ -150,7 +145,7 @@ class CartApiController extends Controller
 
         if ($request->status === 'paid') {
             if ($order->guest_id === $guest->id) {
-                event(new OrderStatusPaid($id, get_class($guest), $guest->id));
+                event(new OrderStatusPaid($id));
                 $reqData_loc['status'] = 'paid';
             } else {
                 abort(401);

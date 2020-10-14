@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Manager;
+namespace App\Http\Resources\Guest;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TableResource extends JsonResource
+class MessageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,10 @@ class TableResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'marker_code' => $this->marker_code ?? '',
-            'name' => $this->name,
-            'active' => +$this->hasStatus('active'),
-            'workers' => WorkerShortResource::collection($this->workers),
+            'is_system' => $this->is_system,
+            'is_owner' => !$this->is_system && $this->is_owner,
+            'text' => $this->text,
+            'created_at' => $this->created_at->toDateTimeString(),
         ];
     }
 }

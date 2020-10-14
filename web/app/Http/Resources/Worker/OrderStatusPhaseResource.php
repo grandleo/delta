@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Manager;
+namespace App\Http\Resources\Worker;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TableResource extends JsonResource
+class OrderStatusPhaseResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,9 @@ class TableResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'marker_code' => $this->marker_code ?? '',
             'name' => $this->name,
-            'active' => +$this->hasStatus('active'),
-            'workers' => WorkerShortResource::collection($this->workers),
+            'color' => $this->color,
+            'orders_count' => $this->orders_count ?? 0,
         ];
     }
 }

@@ -30,6 +30,9 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                 'orderProducts',
                 'orderStatus',
             ])
+            ->withCount([
+                'messages',
+            ])
             ->where('guest_id', $guest_id)
             ->status('draft', '!=')
             ->orderByDesc('id')
@@ -38,9 +41,10 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
     /**
     * @param $place_id
+    * @param $worker_id
     * @return Collection
     */
-    public function getByPlaceIdSorted($place_id): Collection
+    public function getByPlaceIdSorted($place_id, $worker_id = null, $all = false): Collection
     {
         $query = $this->model
             ->with([
@@ -51,6 +55,14 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             ->where('place_id', $place_id)
             ->status('draft', '!=')
             ->orderByDesc('id');
+
+        if ($worker_id && !$all) {
+            $query->whereHas('table', function ($query1) use ($worker_id) {
+                $query1->whereHas('workers', function ($query2) use ($worker_id) {
+                    $query2->where('id', $worker_id);
+                });
+            });
+        }
 
         return $query->get();
     }
@@ -68,6 +80,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                 'place.placeCategory',
                 'orderProducts',
                 'orderStatus',
+                'messages',
             ])
             ->where('id', $id)
             ->where('guest_id', $guest_id)
@@ -103,5 +116,30 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         $model->save();
 
         return $model;
+    }
+
+    /**
+    * @param $id
+    * @param array $attributes
+    * @return bool
+    */
+    public function messageCreate($id, array $attributes): bool
+    {
+        $model = $this->find($id);
+
+        $model->messages()->create($attributes);
+
+        return true;
+    }
+
+    /**
+    * @param $id
+    * @return Collection
+    */
+    public function getOrderOrderStatuses($id): Collection
+    {
+        $model = $this->find($id);
+
+        return $model->orderStatuses()->get();;
     }
 }

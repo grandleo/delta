@@ -32,4 +32,17 @@ interface OrderRepositoryInterface
     * @return Order
     */
     public function updateFromForm($id, array $attributes): ?Order;
+
+    /**
+    * @param $id
+    * @param array $attributes
+    * @return bool
+    */
+    public function messageCreate($id, array $attributes): bool;
+
+    /**
+    * @param $id
+    * @return Collection
+    */
+    public function getOrderOrderStatuses($id): Collection;
 }

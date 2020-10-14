@@ -9,6 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\PlaceRepositoryInterface;
 use App\Repositories\OrderStatusRepositoryInterface;
+use App\Events\OrderOrderStatusSet;
 
 class OrderSetOrderStatusFirst
 {
@@ -48,21 +49,17 @@ class OrderSetOrderStatusFirst
             return $item->getJson('params', 'autoset_on_paid', 0);
         });
 
+        foreach ($autoset_on_paid as $order_status) {
+            event(new OrderOrderStatusSet($event->order_id, $order_status));
+        }
+
         $order_status_id = $autoset_on_paid->last()->id;
 
         $reqData_loc = [
             'order_status_id' => $order_status_id,
             'order_status_at' => now(),
 
-            'orderStatuses' => $autoset_on_paid
-                ->pluck('name', 'id')
-                ->map(function($item) use ($event) {
-                    return [
-                        'userable_type' => $event->userable_type,
-                        'userable_id' => $event->userable_id,
-                    ];
-                })
-                ->toArray(),
+            'orderStatuses' => $autoset_on_paid->pluck('id')->toArray(),
         ];
         $this->orderRepository->updateFromForm($order->id, $reqData_loc);
     }

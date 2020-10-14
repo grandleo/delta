@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Sanctum\HasApiTokens;
 
 use App\Helpers\Traits\JsonFieldTrait;
 use App\Helpers\Traits\StatusFieldTrait;
@@ -14,6 +15,7 @@ use App\Helpers\Traits\StatusFieldTrait;
 class Worker extends Authenticatable
 {
     use HasFactory, SoftDeletes, Notifiable;
+    use HasApiTokens;
     use JsonFieldTrait, StatusFieldTrait;
 
     const STATUSES = [

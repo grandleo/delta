@@ -29,6 +29,7 @@ Route::prefix('v1/guest')
     Route::middleware(['auth:sanctum', 'auth.sanctum.ext:App\Models\Guest'])
     ->group(function () {
         Route::put('cart/{id}', 'CartApiController@update');
+        Route::post('orders/{id}/message', 'OrderApiController@storeMessage');
         Route::resource('orders', 'OrderApiController')->only([
             'index', 'show',
         ]);
@@ -84,6 +85,25 @@ Route::prefix('v1/manager')
         ]);
         Route::resource('settings', 'SettingsApiController')->only([
             'show', 'update',
+        ]);
+    });
+});
+
+
+Route::prefix('v1/worker')
+->namespace('App\Http\Controllers\Api\v1\Worker')
+->group(function () {
+    // auth
+    Route::post('auth/login', 'AuthApiController@login');
+
+    // private
+    Route::middleware(['auth:sanctum', 'auth.sanctum.ext:App\Models\Worker'])
+    ->group(function () {
+        Route::post('orders/{id}/takeOrder', 'OrderApiController@takeOrder');
+        Route::post('orders/{id}/setOrderStatus', 'OrderApiController@setOrderStatus');
+        Route::post('orders/{id}/message', 'OrderApiController@storeMessage');
+        Route::resource('orders', 'OrderApiController')->only([
+            'index', 'show', 'update',
         ]);
     });
 });
