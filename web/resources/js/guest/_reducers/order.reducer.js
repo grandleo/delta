@@ -5,6 +5,7 @@ const initialState = {
         loading: false,
         error: false,
         data: null,
+        orderStatusPhases: null,
     },
     current: {
         loading: false,
@@ -17,21 +18,18 @@ function all(state = initialState.all, action) {
     switch (action.type) {
         case orderConstants.GETALL_REQUEST:
             return {
+                ...state,
                 loading: true,
-                error: false,
                 data: null,
             };
         case orderConstants.GETALL_SUCCESS:
             return {
-                loading: false,
-                error: false,
                 data: action.payload.data,
+                orderStatusPhases: action.payload.orderStatusPhases,
             };
         case orderConstants.GETALL_FAILURE:
             return {
-                loading: false,
                 error: action.error,
-                data: null,
             };
 
         default:
@@ -44,20 +42,14 @@ function current(state = initialState.current, action) {
         case orderConstants.GETBYID_REQUEST:
             return {
                 loading: true,
-                error: false,
-                data: null,
             };
         case orderConstants.GETBYID_SUCCESS:
             return {
-                loading: false,
-                error: false,
                 data: action.payload.data,
             };
         case orderConstants.GETBYID_FAILURE:
             return {
-                loading: false,
                 error: action.error,
-                data: null,
             };
 
         default:

@@ -155,12 +155,12 @@ function ProductEditPage() {
                                 id="current-form.name"
                                 autoFocus={isNew}
                                 name="name"
-                                placeholder={t('Название блюда')}
+                                placeholder={t('Название блюда *')}
                                 value={inputs.name}
                                 onChange={handleChange}
                                 className={'form-control' + (validate('name') ? ' is-invalid' : '')}
                                 />
-                            <label htmlFor="current-form.name">{t('Название блюда')}</label>
+                            <label htmlFor="current-form.name">{t('Название блюда *')}</label>
                             {validate('name') &&
                                 <div className="invalid-feedback text-right">{validate('name')}</div>
                             }
@@ -170,7 +170,7 @@ function ProductEditPage() {
                             <select
                                 id="current-form.waiting_minutes"
                                 name="waiting_minutes"
-                                placeholder={t('Время приготовления')}
+                                placeholder={t('Время приготовления *')}
                                 value={inputs.waiting_minutes}
                                 onChange={handleChange}
                                 className="form-control"
@@ -182,7 +182,7 @@ function ProductEditPage() {
                                         >{wOpt.name}</option>
                                 )}
                             </select>
-                            <label htmlFor="current-form.waiting_minutes">{t('Время приготовления')}</label>
+                            <label htmlFor="current-form.waiting_minutes">{t('Время приготовления *')}</label>
                         </div>
                         <div className="form-group form-label-group">
                             <input
@@ -190,12 +190,12 @@ function ProductEditPage() {
                                 type="number"
                                 min="0"
                                 name="weight"
-                                placeholder={t('Вес (в граммах)')}
+                                placeholder={t('Вес (в граммах) *')}
                                 value={inputs.weight}
                                 onChange={handleChange}
                                 className={'form-control' + (validate('weight') ? ' is-invalid' : '')}
                                 />
-                            <label htmlFor="current-form.weight">{t('Вес (в граммах)')}</label>
+                            <label htmlFor="current-form.weight">{t('Вес (в граммах) *')}</label>
                             {validate('weight') &&
                                 <div className="invalid-feedback text-right">{validate('weight')}</div>
                             }
@@ -206,12 +206,12 @@ function ProductEditPage() {
                                 type="number"
                                 min="0"
                                 name="price"
-                                placeholder={t('Стоимость (в '+user.place.currency+')')}
+                                placeholder={t('Стоимость (в '+user.place.currency+') *')}
                                 value={inputs.price}
                                 onChange={handleChange}
                                 className={'form-control' + (validate('price') ? ' is-invalid' : '')}
                                 />
-                            <label htmlFor="current-form.price">{t('Стоимость (в '+user.place.currency+')')}</label>
+                            <label htmlFor="current-form.price">{t('Стоимость (в '+user.place.currency+') *')}</label>
                             {validate('price') &&
                                 <div className="invalid-feedback text-right">{validate('price')}</div>
                             }

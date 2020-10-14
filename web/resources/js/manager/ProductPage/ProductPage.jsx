@@ -43,7 +43,7 @@ const SortableItem = sortableElement(({value}) => {
                 <div className="small">{value.weight+' '+t('гр.')+' / '+value.waiting_minutes+' '+t('мин')}</div>
                 <div className="font-weight-600">{fMoney(value.price, user.place.currency)}</div>
             </div>
-            <div className="ml-auto">
+            <div className="ml-auto text-nowrap">
                 <Link
                     to={routes.makeRoute('prodEdit', [prCatId, value.id])}
                     className="btn btn-light btn-sm btn-sm-control mr-1"

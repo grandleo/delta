@@ -38,6 +38,7 @@
   }
 
   &-switch-checkbox {
+    z-index: unset;
     .custom-control-label {
       &:before {
         height: 1.1rem;

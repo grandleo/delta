@@ -43,7 +43,7 @@ const SortableItem = sortableElement(({value}) => {
                 </Link>
                 <div>{t('Количество блюд')+': '+value.count}</div>
             </div>
-            <div className="ml-auto">
+            <div className="ml-auto text-nowrap">
                 <Link
                     to={routes.makeRoute('prodCatEdit', [value.id])}
                     className="btn btn-light btn-sm btn-sm-control mr-1"

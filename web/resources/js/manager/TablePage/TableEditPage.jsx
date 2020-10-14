@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
 
 import { t, validators, fileSrc, routes } from '../_helpers';
 import { Header, LoadingCommon } from '../_components';
@@ -11,6 +12,7 @@ function TableEditPage() {
     const { tableId } = useParams();
     const [inputs, setInputs] = useState({
         name: t('Стол №'),
+        workers: [],
         active: 1,
     });
     const [showErrors, setShowErrors] = useState(false);
@@ -22,7 +24,7 @@ function TableEditPage() {
     const isNew = tableId === '0';
 
     useEffect(() => {
-        if (!isNew) {
+        if (!isNew || !tableCurrent.form) {
             dispatch(tableActions.show(tableId));
         }
     }, [tableId]);
@@ -33,6 +35,7 @@ function TableEditPage() {
         }
         setInputs(inputs => ({
             ...tableCurrent.data,
+            workers: tableCurrent.data.workers.map((v) => ({ value: v.id, label: v.name_full })),
         }));
     }, [tableCurrent.data]);
 
@@ -59,6 +62,10 @@ function TableEditPage() {
         setInputs(inputs => ({ ...inputs, [name]: value }));
     }
 
+    function handleChangeSelect(name, value) {
+        setInputs(inputs => ({ ...inputs, [name]: value }));
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
 
@@ -69,6 +76,7 @@ function TableEditPage() {
         if (!valFailed) {
             const data = {
                 ...inputs,
+                workers: inputs.workers.map((v) => (v.value)),
                 place_id: user.place.id,
             };
             dispatch(tableActions.update(tableId, data, history));
@@ -84,23 +92,34 @@ function TableEditPage() {
                 routeBack={routes.tableList}
                 />
             <div className="content-wrapper">
-                {!isNew && tableCurrent.loading && <LoadingCommon />}
-                {(isNew || (!isNew && tableCurrent.data)) &&
+                {tableCurrent.loading && <LoadingCommon />}
+                {((isNew && tableCurrent.form) || (!isNew && tableCurrent.data)) &&
                     <form className="form-2" autoComplete="off" onSubmit={handleSubmit}>
                         <div className="form-group form-label-group">
                             <input
                                 id="current-form.name"
                                 autoFocus={isNew}
                                 name="name"
-                                placeholder={t('Название')}
+                                placeholder={t('Название *')}
                                 value={inputs.name}
                                 onChange={handleChange}
                                 className={'form-control' + (validate('name') ? ' is-invalid' : '')}
                                 />
-                            <label htmlFor="current-form.name">{t('Название')}</label>
+                            <label htmlFor="current-form.name">{t('Название *')}</label>
                             {validate('name') &&
                                 <div className="invalid-feedback text-right">{validate('name')}</div>
                             }
+                        </div>
+                        <div className="form-group form-label-group">
+                            <Select
+                                value={inputs.workers}
+                                isMulti
+                                placeholder={t('Закреплённые официанты')}
+                                className="form-control-react-select-container shadow-input-1"
+                                classNamePrefix="form-control-react-select"
+                                onChange={handleChangeSelect.bind(this, 'workers')}
+                                options={tableCurrent.form.workers.map((v) => ({ value: v.id, label: v.name_full }))}
+                                />
                         </div>
 
                         <div className="form-group mt-4">

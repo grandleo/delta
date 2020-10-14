@@ -27,8 +27,11 @@ const SortableItem = ({value}) => {
                 <h5 className="h5 m-0">
                     {value.name}
                 </h5>
+                <div>
+                    {t('Официанты: ')+value.workers.map((v) => v.name_full).join(', ')}
+                </div>
             </div>
-            <div className="ml-auto">
+            <div className="ml-auto text-nowrap">
                 <Link
                     to={routes.makeRoute('tableEdit', [value.id])}
                     className="btn btn-light btn-sm btn-sm-control mr-1"

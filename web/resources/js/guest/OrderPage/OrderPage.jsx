@@ -30,7 +30,11 @@ function OrderPage() {
                     <div className="px-3 py-4 bg-white rounded-xl">
                         <div className="d-flex justify-content-between align-items-start">
                             <h2 className="h4 font-weight-bold line-height-1">{t('Заказ')} #{orderCurrent.data.id}</h2>
-                            <span className="badge badge-warning text-white px-2 py-1 font-weight-500">{t('Обрабатывается')}</span>
+                            <span
+                                className={'badge badge-primary px-2 py-1 font-weight-500 badge-' + orderCurrent.data.orderStatus_color}
+                                >
+                                {orderCurrent.data.orderStatus_name || t('Ожидает обработки')}
+                            </span>
                         </div>
                         <div className="mt-2">
                             {orderCurrent.data.orderProducts.map((orderProduct) =>

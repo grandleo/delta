@@ -132,12 +132,12 @@ function ProductCategoryEditPage() {
                                 id="current-form.name"
                                 autoFocus={isNew}
                                 name="name"
-                                placeholder={t('Название категории')}
+                                placeholder={t('Название категории *')}
                                 value={inputs.name}
                                 onChange={handleChange}
                                 className={'form-control' + (validate('name') ? ' is-invalid' : '')}
                                 />
-                            <label htmlFor="current-form.name">{t('Название категории')}</label>
+                            <label htmlFor="current-form.name">{t('Название категории *')}</label>
                             {validate('name') &&
                                 <div className="invalid-feedback text-right">{validate('name')}</div>
                             }

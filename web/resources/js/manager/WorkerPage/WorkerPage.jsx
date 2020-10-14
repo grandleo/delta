@@ -8,6 +8,7 @@ import { workerActions } from '../_actions';
 import { workerService } from '../_services';
 
 const SortableItem = ({value}) => {
+    const user = useSelector(state => state.authentication.user);
     const dispatch = useDispatch();
 
     function handleDelete(id) {
@@ -17,6 +18,8 @@ const SortableItem = ({value}) => {
                 dispatch(workerActions.index());
             });
     }
+
+    const worker_shift = user.place.worker_shifts.find((v) => value.shift_key === v.key);
 
     return (
         <div className="card-manager-product-category d-flex align-items-center rounded-065rem bg-light btn-block mb-3 shadow-btn-3 text-primary py-3 px-2">
@@ -28,10 +31,25 @@ const SortableItem = ({value}) => {
                 <h5 className="h5">
                     {value.name_full}
                 </h5>
-                <div>{t('Последний заказ:')+' -'}</div>
-                <div>{t('Закреплённые столы:')+' -'}</div>
+                <div>
+                    <span className="font-weight-500">
+                        {t('Смена: ')}
+                    </span>
+                    {worker_shift ? `${worker_shift.name} (${worker_shift.from} - ${worker_shift.until})` : ''}
+                </div>
+                <div>
+                    <span className="font-weight-500">
+                        {t('Последний заказ: ')}
+                    </span>
+                </div>
+                <div>
+                    <span className="font-weight-500">
+                        {t('Столы: ')}
+                    </span>
+                    {value.tables.map((v) => v.name).join(', ')}
+                </div>
             </div>
-            <div className="ml-auto">
+            <div className="ml-auto text-nowrap">
                 <Link
                     to={routes.makeRoute('workerEdit', [value.id])}
                     className="btn btn-light btn-sm btn-sm-control mr-1"

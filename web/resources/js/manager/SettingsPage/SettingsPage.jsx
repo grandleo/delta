@@ -6,6 +6,7 @@ import { t, validators, fileSrc, routes } from '../_helpers';
 import { Header, LoadingCommon } from '../_components';
 import { settingsActions } from '../_actions';
 import { imageService } from '../_services';
+import { SettingsWorkerShift } from './';
 
 const wTimeOptions = [];
 const d1 = new Date('1991-01-01T00:00:00');
@@ -43,6 +44,7 @@ function SettingsPage() {
             'params.works_from': params.works_from,
             'params.works_until': params.works_until,
             'params.works_weekdays': params.works_weekdays,
+            'params.worker_shifts': params.worker_shifts,
             'user.name_full': user.name_full,
             'user.email': user.email,
             'user.password': '',
@@ -114,13 +116,17 @@ function SettingsPage() {
             });
     }
 
-    function handleChangeCheckbox(e, wIndex) {
-        const { name } = e.target;
-        const value = +e.target.checked;
+    function handleChangeArray(wIndex, e) {
+        const { name, field } = e.target;
+        const value = e.target.type === 'checkbox' ? +e.target.checked : e.target.value;
         setInputs((inputs) => ({
             ...inputs,
             [name]: inputs[name]
-                .map((v, i) => (i !== wIndex ? v : value)),
+                .map((v, i) => {
+                    return i !== wIndex
+                        ? v
+                        : (!field ? value : {...v, [field]: value});
+                }),
         }));
     }
 
@@ -139,6 +145,7 @@ function SettingsPage() {
                     works_from: inputs['params.works_from'],
                     works_until: inputs['params.works_until'],
                     works_weekdays: inputs['params.works_weekdays'],
+                    worker_shifts: inputs['params.worker_shifts'],
                 },
                 user: {
                     name_full: inputs['user.name_full'],
@@ -247,7 +254,7 @@ function SettingsPage() {
                                             type="checkbox"
                                             name="params.works_weekdays"
                                             checked={inputs['params.works_weekdays'][wIndex]}
-                                            onChange={(e) => handleChangeCheckbox(e, wIndex)}
+                                            onChange={handleChangeArray.bind(this, wIndex)}
                                             className="custom-control-input"
                                             />
                                         <label
@@ -302,6 +309,52 @@ function SettingsPage() {
                                     <label htmlFor="current-form.params.works_until">{t('Конец дня')}</label>
                                 </div>
                             </div>
+                        </div>
+
+                        <h3 className="h6 mt-4 pt-2 mb-3 font-weight-600 text-primary">{t('Смены официантов')}</h3>
+                        {inputs['params.worker_shifts'].map((v, i) =>
+                            <SettingsWorkerShift
+                                key={i}
+                                prefix="current-form.params.worker_shifts"
+                                value={v}
+                                index={i}
+                                validate={validate}
+                                handleChange={(index, e) => {
+                                    const { name, value } = e.target;
+                                    handleChangeArray(index, {
+                                        target: {
+                                            name: 'params.worker_shifts',
+                                            field: name,
+                                            value,
+                                        },
+                                    });
+                                }}
+                                handleDelete={(index, e) => {
+                                    if (!confirm(t('Удалить смену?'))) return;
+                                    const name = 'params.worker_shifts';
+                                    setInputs((inputs) => ({
+                                        ...inputs,
+                                        [name]: inputs[name]
+                                            .filter((v, i) => (index !== i)),
+                                    }));
+                                }}
+                                />
+                        )}
+                        <div className="form-group">
+                            <button
+                                type="button"
+                                className="btn btn-light btn-sm shadow-btn-1"
+                                onClick={(e) => {
+                                    const name = 'params.worker_shifts';
+                                    setInputs(inputs => ({
+                                        ...inputs,
+                                        [name]: [
+                                            ...inputs[name],
+                                            { name: '', from: '08:00', until: '17:00', key: Date.now() },
+                                        ],
+                                    }));
+                                }}
+                                >{t('Добавить смену')}</button>
                         </div>
 
                         <h3 className="h6 mt-4 pt-2 mb-3 font-weight-600 text-primary">{t('Данные для авторизации')}</h3>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
 
 import { t, validators, fileSrc, routes } from '../_helpers';
 import { Header, LoadingCommon } from '../_components';
@@ -8,6 +9,7 @@ import { workerActions } from '../_actions';
 import { imageService } from '../_services';
 
 function WorkerEditPage() {
+    const user = useSelector(state => state.authentication.user);
     const { workerId } = useParams();
     const [inputs, setInputs] = useState({
         image: '',
@@ -17,13 +19,16 @@ function WorkerEditPage() {
         phone: '',
         card_number: '',
         orders_see_all: 0,
+        shift_key: user.place.worker_shifts.length
+            ? user.place.worker_shifts[0].key : '',
         active: 1,
+
+        tables: [],
 
         password: '',
         password_confirmation: '',
     });
     const [showErrors, setShowErrors] = useState(false);
-    const user = useSelector(state => state.authentication.user);
     const workerCurrent = useSelector(state => state.worker.current);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -31,7 +36,7 @@ function WorkerEditPage() {
     const isNew = workerId === '0';
 
     useEffect(() => {
-        if (!isNew) {
+        if (!isNew || !workerCurrent.form) {
             dispatch(workerActions.show(workerId));
         }
     }, [workerId]);
@@ -40,8 +45,12 @@ function WorkerEditPage() {
         if (isNew || !workerCurrent.data) {
             return;
         }
+        const worker_shift = user.place.worker_shifts.find((v) => workerCurrent.data.shift_key === v.key);
         setInputs(inputs => ({
             ...workerCurrent.data,
+            shift_key: worker_shift ? worker_shift.key :
+                (user.place.worker_shifts.length ? user.place.worker_shifts[0].key : ''),
+            tables: workerCurrent.data.tables.map((v) => ({ value: v.id, label: v.name })),
             password: '',
             password_confirmation: '',
         }));
@@ -100,6 +109,10 @@ function WorkerEditPage() {
             });
     }
 
+    function handleChangeSelect(name, value) {
+        setInputs(inputs => ({ ...inputs, [name]: value }));
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
 
@@ -110,6 +123,7 @@ function WorkerEditPage() {
         if (!valFailed) {
             const data = {
                 ...inputs,
+                tables: inputs.tables.map((v) => (v.value)),
                 place_id: user.place.id,
             };
             dispatch(workerActions.update(workerId, data, history));
@@ -125,8 +139,8 @@ function WorkerEditPage() {
                 routeBack={routes.workerList}
                 />
             <div className="content-wrapper">
-                {!isNew && workerCurrent.loading && <LoadingCommon />}
-                {(isNew || (!isNew && workerCurrent.data)) &&
+                {workerCurrent.loading && <LoadingCommon />}
+                {((isNew && workerCurrent.form) || (!isNew && workerCurrent.data)) &&
                     <form className="form-2" autoComplete="off" onSubmit={handleSubmit}>
                         <h3 className="h6 mb-3 font-weight-600 text-primary">{t('Общая информация')}</h3>
                         <div className="form-group form-control-manager-image">
@@ -157,12 +171,12 @@ function WorkerEditPage() {
                                 autoFocus={isNew}
                                 type="text"
                                 name="name_full"
-                                placeholder={t('ФИО')}
+                                placeholder={t('ФИО *')}
                                 value={inputs.name_full}
                                 onChange={handleChange}
                                 className={'form-control' + (validate('name_full') ? ' is-invalid' : '')}
                                 />
-                            <label htmlFor="current-form.name_full">{t('ФИО')}</label>
+                            <label htmlFor="current-form.name_full">{t('ФИО *')}</label>
                             {validate('name_full') &&
                                 <div className="invalid-feedback text-right">{validate('name_full')}</div>
                             }
@@ -171,15 +185,49 @@ function WorkerEditPage() {
                             <input
                                 id="current-form.name"
                                 name="name"
-                                placeholder={t('Краткое имя (для отображения в чате)')}
+                                placeholder={t('Краткое имя (для отображения в чате) *')}
                                 value={inputs.name}
                                 onChange={handleChange}
                                 className={'form-control' + (validate('name') ? ' is-invalid' : '')}
                                 />
-                            <label htmlFor="current-form.name">{t('Краткое имя (для отображения в чате)')}</label>
+                            <label htmlFor="current-form.name">{t('Краткое имя (для отображения в чате) *')}</label>
                             {validate('name') &&
                                 <div className="invalid-feedback text-right">{validate('name')}</div>
                             }
+                        </div>
+                        <div className="form-group form-label-group">
+                            <select
+                                id="current-form.shift_key"
+                                name="shift_key"
+                                placeholder={t('Смена')}
+                                value={inputs.shift_key}
+                                onChange={handleChange}
+                                className={'form-control' + (validate('shift_key') ? ' is-invalid' : '')}
+                                >
+                                {user.place.worker_shifts.map((wOpt) =>
+                                    <option
+                                        key={wOpt.key}
+                                        value={wOpt.key}
+                                        >{`${wOpt.name} (${wOpt.from} - ${wOpt.until})`}</option>
+                                )}
+                            </select>
+                            <label htmlFor="current-form.waiting_minutes">{t('Смена')}</label>
+                            {validate('shift_key') &&
+                                <div className="invalid-feedback text-right">{validate('shift_key')}</div>
+                            }
+                        </div>
+
+                        <h3 className="h6 mt-4 pt-2 mb-3 font-weight-600 text-primary">{t('Закреплённые столы')}</h3>
+                        <div className="form-group form-label-group">
+                            <Select
+                                value={inputs.tables}
+                                isMulti
+                                placeholder={t('Закреплённые столы')}
+                                className="form-control-react-select-container shadow-input-1"
+                                classNamePrefix="form-control-react-select"
+                                onChange={handleChangeSelect.bind(this, 'tables')}
+                                options={workerCurrent.form.tables.map((v) => ({ value: v.id, label: v.name }))}
+                                />
                         </div>
 
                         <h3 className="h6 mt-4 pt-2 mb-3 font-weight-600 text-primary">{t('Контактная информация')}</h3>
@@ -218,12 +266,12 @@ function WorkerEditPage() {
                                 id="current-form.email"
                                 type="email"
                                 name="email"
-                                placeholder={t('Email')}
+                                placeholder={t('Email *')}
                                 value={inputs.email}
                                 onChange={handleChange}
                                 className={'form-control' + (validate('email') ? ' is-invalid' : '')}
                                 />
-                            <label htmlFor="current-form.email">{t('Email')}</label>
+                            <label htmlFor="current-form.email">{t('Email *')}</label>
                             {validate('email') &&
                                 <div className="invalid-feedback text-right">{validate('email')}</div>
                             }

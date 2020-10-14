@@ -51,6 +51,23 @@
       }
     }
   }
+
+  .form-control-react-select {
+    &-container {
+      min-height: 50px;
+      letter-spacing: 0.02em;
+    }
+    &__control {
+      min-height: 50px;
+      border: none;
+    }
+    &__value-container {
+      padding: 4px 19px;
+    }
+    &__placeholder {
+      color: $input-placeholder-color;
+    }
+  }
 }
 
 /* Fallback for Edge
