@@ -1,5 +1,5 @@
 import React from 'react';
-import { t } from '../_helpers';
+import { t } from '../_helpers/strings';
 
 function LoadingCommon() {
     const colors = ['danger', 'success', 'primary', 'warning', 'info'];

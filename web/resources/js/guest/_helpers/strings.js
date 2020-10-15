@@ -1,6 +1,5 @@
-import { config } from './';
-
 export function t(string) {
+    // may be used for localization
     return string;
 }
 
@@ -25,6 +24,7 @@ export const validators = {
     },
 }
 
+const storagePrefix = '/storage/';
 export function fileSrc(path) {
-    return config.storagePrefix + path;
+    return storagePrefix + path;
 }

@@ -1,4 +1,4 @@
-import { alertConstants } from '../_constants';
+import { alertConstants } from '../_constants/alert.constants';
 
 const initialState = {
     items: [],
