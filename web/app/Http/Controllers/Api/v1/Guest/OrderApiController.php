@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\OrderProductRepositoryInterface;
 use App\Repositories\OrderStatusPhaseRepositoryInterface;
+use App\Events\OrderMessageSend;
 use App\Http\Resources\Guest\OrderResource;
 use App\Http\Resources\Guest\OrderStatusPhaseResource;
 
@@ -85,7 +86,9 @@ class OrderApiController extends Controller
         $reqData['userable_id'] = $guest->id;
         $reqData['userable_type'] = get_class($guest);
 
-        $this->orderRepository->messageCreate($order->id, $reqData);
+        $message = $this->orderRepository->messageCreate($order->id, $reqData);
+
+        event(new OrderMessageSend($message));
 
         return response()->json([
             'status' => 'success',

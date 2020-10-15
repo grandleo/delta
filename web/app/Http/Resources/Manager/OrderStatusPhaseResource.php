@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Guest;
+namespace App\Http\Resources\Manager;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MessageResource extends JsonResource
+class OrderStatusPhaseResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,9 @@ class MessageResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'is_system' => $this->is_system,
-            'owner_uid' => !$this->is_system ? $this->owner_uid : '',
-            'text' => $this->text,
-            'created_at' => $this->created_at->toDateTimeString(),
+            'name' => $this->name,
+            'color' => $this->color,
+            'orders_count' => $this->orders_count ?? 0,
         ];
     }
 }

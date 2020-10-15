@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Order;
 use Illuminate\Support\Collection;
+use App\Models\Message;
 
 interface OrderRepositoryInterface
 {
@@ -36,9 +37,9 @@ interface OrderRepositoryInterface
     /**
     * @param $id
     * @param array $attributes
-    * @return bool
+    * @return Message
     */
-    public function messageCreate($id, array $attributes): bool;
+    public function messageCreate($id, array $attributes): Message;
 
     /**
     * @param $id

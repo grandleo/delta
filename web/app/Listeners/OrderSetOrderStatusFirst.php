@@ -9,11 +9,15 @@ use Illuminate\Queue\InteractsWithQueue;
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\PlaceRepositoryInterface;
 use App\Repositories\OrderStatusRepositoryInterface;
+use App\Repositories\WorkerRepositoryInterface;
 use App\Events\OrderOrderStatusSet;
 
 class OrderSetOrderStatusFirst
 {
     private $orderRepository;
+    private $placeRepository;
+    private $orderStatusRepository;
+    private $workerRepository;
 
     /**
      * Create the event listener.
@@ -23,12 +27,14 @@ class OrderSetOrderStatusFirst
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         PlaceRepositoryInterface $placeRepository,
-        OrderStatusRepositoryInterface $orderStatusRepository
+        OrderStatusRepositoryInterface $orderStatusRepository,
+        WorkerRepositoryInterface $workerRepository
     )
     {
         $this->orderRepository = $orderRepository;
         $this->placeRepository = $placeRepository;
         $this->orderStatusRepository = $orderStatusRepository;
+        $this->workerRepository = $workerRepository;
     }
 
     /**
@@ -48,19 +54,19 @@ class OrderSetOrderStatusFirst
         $autoset_on_paid = $orderStatuses->filter(function($item) {
             return $item->getJson('params', 'autoset_on_paid', 0);
         });
-
-        foreach ($autoset_on_paid as $order_status) {
-            event(new OrderOrderStatusSet($event->order_id, $order_status));
+        foreach ($autoset_on_paid as $orderStatus) {
+            event(new OrderOrderStatusSet($event->order_id, $orderStatus));
         }
 
-        $order_status_id = $autoset_on_paid->last()->id;
-
-        $reqData_loc = [
-            'order_status_id' => $order_status_id,
-            'order_status_at' => now(),
-
-            'orderStatuses' => $autoset_on_paid->pluck('id')->toArray(),
-        ];
-        $this->orderRepository->updateFromForm($order->id, $reqData_loc);
+        // if exist active workers - set statuses
+        $workers = $this->workerRepository->getByPlaceIdSorted($place->id, false);
+        if ($workers->count()) {
+            $autoset_on_workers_exist = $orderStatuses->filter(function($item) {
+                return $item->getJson('params', 'autoset_on_workers_exist', 0);
+            });
+            foreach ($autoset_on_workers_exist as $orderStatus) {
+                event(new OrderOrderStatusSet($event->order_id, $orderStatus));
+            }
+        }
     }
 }

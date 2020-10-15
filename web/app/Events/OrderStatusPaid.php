@@ -19,6 +19,7 @@ class OrderStatusPaid
     /**
      * Create a new event instance.
      *
+     * @param $order_id
      * @return void
      */
     public function __construct($order_id)

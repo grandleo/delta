@@ -12,6 +12,7 @@ use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\OrderStatusPhaseRepositoryInterface;
 use App\Repositories\OrderStatusRepositoryInterface;
 use App\Events\OrderOrderStatusSet;
+use App\Events\OrderMessageSend;
 use App\Http\Resources\Worker\OrderResource;
 use App\Http\Resources\Worker\OrderStatusPhaseResource;
 use App\Http\Resources\Worker\OrderStatusResource;
@@ -83,9 +84,10 @@ class OrderApiController extends Controller
         $orderOrderStatuses = $this->orderRepository->getOrderOrderStatuses($order->id);
 
         $orderOrderStatuses_ids = $orderOrderStatuses->pluck('id')->toArray();
+        $orderOrderStatuses_max_sort = $orderOrderStatuses->max('sort');
 
-        $orderStatuses = $orderStatuses->filter(function($value) use ($orderOrderStatuses_ids) {
-            return !in_array($value->id, $orderOrderStatuses_ids);
+        $orderStatuses = $orderStatuses->filter(function($value) use ($orderOrderStatuses_ids, $orderOrderStatuses_max_sort) {
+            return !in_array($value->id, $orderOrderStatuses_ids) && $value->sort > $orderOrderStatuses_max_sort;
         });
 
         return (new OrderResource($order))
@@ -123,25 +125,11 @@ class OrderApiController extends Controller
         });
 
         foreach ($autoset_on_worker_set as $order_status) {
-            event(new OrderOrderStatusSet($order->id, $order_status));
+            event(new OrderOrderStatusSet($order->id, $order_status, $worker));
         }
-
-        $order_status_id = $autoset_on_worker_set->last()->id;
 
         $reqData_loc = [
             'worker_id' => $worker->id,
-
-            'order_status_id' => $order_status_id,
-            'order_status_at' => now(),
-
-            'orderStatuses' => $autoset_on_worker_set
-                ->pluck('name', 'id')
-                ->map(function($value) use ($worker) {
-                    return [
-                        'userable_id' => $worker->id,
-                        'userable_type' => get_class($worker),
-                    ];
-                })->toArray(),
         ];
         $this->orderRepository->updateFromForm($order->id, $reqData_loc);
 
@@ -173,18 +161,7 @@ class OrderApiController extends Controller
         $orderStatus = $this->orderStatusRepository->find($order_status_id);
         abort_if(!$orderStatus, 404);
 
-        event(new OrderOrderStatusSet($order->id, $orderStatus));
-
-        $reqData_loc = [
-            'order_status_id' => $order_status_id,
-            'order_status_at' => now(),
-
-            'orderStatuses' => [$order_status_id => [
-                'userable_id' => $worker->id,
-                'userable_type' => get_class($worker),
-            ]],
-        ];
-        $this->orderRepository->updateFromForm($order->id, $reqData_loc);
+        event(new OrderOrderStatusSet($order->id, $orderStatus, $worker));
 
         return response()->json([
             'status' => 'success',
@@ -209,7 +186,9 @@ class OrderApiController extends Controller
         $reqData['userable_id'] = $worker->id;
         $reqData['userable_type'] = get_class($worker);
 
-        $this->orderRepository->messageCreate($order->id, $reqData);
+        $message = $this->orderRepository->messageCreate($order->id, $reqData);
+
+        event(new OrderMessageSend($message));
 
         return response()->json([
             'status' => 'success',

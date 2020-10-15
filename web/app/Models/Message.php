@@ -51,6 +51,19 @@ class Message extends Model
         return $this->userable_id == $user->id && $this->userable_type == get_class($user);
     }
 
+    public function getOwnerUidAttribute()
+    {
+        switch ($this->userable_type) {
+            case 'App\\Models\\Guest':
+                return 'g'.$this->userable_id;
+            case 'App\\Models\\Worker':
+                return 'w'.$this->userable_id;
+            case 'App\\Models\\Manager':
+                return 'm'.$this->userable_id;
+        }
+        return '0';
+    }
+
 
     // RELATIONS
 

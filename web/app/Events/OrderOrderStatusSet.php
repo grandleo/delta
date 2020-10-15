@@ -15,16 +15,21 @@ class OrderOrderStatusSet
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $order_id;
-    public $order_status;
+    public $orderStatus;
+    public $userable;
 
     /**
      * Create a new event instance.
      *
+     * @param $order_id
+     * @param $orderStatus
+     * @param $userable
      * @return void
      */
-    public function __construct($order_id, $order_status)
+    public function __construct($order_id, $orderStatus, $userable = null)
     {
         $this->order_id = $order_id;
-        $this->order_status = $order_status;
+        $this->orderStatus = $orderStatus;
+        $this->userable = $userable;
     }
 }

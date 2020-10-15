@@ -17,7 +17,7 @@ class MessageResource extends JsonResource
         return [
             'id' => $this->id,
             'is_system' => $this->is_system,
-            'is_owner' => !$this->is_system && $this->is_owner,
+            'owner_uid' => !$this->is_system ? $this->owner_uid : '',
             'text' => $this->text,
             'created_at' => $this->created_at->toDateTimeString(),
         ];

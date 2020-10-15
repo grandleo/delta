@@ -6,6 +6,7 @@ use App\Repositories\OrderRepositoryInterface;
 
 use App\Models\Order;
 use Illuminate\Support\Collection;
+use App\Models\Message;
 
 class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 {
@@ -121,15 +122,13 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     /**
     * @param $id
     * @param array $attributes
-    * @return bool
+    * @return Message
     */
-    public function messageCreate($id, array $attributes): bool
+    public function messageCreate($id, array $attributes): Message
     {
         $model = $this->find($id);
 
-        $model->messages()->create($attributes);
-
-        return true;
+        return $model->messages()->create($attributes);
     }
 
     /**

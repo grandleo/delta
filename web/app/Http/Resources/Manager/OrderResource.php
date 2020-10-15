@@ -26,6 +26,14 @@ class OrderResource extends JsonResource
             'guest_name' => $this->guest->name_full,
             'table_name' => optional($this->table)->name ?? 'Стол ?',
             'worker_name' => optional($this->worker)->name_full ?? '---',
+
+            'worker_image' => optional($this->worker)->image,
+            'orderStatus_phase_id' => optional($this->orderStatus)->order_status_phase_id ?? $this->orderStatus_phase_id,
+            'orderStatus_name' => optional($this->orderStatus)->name,
+            'orderStatus_color' => optional($this->orderStatus)->color,
+            'orderProducts' => OrderProductResource::collection($this->orderProducts),
+            'messages_count' => isset($this->messages_count) ? $this->messages_count : $this->messages->count(),
+            'messages' => $this->relationLoaded('messages') ? MessageResource::collection($this->messages) : [],
         ];
     }
 }

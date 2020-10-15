@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::prefix('v1/guest')
 ->namespace('App\Http\Controllers\Api\v1\Guest')
 ->group(function () {
@@ -69,8 +65,10 @@ Route::prefix('v1/manager')
         Route::resource('workers', 'WorkerApiController')->only([
             'index', 'show', 'update', 'destroy',
         ]);
+        Route::post('orders/{id}/setOrderStatus', 'OrderApiController@setOrderStatus');
+        Route::post('orders/{id}/message', 'OrderApiController@storeMessage');
         Route::resource('orders', 'OrderApiController')->only([
-            'index',
+            'index', 'show', 'update',
         ]);
         Route::resource('guests', 'GuestApiController')->only([
             'index',
