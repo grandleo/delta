@@ -1,32 +1,57 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, fileSrc, routes } from '../_helpers';
-import { Header, ListSubheader, LoadingCommon } from '../_components';
-import { orderActions } from '../_actions';
+import { Header, NavScroller, LoadingCommon } from '../_components';
+import { orderService } from '../_services';
+import { orderActions, userActions } from '../_actions';
 
 const SortableItem = ({value}) => {
+
     return (
-        <div className="mb-4 px-3 py-3 bg-white rounded-065rem">
-            <div className="d-flex justify-content-between align-items-start">
-                <div>
-                    <h5 className="h5 font-weight-600 line-height-1">
-                        {t('Заказ')} #{value.id}
-                    </h5>
-                    <p className="m-0 small">{t('создан')+' '+value.created_at}</p>
-                </div>
-                <span className="badge badge-warning text-white px-2 py-1 font-weight-500">{t('Обрабатывается')}</span>
+        <div className="mb-4 pt-2 px-3 pb-3 bg-white rounded-065rem">
+            <div className="text-right">
+                <span
+                    className={'badge badge-primary px-2 py-1 font-weight-500 badge-' + value.orderStatus_color}
+                    >
+                    {value.orderStatus_name || t('Ожидает обработки')}
+                </span>
+            </div>
+            <div className="mt-2">
+                <h5 className="h5 font-weight-600 line-height-1">
+                    <b>{value.table_name}</b> / {t('Заказ')} #{value.id}
+                </h5>
+                <p className="m-0 small">{t('создан')+' '+value.created_at}</p>
             </div>
             <div className="mt-1">
-                <span className="font-weight-600 mr-2">{value.table_name}</span>
-                {t('Гость: №')+value.guest_id}
+                {t('Гость: №')+value.guest_id} / {t('Cообщений: ')+' '+value.messages_count}
             </div>
             <div className="mt-1">
                 {t('Официант: ')} <span className="font-weight-600">{value.worker_name}</span>
             </div>
-            <div className="mt-2 line-height-1 text-right">
-                <big>{fMoney(value.amount, value.currency)}</big>
+            <hr />
+            <div className="mt-3">
+                {value.orderProducts.map((orderProduct) =>
+                    <div
+                        key={orderProduct.id}
+                        className="d-flex justify-content-between"
+                        >
+                        <span className="mr-3 text-nowrap font-weight-500">{orderProduct.qty} x</span>
+                        <span className="font-weight-500">{orderProduct.name}</span>
+                        <small className="ml-auto">{fMoney(orderProduct.price * orderProduct.qty, value.currency)}</small>
+                    </div>
+                )}
+            </div>
+            <div className="mt-2 text-right">
+                <b>{t('Итого:')} {fMoney(value.amount, value.currency)}</b>
+            </div>
+            <hr />
+            <div className="mt-4 text-center">
+                <Link
+                    to={routes.makeRoute('orderEdit', [value.id])}
+                    className="btn btn-light px-5"
+                    >{t('Перейти к заказу')}</Link>
             </div>
         </div>
     );
@@ -57,6 +82,15 @@ function OrderPage() {
     }, []);
 
     useEffect(() => {
+        if ((!orderAll.filter || !orderAll.filter.orderStatusPhaseId)
+            && orderAll.orderStatusPhases && orderAll.orderStatusPhases.length) {
+            dispatch(orderActions.indexFilterSet({
+                orderStatusPhaseId: orderAll.orderStatusPhases[0].id,
+            }));
+        }
+    }, [orderAll.orderStatusPhases]);
+
+    useEffect(() => {
         if (!orderAll.data) {
             return;
         }
@@ -64,10 +98,15 @@ function OrderPage() {
     }, [orderAll.data]);
 
     function getFilteredItems() {
+        let _items = orderAll.filter && orderAll.filter.orderStatusPhaseId
+            ? items.filter((v) => {
+                return v.orderStatus_phase_id == orderAll.filter.orderStatusPhaseId
+            })
+            : items;
         if (!filterMode || !filter.search) {
-            return items;
+            return _items;
         }
-        return items.filter((v) => {
+        return _items.filter((v) => {
             return v.name.indexOf(filter.search) > -1;
         });
     }
@@ -82,12 +121,33 @@ function OrderPage() {
         setFilterMode(filterMode => (!filterMode));
     }
 
+    function handleClickNavItem(id, e) {
+        e.preventDefault();
+        dispatch(orderActions.indexFilterSet({
+            orderStatusPhaseId: id,
+        }));
+    }
+
+    function handleLogoutClick(e) {
+        e.preventDefault();
+        dispatch(userActions.logout());
+    }
+
     return (
         <div className="home-page">
             <Header
                 headingTop={t('Заказы')}
                 routeBack={routes.home}
                 />
+            <NavScroller>
+                {orderAll.orderStatusPhases && orderAll.orderStatusPhases.map((item) => (
+                    <a href="#"
+                        key={item.id}
+                        className={'nav-link '+ (orderAll.filter && item.id == orderAll.filter.orderStatusPhaseId ? 'active text-'+item.color : '')}
+                        onClick={handleClickNavItem.bind(this, item.id)}
+                        >{item.name+(item.orders_count ? ` (${item.orders_count})` : '')}</a>
+                ))}
+            </NavScroller>
             <div className="content-wrapper">
                 {orderAll.loading && <LoadingCommon />}
                 {orderAll.data &&

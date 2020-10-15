@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, fileSrc, routes } from '../_helpers';
+import { t, fMoney, fileSrc, routes, echo, scroll } from '../_helpers';
 import { orderActions } from '../_actions';
 import { orderService } from '../_services';
 import { Header, LoadingCommon } from '../_components';
@@ -15,14 +15,26 @@ function OrderEditPage() {
         {text: 'Небольшая задержка'},
     ]);
     const { orderId } = useParams();
+    const user = useSelector(state => state.authentication.user);
     const orderCurrent = useSelector(state => state.order.current);
     const dispatch = useDispatch();
+
+    const owner_uid = 'w'+user.id;
 
     const order = orderCurrent.data && orderId == orderCurrent.data.id
         ? orderCurrent.data : null;
 
     useEffect(() => {
         dispatch(orderActions.show(orderId));
+
+        echo.private('order.' + orderId)
+            .listen('message-new', (e) => {
+                recievedNewMessage(e.message);
+            });
+
+        return () => {
+            echo.leave('order.' + orderId);
+        }
     }, []);
 
     useEffect(() => {
@@ -30,13 +42,27 @@ function OrderEditPage() {
         setQuickAnswers(quickAnswers => quickAnswers.filter(v => {
             return order.messages.findIndex(v1 => v.text == v1.text) < 0
         }));
+        if (order.orderStatus_phase_id) {
+            dispatch(orderActions.indexFilterSet({
+                orderStatusPhaseId: order.orderStatus_phase_id,
+            }));
+        }
     }, [order]);
 
+    function recievedNewMessage(message) {
+        if (message.is_system) {
+            dispatch(orderActions.show(orderId))
+                .then(() => {
+                    scroll.getPercent() > 60 && scroll.goDown();
+                })
+        } else {
+            dispatch(orderActions.messageAddDirect(orderId, message));
+            scroll.getPercent() > 60 && scroll.goDown();
+        }
+    }
+
     function sendMessage(message) {
-        orderService.sendMessage(orderId, message)
-            .then((response) => {
-                dispatch(orderActions.show(orderId));
-            });
+        orderService.sendMessage(orderId, message);
     }
 
     function handleChangeMessageText(e) {
@@ -51,10 +77,7 @@ function OrderEditPage() {
     }
 
     function handleClickStatus(orderStatusId, e) {
-        orderService.setOrderStatus(orderId, orderStatusId)
-            .then((response) => {
-                dispatch(orderActions.show(orderId));
-            });
+        orderService.setOrderStatus(orderId, orderStatusId);
     }
 
     return (
@@ -115,8 +138,9 @@ function OrderEditPage() {
                                 <div key={message.id}
                                     className={
                                         'mb-3 px-3 py-1'
-                                        + (message.is_system ? ' align-self-center bg-info text-white'
-                                            : message.is_owner ? ' align-self-end ml-5 bg-light' : ' mr-5 bg-light')
+                                        + (message.is_system ? ' align-self-center bg-info text-white ml-5' : ' bg-light')
+                                        + (message.owner_uid.indexOf('m') === 0 || message.owner_uid === owner_uid ? ' align-self-end ml-5' : ' mr-5')
+                                        + (message.owner_uid.indexOf('m') === 0 ? ' border border-purple' : '')
                                     }
                                     >
                                     {message.text}

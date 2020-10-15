@@ -13,7 +13,7 @@ import { ProductCategoryPage, ProductCategoryEditPage } from '../ProductCategory
 import { ProductPage, ProductEditPage } from '../ProductPage';
 import { TablePage, TableEditPage } from '../TablePage';
 import { WorkerPage, WorkerEditPage } from '../WorkerPage';
-import { OrderPage } from '../OrderPage';
+import { OrderPage, OrderEditPage } from '../OrderPage';
 import { GuestPage } from '../GuestPage';
 
 function App() {
@@ -39,6 +39,12 @@ function App() {
                 redirectTo={routes.login}
                 />
 
+            <PrivateRoute
+                path={routes.orderEdit}
+                component={OrderEditPage}
+                condition={user && user.place && user.place.id}
+                redirectTo={routes.login}
+                />
             <PrivateRoute
                 path={routes.orderList}
                 component={OrderPage}

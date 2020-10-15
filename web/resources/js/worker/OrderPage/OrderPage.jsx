@@ -59,7 +59,7 @@ const SortableItem = ({value}) => {
                 {value.worker_id ?
                     <Link
                         to={routes.makeRoute('orderEdit', [value.id])}
-                        className="btn btn-link btn-block"
+                        className="btn btn-light px-5"
                         >{t('Перейти к заказу')}</Link>
                     :
                     <button
@@ -84,7 +84,6 @@ const SortableList = ({items, disabled}) => {
 
 function OrderPage() {
     const [items, setItems] = useState([]);
-    const [orderStatusPhaseId, setOrderStatusPhaseId] = useState(0);
     const [filter, setFilter] = useState({
         search: '',
     });
@@ -98,8 +97,11 @@ function OrderPage() {
     }, []);
 
     useEffect(() => {
-        if (!orderStatusPhaseId && orderAll.orderStatusPhases) {
-            setOrderStatusPhaseId(orderAll.orderStatusPhases[0].id);
+        if ((!orderAll.filter || !orderAll.filter.orderStatusPhaseId)
+            && orderAll.orderStatusPhases && orderAll.orderStatusPhases.length) {
+            dispatch(orderActions.indexFilterSet({
+                orderStatusPhaseId: orderAll.orderStatusPhases[0].id,
+            }));
         }
     }, [orderAll.orderStatusPhases]);
 
@@ -111,7 +113,11 @@ function OrderPage() {
     }, [orderAll.data]);
 
     function getFilteredItems() {
-        let _items = items.filter((v) => (v.orderStatus_phase_id == orderStatusPhaseId));
+        let _items = orderAll.filter && orderAll.filter.orderStatusPhaseId
+            ? items.filter((v) => {
+                return v.orderStatus_phase_id == orderAll.filter.orderStatusPhaseId
+            })
+            : items;
         if (!filterMode || !filter.search) {
             return _items;
         }
@@ -132,7 +138,9 @@ function OrderPage() {
 
     function handleClickNavItem(id, e) {
         e.preventDefault();
-        setOrderStatusPhaseId(id);
+        dispatch(orderActions.indexFilterSet({
+            orderStatusPhaseId: id,
+        }));
     }
 
     function handleLogoutClick(e) {
@@ -151,7 +159,7 @@ function OrderPage() {
                 {orderAll.orderStatusPhases && orderAll.orderStatusPhases.map((item) => (
                     <a href="#"
                         key={item.id}
-                        className={'nav-link '+ (item.id == orderStatusPhaseId ? 'active text-'+item.color : '')}
+                        className={'nav-link '+ (orderAll.filter && item.id == orderAll.filter.orderStatusPhaseId ? 'active text-'+item.color : '')}
                         onClick={handleClickNavItem.bind(this, item.id)}
                         >{item.name+(item.orders_count ? ` (${item.orders_count})` : '')}</a>
                 ))}

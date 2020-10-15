@@ -6,6 +6,7 @@ const initialState = {
         error: false,
         data: null,
         orderStatusPhases: null,
+        filter: null,
     },
     current: {
         loading: false,
@@ -24,12 +25,21 @@ function all(state = initialState.all, action) {
             };
         case orderConstants.GETALL_SUCCESS:
             return {
+                ...state,
+                loading: false,
+                error: false,
                 data: action.payload.data,
                 orderStatusPhases: action.payload.orderStatusPhases,
             };
         case orderConstants.GETALL_FAILURE:
             return {
                 error: action.error,
+            };
+
+        case orderConstants.INDEX_FILTER_SET:
+            return {
+                ...state,
+                filter: action.payload,
             };
 
         default:
@@ -51,6 +61,18 @@ function current(state = initialState.current, action) {
         case orderConstants.GETBYID_FAILURE:
             return {
                 error: action.error,
+            };
+
+        case orderConstants.MESSAGE_ADD:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    messages: [
+                        ...state.data.messages,
+                        action.payload.message
+                    ],
+                },
             };
 
         default:

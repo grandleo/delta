@@ -54,16 +54,16 @@ function OrderListItem({ order }) {
             </div>
             <hr />
             <div className="mt-4 text-center">
-                <a href="#"
-                    onClick={(e) => {e.preventDefault()}}
-                    >{t('Скачать счёт')}</a>
+                <Link
+                    to={routes.makeRoute('order', [order.id])}
+                    className="btn btn btn-light px-5"
+                    >{t('Перейти к заказу')}</Link>
             </div>
         </div>
     );
 }
 
 function OrderListPage() {
-    const [orderStatusPhaseId, setOrderStatusPhaseId] = useState(0);
     const orderAll = useSelector(state => state.order.all);
     const dispatch = useDispatch();
 
@@ -72,14 +72,28 @@ function OrderListPage() {
     }, []);
 
     useEffect(() => {
-        if (!orderStatusPhaseId && orderAll.orderStatusPhases) {
-            setOrderStatusPhaseId(orderAll.orderStatusPhases[0].id);
+        if ((!orderAll.filter || !orderAll.filter.orderStatusPhaseId)
+            && orderAll.orderStatusPhases && orderAll.orderStatusPhases.length) {
+            dispatch(orderActions.indexFilterSet({
+                orderStatusPhaseId: orderAll.orderStatusPhases[0].id,
+            }));
         }
     }, [orderAll.orderStatusPhases]);
 
+    function getFilteredItems(items) {
+        let _items = orderAll.filter && orderAll.filter.orderStatusPhaseId
+            ? items.filter((v) => {
+                return v.orderStatus_phase_id == orderAll.filter.orderStatusPhaseId
+            })
+            : items;
+        return _items;
+    }
+
     function handleClickNavItem(id, e) {
         e.preventDefault();
-        setOrderStatusPhaseId(id);
+        dispatch(orderActions.indexFilterSet({
+            orderStatusPhaseId: id,
+        }));
     }
 
     return (
@@ -92,7 +106,7 @@ function OrderListPage() {
                 {orderAll.orderStatusPhases && orderAll.orderStatusPhases.map((item) => (
                     <a href="#"
                         key={item.id}
-                        className={'nav-link '+ (item.id == orderStatusPhaseId ? 'active text-'+item.color : '')}
+                        className={'nav-link '+ (orderAll.filter && item.id == orderAll.filter.orderStatusPhaseId ? 'active text-'+item.color : '')}
                         onClick={handleClickNavItem.bind(this, item.id)}
                         >{item.name+(item.orders_count ? ` (${item.orders_count})` : '')}</a>
                 ))}
@@ -102,9 +116,7 @@ function OrderListPage() {
                 {orderAll.error && <span className="text-danger">{t('Ошибка')}: {orderAll.error}</span>}
                 {orderAll.data && (orderAll.data.length ?
                     <div className="">
-                        {orderAll.data
-                            .filter((v) => (v.orderStatus_phase_id == orderStatusPhaseId))
-                            .map((order) =>
+                        {getFilteredItems(orderAll.data).map((order) =>
                             <OrderListItem key={order.id} order={order} />
                         )}
                     </div>
