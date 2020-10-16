@@ -103,7 +103,10 @@ function OrderEditPage() {
                                 <b>{order.table_name}</b> / {t('Заказ')} #{order.id}
                             </h5>
                             <p className="m-0 small">{t('создан')+' '+order.created_at}</p>
+                            <p className="m-0 mt-1">{t('Официант:')} <span className="font-weight-600">{order.worker_name}</span></p>
+                            <p className="m-0">{t('Персон:')} <span className="font-weight-600">{order.cutlery_qty}</span></p>
                         </div>
+                        <hr className="mt-2" />
                         <div className="mt-2">
                             {order.orderProducts.map((orderProduct) =>
                                 <div
@@ -119,20 +122,19 @@ function OrderEditPage() {
                         <div className="mt-2 text-right">
                             <b>{t('Итого:')} {fMoney(order.amount, order.currency)}</b>
                         </div>
-                        <hr />
+                        <hr className="mb-2" />
                         <div className="d-flex align-items-center">
                             <div className="rounded-circle bg-light mr-3"
-                                style={{ minWidth: 40, width: 40, height: 40 }}>
-                                {order.worker_image &&
-                                    <img src={fileSrc(order.worker_image)} alt="img" className="img-fluid rounded-circle" />
+                                style={{ minWidth: 30, width: 30, height: 30 }}>
+                                {order.guest_image &&
+                                    <img src={fileSrc(order.guest_image)} alt="img" className="img-fluid rounded-circle" />
                                 }
                             </div>
                             <div>
-                                <small>{t('Ваш официант')}</small>
-                                <div>{order.worker_name || t('Ожидается')}</div>
+                                {t('Гость №')+order.guest_id+' \u00A0 / \u00A0 '+order.guest_name}
                             </div>
                         </div>
-                        <hr />
+                        <hr className="mt-2" />
                         <div className="d-flex flex-column align-items-start">
                             {order.messages.map((message) =>
                                 <div key={message.id}
@@ -147,7 +149,7 @@ function OrderEditPage() {
                                 </div>
                             )}
                         </div>
-                        <div className="my-3 p-3 bg-dark text-white">
+                        <div className="mb-3 p-3 bg-dark text-white">
                             {quickAnswers.length > 0 &&
                                 <div className="mb-2">
                                     <h6 className="text-warning">{t('Быстрые ответы:')}</h6>

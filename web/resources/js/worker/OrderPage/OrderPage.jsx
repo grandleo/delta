@@ -1,11 +1,13 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, fileSrc, routes } from '../_helpers';
 import { Header, NavScroller, LoadingCommon } from '../_components';
 import { orderService } from '../_services';
 import { orderActions, userActions } from '../_actions';
+
+const productDisplayLimit = 2;
 
 const SortableItem = ({value}) => {
     const history = useHistory();
@@ -33,14 +35,16 @@ const SortableItem = ({value}) => {
                 <p className="m-0 small">{t('создан')+' '+value.created_at}</p>
             </div>
             <div className="mt-1">
-                {t('Гость: №')+value.guest_id} / {t('Cообщений: ')+' '+value.messages_count}
+                {t('Гость №')+value.guest_id} /
+                {t('Персон:')} <span className="font-weight-500">{value.cutlery_qty}</span> /
+                {t('Чат:')} <span className="font-weight-500">{value.messages_count}</span>
             </div>
             <div className="mt-1">
                 {t('Официант: ')} <span className="font-weight-600">{value.worker_name}</span>
             </div>
-            <hr />
+            <hr className="my-2" />
             <div className="mt-3">
-                {value.orderProducts.map((orderProduct) =>
+                {value.orderProducts.slice(0, productDisplayLimit).map((orderProduct) =>
                     <div
                         key={orderProduct.id}
                         className="d-flex justify-content-between"
@@ -50,12 +54,17 @@ const SortableItem = ({value}) => {
                         <small className="ml-auto">{fMoney(orderProduct.price * orderProduct.qty, value.currency)}</small>
                     </div>
                 )}
+                {value.orderProducts.length > productDisplayLimit &&
+                    <div className="text-center small">
+                        {t('и ещё')+' '+(value.orderProducts.length-productDisplayLimit)+t(' других')}
+                    </div>
+                }
             </div>
             <div className="mt-2 text-right">
                 <b>{t('Итого:')} {fMoney(value.amount, value.currency)}</b>
             </div>
-            <hr />
-            <div className="mt-4 text-center">
+            <hr className="mt-2" />
+            <div className="text-center">
                 {value.worker_id ?
                     <Link
                         to={routes.makeRoute('orderEdit', [value.id])}

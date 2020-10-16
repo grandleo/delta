@@ -26,6 +26,7 @@ class OrderResource extends JsonResource
             'created_at' => $this->created_at->toDateTimeString(),
             'placeCategory_name' => $this->place->placeCategory->name,
             'place_name' => $this->place->name,
+            'place_slug' => $this->place->slug,
             'table_name' => optional($this->table)->name,
             'worker_name' => optional($this->worker)->name,
             'worker_image' => optional($this->worker)->image ?? 'test/user-male.png',

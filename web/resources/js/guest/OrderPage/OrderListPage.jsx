@@ -6,13 +6,18 @@ import { t, fMoney, routes } from '../_helpers';
 import { orderActions } from '../_actions';
 import { Header, NavScroller, LoadingCommon } from '../_components';
 
+const productDisplayLimit = 4;
+
 function OrderListItem({ order }) {
     return (
         <div
             className="mb-4 px-4 py-4 bg-white rounded-xl"
             >
             <div className="font-weight-500">
-                <span className="mr-1 text-black-50">{order.placeCategory_name}:</span> {order.place_name}
+                <span className="mr-1 text-black-50">{order.placeCategory_name}:</span>
+                <Link
+                    to={routes.makeRoute('place', [order.place_slug])}
+                    >{order.place_name}</Link>
             </div>
             <div className="mt-3 d-flex justify-content-between align-items-start">
                 <div>
@@ -23,13 +28,6 @@ function OrderListItem({ order }) {
                         {t('Заказ')} #{order.id}
                     </Link>
                     <p className="m-0 small">{t('создан')+' '+order.created_at}</p>
-                    {(order.table_name || order.worker_name) &&
-                        <p className="m-0 mt-1">
-                            {order.table_name ? order.table_name + ' / ' : ''}
-                            {order.worker_name ? t('Официант: ')+' '+order.worker_name : ''}
-                        </p>
-                    }
-                    <p className="m-0 mt-1 small">{t('Кол-во сообщений: ')+' '+order.messages_count}</p>
                 </div>
                 <span
                     className={'badge badge-primary px-2 py-1 font-weight-500 badge-' + order.orderStatus_color}
@@ -37,8 +35,16 @@ function OrderListItem({ order }) {
                     {order.orderStatus_name || t('Ожидает обработки')}
                 </span>
             </div>
+            {(order.table_name || order.worker_name) &&
+                <p className="m-0 mt-1">
+                    {order.table_name ? order.table_name + ' / ' : ''}
+                    {order.worker_name ? t('Официант: ')+' '+order.worker_name : ''}
+                </p>
+            }
+            <p className="m-0 mt-1 small">{t('Кол-во сообщений: ')+' '+order.messages_count}</p>
+            <hr />
             <div className="mt-3">
-                {order.orderProducts.map((orderProduct) =>
+                {order.orderProducts.slice(0, productDisplayLimit).map((orderProduct) =>
                     <div
                         key={orderProduct.id}
                         className="d-flex justify-content-between"
@@ -48,6 +54,11 @@ function OrderListItem({ order }) {
                         <small className="ml-auto">{fMoney(orderProduct.price * orderProduct.qty, order.currency)}</small>
                     </div>
                 )}
+                {order.orderProducts.length > productDisplayLimit &&
+                    <div className="text-center small">
+                        {t('и ещё')+' '+(order.orderProducts.length-productDisplayLimit)+t(' других')}
+                    </div>
+                }
             </div>
             <div className="mt-2 text-right">
                 <b>{t('Итого:')} {fMoney(order.amount, order.currency)}</b>

@@ -85,6 +85,13 @@ function OrderPage() {
                                 {order.orderStatus_name || t('Ожидает обработки')}
                             </span>
                         </div>
+                        <div className="font-weight-500">
+                            <span className="mr-1 text-black-50">{order.placeCategory_name}:</span>
+                            <Link
+                                to={routes.makeRoute('place', [order.place_slug])}
+                                >{order.place_name}</Link>
+                        </div>
+                        <hr />
                         <div className="mt-2">
                             {order.orderProducts.map((orderProduct) =>
                                 <div
@@ -101,18 +108,20 @@ function OrderPage() {
                             <b>{t('Итого:')} {fMoney(order.amount, order.currency)}</b>
                         </div>
                         <hr />
-                        <div className="d-flex align-items-center">
-                            <div className="rounded-circle bg-light mr-3"
-                                style={{ minWidth: 40, width: 40, height: 40 }}>
-                                {order.worker_image &&
-                                    <img src={fileSrc(order.worker_image)} alt="img" className="img-fluid rounded-circle" />
-                                }
+                        {order.worker_id &&
+                            <div className="d-flex align-items-center">
+                                <div className="rounded-circle bg-light mr-3"
+                                    style={{ minWidth: 40, width: 40, height: 40 }}>
+                                    {order.worker_image &&
+                                        <img src={fileSrc(order.worker_image)} alt="img" className="img-fluid rounded-circle" />
+                                    }
+                                </div>
+                                <div>
+                                    <small>{t('Ваш официант')}</small>
+                                    <div>{order.worker_name || t('Ожидается')}</div>
+                                </div>
                             </div>
-                            <div>
-                                <small>{t('Ваш официант')}</small>
-                                <div>{order.worker_name || t('Ожидается')}</div>
-                            </div>
-                        </div>
+                        }
                         <hr />
                         <div className="d-flex flex-column align-items-start pb-2">
                             {order.messages.map((message) =>
