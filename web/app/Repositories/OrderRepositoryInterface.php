@@ -10,16 +10,19 @@ interface OrderRepositoryInterface
 {
     /**
     * @param $guest_id
+    * @param array $conditions
     * @return Collection
     */
-    public function getByGuestId($guest_id): Collection;
+    public function getByGuestId($guest_id, array $conditions = []): Collection;
 
     /**
     * @param $place_id
+    * @param $worker_id
+    * @param bool $all
+    * @param array $conditions
     * @return Collection
     */
-    public function getByPlaceIdSorted($place_id): Collection;
-
+    public function getByPlaceIdSorted($place_id, $worker_id = null, $all = false, array $conditions = []): Collection;
     /**
     * @param $id
     * @param $guest_id

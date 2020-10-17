@@ -13,10 +13,11 @@ interface PlaceRepositoryInterface
     public function getAllSorted(): Collection;
 
     /**
-    * @param sting $slug
+    * @param string $slug
+    * @param $table_id
     * @return Place
     */
-    public function findBySlug($slug): ?Place;
+    public function findBySlug($slug, $table_id = null): ?Place;
 
     /**
     * @param string $name

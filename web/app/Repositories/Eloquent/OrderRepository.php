@@ -20,9 +20,10 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
     /**
     * @param $guest_id
+    * @param array $conditions
     * @return Collection
     */
-    public function getByGuestId($guest_id): Collection
+    public function getByGuestId($guest_id, array $conditions = []): Collection
     {
         return $this->model
             ->with([
@@ -35,6 +36,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                 'messages',
             ])
             ->where('guest_id', $guest_id)
+            ->where($conditions)
             ->status('draft', '!=')
             ->orderByDesc('id')
             ->get();
@@ -43,9 +45,11 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     /**
     * @param $place_id
     * @param $worker_id
+    * @param bool $all
+    * @param array $conditions
     * @return Collection
     */
-    public function getByPlaceIdSorted($place_id, $worker_id = null, $all = false): Collection
+    public function getByPlaceIdSorted($place_id, $worker_id = null, $all = false, array $conditions = []): Collection
     {
         $query = $this->model
             ->with([
@@ -63,6 +67,10 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                     $query2->where('id', $worker_id);
                 });
             });
+        }
+
+        if (!empty($conditions)) {
+            $query->where($conditions);
         }
 
         return $query->get();

@@ -14,7 +14,7 @@ use App\Repositories\OrderProductRepositoryInterface;
 
 use App\Events\OrderStatusPaid;
 
-use App\Http\Resources\Guest\ProductResource;
+use App\Http\Resources\Guest\ProductShortResource;
 use App\Http\Resources\Guest\OrderShortResource;
 
 class CartApiController extends Controller
@@ -58,7 +58,7 @@ class CartApiController extends Controller
         ]);
         $products = $this->productRepository->getByPlaceIdAndProductIds($reqData['placeId'], $reqData['productIds']);
 
-        return ProductResource::collection($products);
+        return ProductShortResource::collection($products);
     }
 
     /**

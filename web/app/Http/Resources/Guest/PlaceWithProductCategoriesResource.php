@@ -26,6 +26,9 @@ class PlaceWithProductCategoriesResource extends JsonResource
             'prices_from' => $this->getJson('params', 'prices_from', 0),
             'works_until' => $this->getJson('params', 'works_until', __('Круглосуточно')),
             'productCategories' => ProductCategoryResource::collection($this->productCategories),
+
+            'table_id' => $this->relationLoaded('tables') ? optional($this->tables->first())->id : '',
+            'table_name' => $this->relationLoaded('tables') ? optional($this->tables->first())->name : '',
         ];
     }
 }

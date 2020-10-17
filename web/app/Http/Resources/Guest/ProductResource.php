@@ -21,7 +21,13 @@ class ProductResource extends JsonResource
             'image' => $this->image ?? 'test/130.png',
             'price' => $this->price,
             'descr_short' => $this->descr_short,
+            'kcal' => $this->getJson('params', 'kcal', '?') ?? '?',
             'weight' => $this->getJson('params', 'weight', 0),
+            'waiting_minutes' => $this->getJson('params', 'waiting_minutes', '?'),
+
+            'productCategory_id' => $this->product_category_id,
+            'productCategory_name' => isset($this->productCategory) ? optional($this->productCategory)->name : '',
+            'productCategory_slug' => isset($this->productCategory) ? optional($this->productCategory)->slug : '',
         ];
     }
 }

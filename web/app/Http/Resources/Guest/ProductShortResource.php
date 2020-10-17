@@ -4,7 +4,7 @@ namespace App\Http\Resources\Guest;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductCategoryWithProductsResource extends JsonResource
+class ProductShortResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,9 +19,9 @@ class ProductCategoryWithProductsResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'image' => $this->image ?? 'test/130.png',
+            'price' => $this->price,
             'descr_short' => $this->descr_short,
-            'count' => $this->products->count(),
-            'products' => ProductShortResource::collection($this->products),
+            'weight' => $this->getJson('params', 'weight', 0),
         ];
     }
 }

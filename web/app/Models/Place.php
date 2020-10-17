@@ -53,7 +53,7 @@ class Place extends Model
         return $this->belongsTo('App\Models\PlaceCategory');
     }
 
-    public function table()
+    public function tables()
     {
         return $this->hasMany('App\Models\Table');
     }
@@ -61,5 +61,13 @@ class Place extends Model
     public function productCategories()
     {
         return $this->hasMany('App\Models\ProductCategory');
+    }
+
+
+    // METHODS
+
+    public function routeTable($table_id = null)
+    {
+        return '/'.$this->slug.($table_id ? '?t='.$table_id : '');
     }
 }

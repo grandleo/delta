@@ -23,6 +23,7 @@ class ProductResource extends JsonResource
             'descr_short' => $this->descr_short ?? '',
             'weight' => $this->getJson('params', 'weight', 0),
             'waiting_minutes' => $this->getJson('params', 'waiting_minutes', 15),
+            'kcal' => $this->getJson('params', 'kcal', '') ?? '',
             'active' => +$this->hasStatus('active'),
         ];
     }

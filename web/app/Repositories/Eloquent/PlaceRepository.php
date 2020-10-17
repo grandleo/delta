@@ -29,11 +29,23 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
     }
 
     /**
+    * @param string $slug
+    * @param $table_id
     * @return Place
     */
-    public function findBySlug($slug): ?Place
+    public function findBySlug($slug, $table_id = null): ?Place
     {
-        return $this->model->where('slug', $slug)->first();
+        $model = $this->model->where('slug', $slug)->first();
+
+        if ($table_id) {
+            $model->load([
+                'tables' => function($query1) use ($table_id) {
+                    $query1->where('id', $table_id);
+                },
+            ]);
+        }
+
+        return $model;
     }
 
     /**

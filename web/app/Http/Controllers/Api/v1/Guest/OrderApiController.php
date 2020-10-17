@@ -16,6 +16,7 @@ class OrderApiController extends Controller
 {
     private $orderRepository;
     private $orderProductRepository;
+    private $orderStatusPhaseRepository;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
@@ -31,15 +32,23 @@ class OrderApiController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $reqData = $request->validate([
+            'date' => 'nullable|date',
+        ]);
+
         $guest_id = \Auth::id();
 
         $orderStatusPhases = $this->orderStatusPhaseRepository->getByPlaceCategoryId(null);
 
-        $orders = $this->orderRepository->getByGuestId($guest_id);
+        $conditions = [
+            ['created_at', 'like', $reqData['date'].'%'],
+        ];
+        $orders = $this->orderRepository->getByGuestId($guest_id, $conditions);
 
         foreach ($orders as $order) {
             $orStPh = $orderStatusPhases->firstWhere('id', optional($order->orderStatus)->order_status_phase_id);

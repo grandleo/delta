@@ -105,6 +105,7 @@ class ProductApiController extends Controller
             'price' => 'required|numeric',
             'weight' => 'required|numeric',
             'waiting_minutes' => 'required|numeric',
+            'kcal' => 'nullable|numeric',
             'active' => 'required|numeric',
         ]);
 
@@ -115,6 +116,7 @@ class ProductApiController extends Controller
         $reqData['price'] = $reqData['price'] * 100;
         $reqData['params']['weight'] = +$reqData['weight'];
         $reqData['params']['waiting_minutes'] = +$reqData['waiting_minutes'];
+        $reqData['params']['kcal'] = isset($reqData['kcal']) ? +$reqData['kcal'] : null;
 
         if ($isNew) {
             $reqData['place_id'] = $place->id;

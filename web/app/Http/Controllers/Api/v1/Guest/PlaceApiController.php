@@ -39,12 +39,19 @@ class PlaceApiController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
-        $place = $this->placeRepository->findBySlug($slug);
+        $reqData = $request->validate([
+            'table_id' => 'nullable|numeric',
+        ]);
+
+        $table_id = !empty($reqData['table_id']) ? $reqData['table_id'] : null;
+
+        $place = $this->placeRepository->findBySlug($slug, $table_id);
         abort_if(!$place, 404);
 
         $place->productCategories = $this->productCategoryRepository->getByPlaceIdSorted($place->id);

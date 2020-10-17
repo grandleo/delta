@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'index');
+Route::get('/tbl{marker_code}', [App\Http\Controllers\TableMarkerController::class, 'index'])
+    ->where('marker_code', '\d+');
+
+Route::view('/', 'index')->name('landing');
+
 Route::view('/manager/{any?}', 'manager')->where('any', '.*');
 Route::view('/worker/{any?}', 'worker')->where('any', '.*');
 Route::view('/guest/{path?}', 'guest');

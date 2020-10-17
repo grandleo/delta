@@ -38,6 +38,9 @@ Route::prefix('v1/guest')
     Route::resource('product-categories', 'ProductCategoryApiController')->only([
         'show',
     ]);
+    Route::resource('products', 'ProductApiController')->only([
+        'show',
+    ]);
     Route::resource('cart', 'CartApiController')->only([
         'index', 'store',
     ]);
