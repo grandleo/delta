@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, routes } from '../_helpers';
 import { placeActions, cartActions } from '../_actions';
-import { Header, NavScroller } from '../_components';
+import { Link, Header, NavScroller } from '../_components';
 
 function CartCheckoutPage() {
     const { placeSlug } = useParams();
@@ -40,8 +40,6 @@ function CartCheckoutPage() {
         <div className="home-page">
             <Header
                 routeBack={routes.makeRoute('place', [placeCurrent.data ? placeCurrent.data.slug : ''])}
-                headingTop={placeCurrent.data ? placeCurrent.data.name : t('Загрузка...')}
-                headingBottom={t('Предзаказ')}
                 />
             <div className="content-wrapper">
                 <div
@@ -61,19 +59,13 @@ function CartCheckoutPage() {
                     <div className="mt-5 mb-3 mx-4">
                         <Link
                             className="btn btn-lg btn-success btn-block rounded-pill text-white"
-                            to={{
-                                pathname: routes.login,
-                                state: { from: routes.makeRoute('placeCartCheckout', [placeSlug]) }
-                            }}
+                            to={routes.login}
                             >
                             {t('Войти и оплатить')}
                         </Link>
                         <Link
                             className="btn btn-lg btn-link d-block mt-3 mx-auto"
-                            to={{
-                                pathname: routes.register,
-                                state: { from: routes.makeRoute('placeCartCheckout', [placeSlug]) }
-                            }}
+                            to={routes.register}
                             >
                             {t('Создать аккаунт')}
                         </Link>

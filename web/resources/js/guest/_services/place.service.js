@@ -13,9 +13,10 @@ function getAll() {
     return fetchClient()(requestOptions).then(handleResponse);
 }
 
-function getById(placeId) {
+function getById(placeId, params) {
     const requestOptions = {
         url: `places/${placeId}`,
+        params,
     };
 
     return fetchClient()(requestOptions).then(handleResponse);

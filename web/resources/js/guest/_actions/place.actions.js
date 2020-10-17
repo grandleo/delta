@@ -22,11 +22,11 @@ function getAll() {
     function failure(error) { return { type: placeConstants.GETALL_FAILURE, error } }
 }
 
-function getById(placeId) {
+function getById(placeSlug, params) {
     return dispatch => {
         dispatch(request());
 
-        placeService.getById(placeId)
+        placeService.getById(placeSlug, params)
             .then(
                 payload => dispatch(success(payload)),
                 error => dispatch(failure(error.toString()))

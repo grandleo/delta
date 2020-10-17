@@ -24,6 +24,7 @@ function ProductEditPage() {
         descr_short: '',
         price: '',
         weight: '',
+        kcal: '',
         waiting_minutes: 15,
         active: 0,
     });
@@ -141,7 +142,7 @@ function ProductEditPage() {
                                 <label htmlFor="current-form.image"
                                     role="button"
                                     className="d-block m-0 py-2 text-center"
-                                    ><img src={fileSrc(inputs.image)} alt="image" /></label>
+                                    ><img src={fileSrc(inputs.image)} alt="image" className="img-fluid" /></label>
                             }
                             {!inputs.image &&
                                 <label htmlFor="current-form.image"
@@ -199,6 +200,19 @@ function ProductEditPage() {
                             {validate('weight') &&
                                 <div className="invalid-feedback text-right">{validate('weight')}</div>
                             }
+                        </div>
+                        <div className="form-group form-label-group">
+                            <input
+                                id="current-form.kcal"
+                                type="number"
+                                min="0"
+                                name="kcal"
+                                placeholder={t('кКал')}
+                                value={inputs.kcal}
+                                onChange={handleChange}
+                                className="form-control"
+                                />
+                            <label htmlFor="current-form.kcal">{t('кКал')}</label>
                         </div>
                         <div className="form-group form-label-group">
                             <input

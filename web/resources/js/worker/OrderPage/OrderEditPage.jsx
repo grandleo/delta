@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, fileSrc, routes, echo, scroll } from '../_helpers';
+import { t, fMoney, fileSrc, routes, scroll } from '../_helpers';
 import { orderActions } from '../_actions';
 import { orderService } from '../_services';
 import { Header, LoadingCommon } from '../_components';
@@ -27,13 +27,13 @@ function OrderEditPage() {
     useEffect(() => {
         dispatch(orderActions.show(orderId));
 
-        echo.private('order.' + orderId)
+        window.echo.private('order.' + orderId)
             .listen('message-new', (e) => {
                 recievedNewMessage(e.message);
             });
 
         return () => {
-            echo.leave('order.' + orderId);
+            window.echo.leave('order.' + orderId);
         }
     }, []);
 
@@ -133,13 +133,16 @@ function OrderEditPage() {
                             <div>
                                 {t('Гость №')+order.guest_id+' \u00A0 / \u00A0 '+order.guest_name}
                             </div>
+                            <div className="ml-auto mr-1">
+                                <img src="/images/icon/messages.svg" alt="img" />
+                            </div>
                         </div>
                         <hr className="mt-2" />
                         <div className="d-flex flex-column align-items-start">
                             {order.messages.map((message) =>
                                 <div key={message.id}
                                     className={
-                                        'mb-3 px-3 py-1'
+                                        'mb-3 px-3 py-1 pre-line'
                                         + (message.is_system ? ' align-self-center bg-info text-white ml-5' : ' bg-light')
                                         + (message.owner_uid.indexOf('m') === 0 || message.owner_uid === owner_uid ? ' align-self-end ml-5' : ' mr-5')
                                         + (message.owner_uid.indexOf('m') === 0 ? ' border border-purple' : '')
@@ -201,9 +204,10 @@ function OrderEditPage() {
                                     style={{height: 50, resize:'none', paddingRight: 100}}
                                     />
                                 <button
-                                    className="position-absolute btn btn-sm btn-purple"
-                                    style={{zIndex: 1, top: 12.5, right:15 }}
-                                    >{t('Отправить')}</button>
+                                    aria-label={t('Отправить')}
+                                    className="position-absolute btn btn-sm"
+                                    style={{zIndex: 1, top: 8, right:12 }}
+                                    ><img src="/images/icon/send-message.svg" alt="img" /></button>
                             </form>
                         </div>
                     </div>

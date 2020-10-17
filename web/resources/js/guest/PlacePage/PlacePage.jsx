@@ -1,19 +1,22 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import qs from 'qs';
 
 import { t, fileSrc, routes } from '../_helpers';
 import { placeActions } from '../_actions';
-import { Header, CartInfoFixed, LoadingCommon } from '../_components';
+import { Header, CartInfoFixed, Link, LoadingCommon } from '../_components';
 
 function PlacePage() {
     const { placeSlug } = useParams();
     const placeCurrent = useSelector(state => state.place.current);
+    const location = useLocation();
     const dispatch = useDispatch();
 
     useEffect(() => {
+        const table_id = qs.parse(location.search, { ignoreQueryPrefix: true }).t;
         if (!placeCurrent.data || placeCurrent.data.slug !== placeSlug) {
-            dispatch(placeActions.getById(placeSlug));
+            dispatch(placeActions.getById(placeSlug, table_id ? {table_id} : null));
         }
     }, []);
 
@@ -21,8 +24,6 @@ function PlacePage() {
         <div className="home-page bg-light-1">
             <Header
                 routeBack={routes.home}
-                headingTop={placeCurrent.data ? placeCurrent.data.name : t('Загрузка...')}
-                headingBottom={t('Предзаказ')}
                 />
             <div className="content-wrapper">
                 <h2 className="h4 mb-4 font-weight-600 text-primary">{t('Меню ресторана')}</h2>

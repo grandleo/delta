@@ -20,6 +20,8 @@ export const routes = {
     placeCartCheckout: '/:placeSlug/cart-checkout',
     placeCartPayment: '/:placeSlug/cart-payment',
 
+    placeProduct: '/:placeSlug/pr-:productSlug',
+
     placeProductCategory: '/:placeSlug/:productCategorySlug',
 
 
@@ -35,6 +37,8 @@ export const routes = {
                 return '/' + params[0] + '/cart-checkout';
             case 'placeCartPayment':
                 return '/' + params[0] + '/cart-payment';
+            case 'placeProduct':
+                return '/' + params[0] + '/pr-' + params[1] + '-' + params[2];
             case 'placeProductCategory':
                 return '/' + params[0] + '/' + params[1] + '-' + params[2];
             default:

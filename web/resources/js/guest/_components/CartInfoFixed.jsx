@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
 import { routes, t, fMoney } from '../_helpers';
+import { Link } from '../_components/Link';
 
 function CartInfoFixed() {
     const placeCurrent = useSelector(state => state.place.current);

@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, fileSrc, routes } from '../_helpers';
 import { LoadingCommon } from '../_components';
 import { placeActions } from '../_actions';
+import { Link, Header } from '../_components';
 
 function HomePage() {
     const placesAll = useSelector(state => state.place.all);
     const dispatch = useDispatch();
+    const location = useLocation();
 
     useEffect(() => {
         if (!placesAll.data) {
@@ -18,6 +20,11 @@ function HomePage() {
 
     return (
         <div className="home-page">
+            <Header
+                routeBack={false}
+                headingTop={t('Delta order')}
+                headingBottom={t('система быстрых заказов')}
+                />
             <div className="content-wrapper">
                 <h2 className="h5 font-weight-600 mb-3">{t('Рядом со мной')}</h2>
                 {placesAll.loading && <LoadingCommon />}

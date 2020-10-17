@@ -1,10 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, routes } from '../_helpers';
 import { orderActions } from '../_actions';
-import { Header, NavScroller, LoadingCommon } from '../_components';
+import { Link, Header, NavScroller, LoadingCommon } from '../_components';
 
 const productDisplayLimit = 4;
 
@@ -27,7 +26,6 @@ function OrderListItem({ order }) {
                         >
                         {t('Заказ')} #{order.id}
                     </Link>
-                    <p className="m-0 small">{t('создан')+' '+order.created_at}</p>
                 </div>
                 <span
                     className={'badge badge-primary px-2 py-1 font-weight-500 badge-' + order.orderStatus_color}
@@ -35,13 +33,23 @@ function OrderListItem({ order }) {
                     {order.orderStatus_name || t('Ожидает обработки')}
                 </span>
             </div>
-            {(order.table_name || order.worker_name) &&
-                <p className="m-0 mt-1">
-                    {order.table_name ? order.table_name + ' / ' : ''}
-                    {order.worker_name ? t('Официант: ')+' '+order.worker_name : ''}
-                </p>
-            }
-            <p className="m-0 mt-1 small">{t('Кол-во сообщений: ')+' '+order.messages_count}</p>
+            <small>{t('создан')+' '+order.created_at}</small>
+            <div className="mt-1">
+                {(order.table_name || order.worker_name) &&
+                    <Fragment>
+                        {order.table_name ? order.table_name + ' / ' : ''}
+                        {order.worker_name ? t('Официант: ')+' '+order.worker_name+' / ' : ''}
+                    </Fragment>
+                }
+                <img
+                    src="/images/icon/messages.svg"
+                    title={t('Кол-во сообщений')}
+                    alt="img"
+                    className="mr-2"
+                    style={{height: 16,opacity: 0.7}}
+                    />
+                {order.messages_count}
+            </div>
             <hr />
             <div className="mt-3">
                 {order.orderProducts.slice(0, productDisplayLimit).map((orderProduct) =>
@@ -79,11 +87,14 @@ function OrderListPage() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(orderActions.getAll());
-    }, []);
+        const params = {
+            date: orderAll.filter.date,
+        };
+        dispatch(orderActions.getAll(params));
+    }, [orderAll.filter.date]);
 
     useEffect(() => {
-        if ((!orderAll.filter || !orderAll.filter.orderStatusPhaseId)
+        if ((!orderAll.filter.orderStatusPhaseId)
             && orderAll.orderStatusPhases && orderAll.orderStatusPhases.length) {
             dispatch(orderActions.indexFilterSet({
                 orderStatusPhaseId: orderAll.orderStatusPhases[0].id,
@@ -92,7 +103,7 @@ function OrderListPage() {
     }, [orderAll.orderStatusPhases]);
 
     function getFilteredItems(items) {
-        let _items = orderAll.filter && orderAll.filter.orderStatusPhaseId
+        let _items = orderAll.filter.orderStatusPhaseId
             ? items.filter((v) => {
                 return v.orderStatus_phase_id == orderAll.filter.orderStatusPhaseId
             })
@@ -107,22 +118,42 @@ function OrderListPage() {
         }));
     }
 
+    function handleChangeDate(e) {
+        const { name } = e.target;
+        const value = e.target.value;
+        dispatch(orderActions.indexFilterSet({
+            date: value,
+        }));
+    }
+
     return (
         <div className="home-page">
             <Header
-                routeBack={routes.home}
+                routeBack={routes.profile}
                 headingTop={t('Все заказы')}
                 />
             <NavScroller>
                 {orderAll.orderStatusPhases && orderAll.orderStatusPhases.map((item) => (
                     <a href="#"
                         key={item.id}
-                        className={'nav-link '+ (orderAll.filter && item.id == orderAll.filter.orderStatusPhaseId ? 'active text-'+item.color : '')}
+                        className={'nav-link '+ (item.id == orderAll.filter.orderStatusPhaseId ? 'active text-'+item.color : '')}
                         onClick={handleClickNavItem.bind(this, item.id)}
                         >{item.name+(item.orders_count ? ` (${item.orders_count})` : '')}</a>
                 ))}
             </NavScroller>
             <div className="content-wrapper">
+                <div className="form-group form-label-group">
+                    <input
+                        id="current-form.date"
+                        type="date"
+                        name="date"
+                        placeholder={t('Дата')}
+                        value={orderAll.filter.date}
+                        onChange={handleChangeDate}
+                        className="form-control"
+                        />
+                    <label htmlFor="current-form.date">{t('Дата')}</label>
+                </div>
                 {orderAll.loading && <LoadingCommon />}
                 {orderAll.error && <span className="text-danger">{t('Ошибка')}: {orderAll.error}</span>}
                 {orderAll.data && (orderAll.data.length ?

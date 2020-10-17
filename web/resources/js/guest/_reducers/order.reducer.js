@@ -6,7 +6,10 @@ const initialState = {
         error: false,
         data: null,
         orderStatusPhases: null,
-        filter: null,
+        filter: {
+            orderStatusPhaseId: '',
+            date: '',
+        },
     },
     current: {
         loading: false,
@@ -39,7 +42,10 @@ function all(state = initialState.all, action) {
         case orderConstants.INDEX_FILTER_SET:
             return {
                 ...state,
-                filter: action.payload,
+                filter: {
+                    ...state.filter,
+                    ...action.payload,
+                },
             };
 
         default:

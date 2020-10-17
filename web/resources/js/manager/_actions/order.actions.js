@@ -10,11 +10,11 @@ export const orderActions = {
     messageAddDirect,
 };
 
-function index() {
+function index(params) {
     return dispatch => {
         dispatch(request());
 
-        return orderService.index()
+        return orderService.index(params)
             .then(
                 payload => dispatch(success(payload)),
                 error => dispatch(failure(error.toString()))

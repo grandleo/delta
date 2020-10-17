@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, fileSrc, routes } from '../_helpers';
 import { placeActions, productCategoryActions } from '../_actions';
-import { Header, NavScroller, CartInfoFixed, LoadingCommon } from '../_components';
+import { Header, NavScroller, Link, CartInfoFixed, LoadingCommon } from '../_components';
 import { AddToCartButton } from './AddToCartButton';
 
 function ProductCategoryPage() {
@@ -24,8 +24,6 @@ function ProductCategoryPage() {
         <div className="home-page bg-light-1">
             <Header
                 routeBack={routes.makeRoute('place', [placeCurrent.data ? placeCurrent.data.slug : ''])}
-                headingTop={placeCurrent.data ? placeCurrent.data.name : t('Загрузка...')}
-                headingBottom={t('Предзаказ')}
                 />
             <NavScroller
                 links={placeCurrent.data
@@ -54,7 +52,10 @@ function ProductCategoryPage() {
                                 key={product.id}
                                 className="card card-product mb-3 shadow-btn-3 shadow-move"
                                 >
-                                <div className="row flex-nowrap no-gutters">
+                                <Link
+                                    to={routes.makeRoute('placeProduct', [placeCurrent.data.slug, product.slug, product.id])}
+                                    className="row flex-nowrap no-gutters text-decoration-none"
+                                    >
                                     <div className="col-auto">
                                         <img
                                             src={fileSrc(product.image)}
@@ -73,7 +74,7 @@ function ProductCategoryPage() {
                                             </p>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                                 <AddToCartButton
                                     placeId={placeCurrent.data.id}
                                     productId={product.id}

@@ -17,7 +17,7 @@ function CartPage() {
     const history = useHistory();
 
     const placeId = placeCurrent.data ? placeCurrent.data.id : null;
-    const tableId = null;
+    const tableId = placeCurrent.data ? placeCurrent.data.table_id : null;
     const productIds = [];
 
     let totalProducts = 0;
@@ -63,8 +63,6 @@ function CartPage() {
         <div className="home-page bg-light-1">
             <Header
                 routeBack={routes.makeRoute('place', [placeCurrent.data ? placeCurrent.data.slug : ''])}
-                headingTop={placeCurrent.data ? placeCurrent.data.name : t('Загрузка...')}
-                headingBottom={t('Предзаказ')}
                 />
             <div className="content-wrapper">
                 <h2 className="h5 d-block mb-4 font-weight-600 text-center text-primary">{t('Корзина')}</h2>

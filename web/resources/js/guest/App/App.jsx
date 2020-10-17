@@ -13,6 +13,7 @@ import { ProductCategoryPage } from '../ProductCategoryPage';
 import { CartPage, CartCheckoutPage, CartPaymentPage } from '../CartPage';
 import { ProfilePage, ProfileCardsPage } from '../ProfilePage';
 import { OrderPage, OrderListPage } from '../OrderPage';
+import { ProductPage } from '../ProductPage';
 
 function App() {
     const user = useSelector(state => state.authentication.user);
@@ -67,6 +68,7 @@ function App() {
                 redirectTo={routes.home}
                 />
 
+            <Route path={routes.placeProduct} component={ProductPage} />
             <Route path={routes.placeProductCategory} component={ProductCategoryPage} />
             <Route path={routes.place} component={PlacePage} />
             <Redirect from="*" to={routes.home} />

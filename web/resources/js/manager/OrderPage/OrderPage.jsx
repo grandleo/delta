@@ -87,11 +87,14 @@ function OrderPage() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(orderActions.index());
-    }, []);
+        const params = {
+            date: orderAll.filter.date,
+        };
+        dispatch(orderActions.index(params));
+    }, [orderAll.filter.date]);
 
     useEffect(() => {
-        if ((!orderAll.filter || !orderAll.filter.orderStatusPhaseId)
+        if ((!orderAll.filter.orderStatusPhaseId)
             && orderAll.orderStatusPhases && orderAll.orderStatusPhases.length) {
             dispatch(orderActions.indexFilterSet({
                 orderStatusPhaseId: orderAll.orderStatusPhases[0].id,
@@ -107,7 +110,7 @@ function OrderPage() {
     }, [orderAll.data]);
 
     function getFilteredItems() {
-        let _items = orderAll.filter && orderAll.filter.orderStatusPhaseId
+        let _items = orderAll.filter.orderStatusPhaseId
             ? items.filter((v) => {
                 return v.orderStatus_phase_id == orderAll.filter.orderStatusPhaseId
             })
@@ -137,9 +140,12 @@ function OrderPage() {
         }));
     }
 
-    function handleLogoutClick(e) {
-        e.preventDefault();
-        dispatch(userActions.logout());
+    function handleChangeDate(e) {
+        const { name } = e.target;
+        const value = e.target.value;
+        dispatch(orderActions.indexFilterSet({
+            date: value,
+        }));
     }
 
     return (
@@ -152,12 +158,24 @@ function OrderPage() {
                 {orderAll.orderStatusPhases && orderAll.orderStatusPhases.map((item) => (
                     <a href="#"
                         key={item.id}
-                        className={'nav-link '+ (orderAll.filter && item.id == orderAll.filter.orderStatusPhaseId ? 'active text-'+item.color : '')}
+                        className={'nav-link '+ (item.id == orderAll.filter.orderStatusPhaseId ? 'active text-'+item.color : '')}
                         onClick={handleClickNavItem.bind(this, item.id)}
                         >{item.name+(item.orders_count ? ` (${item.orders_count})` : '')}</a>
                 ))}
             </NavScroller>
             <div className="content-wrapper">
+                <div className="form-group form-label-group">
+                    <input
+                        id="current-form.date"
+                        type="date"
+                        name="date"
+                        placeholder={t('Дата')}
+                        value={orderAll.filter.date}
+                        onChange={handleChangeDate}
+                        className="form-control"
+                        />
+                    <label htmlFor="current-form.date">{t('Дата')}</label>
+                </div>
                 {orderAll.loading && <LoadingCommon />}
                 {orderAll.data &&
                     <Fragment>

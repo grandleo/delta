@@ -9,11 +9,11 @@ export const orderActions = {
     messageAddDirect,
 };
 
-function getAll() {
+function getAll(params) {
     return dispatch => {
         dispatch(request());
 
-        return orderService.getAll()
+        return orderService.getAll(params)
             .then(
                 payload => dispatch(success(payload)),
                 error => dispatch(failure(error.toString()))

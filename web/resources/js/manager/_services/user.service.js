@@ -1,4 +1,4 @@
-import { fetchClient, lsSetItem, lsRemoveItem } from '../_helpers';
+import { fetchClient, lsSetItem, lsRemoveItem, echoInit } from '../_helpers';
 
 export const userService = {
     login,
@@ -19,6 +19,7 @@ function login(data) {
         .then(payload => {
             if (payload.data.token) {
                 lsSetItem('token', payload.data.token);
+                echoInit();
             }
             return payload;
         });
@@ -39,6 +40,7 @@ function register(data) {
         .then(payload => {
             if (payload.data.token) {
                 lsSetItem('token', payload.data.token);
+                echoInit();
             }
             return payload;
         });

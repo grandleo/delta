@@ -184,7 +184,7 @@ function SettingsPage() {
                                 <label htmlFor="current-form.image"
                                     role="button"
                                     className="d-block m-0 py-2 text-center"
-                                    ><img src={fileSrc(inputs.image)} alt="logo" /></label>
+                                    ><img src={fileSrc(inputs.image)} alt="logo" className="img-fluid" /></label>
                             }
                             {!inputs.image &&
                                 <label htmlFor="current-form.image"

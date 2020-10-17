@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fileSrc, routes } from '../_helpers';
-import { Header } from '../_components';
+import { Header, Link } from '../_components';
 import { userActions } from '../_actions';
 
 function ProfilePage() {

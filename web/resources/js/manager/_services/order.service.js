@@ -8,9 +8,10 @@ export const orderService = {
     sendMessage,
 };
 
-function index() {
+function index(params) {
     const requestOptions = {
         url: 'orders',
+        params,
     };
 
     return fetchClient()(requestOptions).then(handleResponse);

@@ -1,0 +1,5 @@
+export const productConstants = {
+    SHOW_REQUEST: 'PRODUCT_SHOW_REQUEST',
+    SHOW_SUCCESS: 'PRODUCT_SHOW_SUCCESS',
+    SHOW_FAILURE: 'PRODUCT_SHOW_FAILURE',
+};

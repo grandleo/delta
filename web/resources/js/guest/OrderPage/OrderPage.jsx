@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, fileSrc, routes, echo, scroll } from '../_helpers';
+import { t, fMoney, fileSrc, routes, scroll } from '../_helpers';
 import { orderActions } from '../_actions';
 import { orderService } from '../_services';
-import { Header, LoadingCommon } from '../_components';
+import { Link, Header, LoadingCommon } from '../_components';
 
 function OrderPage() {
     const [messageText, setMessageText] = useState('');
@@ -22,13 +22,13 @@ function OrderPage() {
     useEffect(() => {
         dispatch(orderActions.getById(orderId));
 
-        echo.private('order.' + orderId)
+        window.echo.private('order.' + orderId)
             .listen('message-new', (e) => {
                 recievedNewMessage(e.message);
             });
 
         return () => {
-            echo.leave('order.' + orderId);
+            window.echo.leave('order.' + orderId);
         }
     }, []);
 
@@ -107,7 +107,7 @@ function OrderPage() {
                         <div className="mt-2 text-right">
                             <b>{t('Итого:')} {fMoney(order.amount, order.currency)}</b>
                         </div>
-                        <hr />
+                        {order.worker_id && <hr />}
                         {order.worker_id &&
                             <div className="d-flex align-items-center">
                                 <div className="rounded-circle bg-light mr-3"
@@ -120,6 +120,9 @@ function OrderPage() {
                                     <small>{t('Ваш официант')}</small>
                                     <div>{order.worker_name || t('Ожидается')}</div>
                                 </div>
+                                <div className="ml-auto mr-1">
+                                    <img src="/images/icon/messages.svg" alt="img" />
+                                </div>
                             </div>
                         }
                         <hr />
@@ -127,7 +130,7 @@ function OrderPage() {
                             {order.messages.map((message) =>
                                 <div key={message.id}
                                     className={
-                                        'mb-3 px-3 py-1'
+                                        'mb-3 px-3 py-1 pre-line'
                                         + (message.is_system ? ' align-self-center bg-info text-white'
                                             : message.owner_uid === owner_uid ? ' align-self-end ml-5 bg-light' : ' mr-5 bg-light')
                                     }
@@ -151,9 +154,10 @@ function OrderPage() {
                                     style={{height: 50, resize:'none', paddingRight: 100}}
                                     />
                                 <button
-                                    className="position-absolute btn btn-sm btn-purple"
-                                    style={{zIndex: 1, top: 12.5, right:15 }}
-                                    >{t('Отправить')}</button>
+                                    aria-label={t('Отправить')}
+                                    className="position-absolute btn btn-sm"
+                                    style={{zIndex: 1, top: 8, right:12 }}
+                                    ><img src="/images/icon/send-message.svg" alt="img" /></button>
                             </form>
                         </div>
                     </div>

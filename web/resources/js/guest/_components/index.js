@@ -1,3 +1,4 @@
+export * from './Link';
 export * from './LoadingCommon';
 export * from './PrivateRoute';
 export * from './Header';

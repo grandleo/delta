@@ -6,9 +6,10 @@ export const orderService = {
     sendMessage,
 };
 
-function getAll() {
+function getAll(params) {
     const requestOptions = {
         url: 'orders',
+        params,
     };
 
     return fetchClient()(requestOptions).then(handleResponse);

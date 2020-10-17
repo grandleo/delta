@@ -74,14 +74,12 @@ function CartPaymentPage() {
         <div className="home-page">
             <Header
                 routeBack={routes.makeRoute('place', [placeCurrent.data ? placeCurrent.data.slug : ''])}
-                headingTop={placeCurrent.data ? placeCurrent.data.name : t('Загрузка...')}
-                headingBottom={t('Предзаказ')}
                 />
             {cartCheckout.data &&
                 <div className="content-wrapper">
-                    <div className="">
+                    <div>
                         <p className="h5">{t('Вы авторизованы как')}</p>
-                        <h4>{user.name}</h4>
+                        <h4>{user.name_full}</h4>
                     </div>
 
                     <div className="text-center mt-5">
