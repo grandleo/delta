@@ -53,10 +53,11 @@ class OrderOrderStatusNotificationsCreate
 
         $orderStatus = $event->orderStatus;
         $userable = $event->userable;
+        $userable_type = $userable ? get_class($userable) : null;
 
         // notify guest
         $guest = $this->guestRepository->find($order->guest_id);
-        if ($guest && (!$userable || $userable->id !== $guest->id)) {
+        if ($guest && (!$userable || $userable_type !== 'App\Models\Guest' || $userable->id !== $guest->id)) {
             $guest->notify(new OrderOrderStatusNotification($order->id, $orderStatus));
         }
 

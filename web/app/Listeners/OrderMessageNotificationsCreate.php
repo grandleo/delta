@@ -58,20 +58,20 @@ class OrderMessageNotificationsCreate
         }
 
         // notify guest
-        if ($order->guest_id !== $message->userable_id) {
+        if ($message->userable_type !== 'App\Models\Guest' || $order->guest_id !== $message->userable_id) {
             $guest = $this->guestRepository->find($order->guest_id);
             $guest && $guest->notify(new OrderMessageNotification($message));
         }
 
         // notify worker
-        if ($order->worker_id !== $message->userable_id) {
+        if ($message->userable_type !== 'App\Models\Worker' || $order->worker_id !== $message->userable_id) {
             $worker = $this->workerRepository->find($order->worker_id);
             $worker && $worker->notify(new OrderMessageNotification($message));
         }
 
         // notify manager
         $manager = $this->managerRepository->findByPlaceId($order->place_id);
-        if ($manager && $manager->id !== $message->userable_id) {
+        if ($manager && ($message->userable_type !== 'App\Models\Manager' || $manager->id !== $message->userable_id)) {
             $manager->notify(new OrderMessageNotification($message));
         }
     }

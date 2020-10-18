@@ -15,7 +15,7 @@ const SortableItem = ({value}) => {
                 <h5>{value.title}</h5>
                 <div>{t('Кол-во:')+' '+value.count}</div>
                 <div>{t('Всего заказов на:')+' '+fMoney(value.amount, user.place.currency)}</div>
-                <div>{t('Средний чек:')+' '+fMoney(value.amount / value.count, user.place.currency)}</div>
+                <div>{t('Средний чек:')+' '+fMoney((value.amount / value.count) || 0, user.place.currency)}</div>
                 <div>{t('Даты:')+' '+(value.dates.join(' - '))}</div>
             </div>
         </div>
