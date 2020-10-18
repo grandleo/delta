@@ -1,6 +1,6 @@
 import Pusher from 'pusher-js';
 import Echo from 'laravel-echo';
-import { config, lsGetItem, lsLoadState, store } from './';
+import { config, lsGetItem } from './';
 
 export function echoInit() {
     const options = {

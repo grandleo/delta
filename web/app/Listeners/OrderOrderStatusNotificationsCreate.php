@@ -56,7 +56,7 @@ class OrderOrderStatusNotificationsCreate
 
         // notify guest
         $guest = $this->guestRepository->find($order->guest_id);
-        if ($guest && $userable->id !== $guest->id) {
+        if ($guest && (!$userable || $userable->id !== $guest->id)) {
             $guest->notify(new OrderOrderStatusNotification($order->id, $orderStatus));
         }
 

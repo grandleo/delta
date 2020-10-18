@@ -7,3 +7,4 @@ export * from './table.service';
 export * from './worker.service';
 export * from './order.service';
 export * from './guest.service';
+export * from './notif.service';

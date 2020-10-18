@@ -11,6 +11,7 @@ import { table } from './table.reducer';
 import { worker } from './worker.reducer';
 import { order } from './order.reducer';
 import { guest } from './guest.reducer';
+import { notif } from './notif.reducer';
 
 const rootReducer = combineReducers({
     alert,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
     worker,
     order,
     guest,
+    notif,
 });
 
 export default rootReducer;

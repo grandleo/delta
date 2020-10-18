@@ -1,12 +1,13 @@
 import { orderConstants } from '../_constants';
 import { orderService } from '../_services';
-import { t, routes } from '../_helpers';
+import { t, fDateGetCurrent, routes } from '../_helpers';
 
 export const orderActions = {
     index,
     show,
 
     indexFilterSet,
+    messageAdd,
     messageAddDirect,
 };
 
@@ -45,6 +46,19 @@ function show(orderId) {
 function indexFilterSet(filter) {
     const payload = filter;
     return { type: orderConstants.INDEX_FILTER_SET, payload };
+}
+
+function messageAdd(orderId, message) {
+    const payload = {
+        orderId,
+        message: {
+            created_at: fDateGetCurrent(),
+            is_system: false,
+            id: Date.now(),
+            ...message,
+        },
+    };
+    return { type: orderConstants.MESSAGE_ADD, payload };
 }
 
 function messageAddDirect(orderId, message) {

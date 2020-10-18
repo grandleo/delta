@@ -72,6 +72,9 @@ function current(state = initialState.current, action) {
             };
 
         case orderConstants.MESSAGE_ADD:
+            if (!state.data || action.payload.orderId != state.data.id) {
+                return state;
+            }
             return {
                 ...state,
                 data: {

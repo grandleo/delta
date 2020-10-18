@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, fileSrc, routes, scroll } from '../_helpers';
@@ -12,7 +12,6 @@ function OrderPage() {
     const { orderId } = useParams();
     const user = useSelector(state => state.authentication.user);
     const orderCurrent = useSelector(state => state.order.current);
-    const history = useHistory();
     const dispatch = useDispatch();
 
     const owner_uid = 'g'+user.id;

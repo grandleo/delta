@@ -1,4 +1,5 @@
 export * from '../../guest/_constants/alert.constants';
+export * from './notif.constants';
 export * from './user.constants';
 export * from './settings.constants';
 export * from './product-category.constants';

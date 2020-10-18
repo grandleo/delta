@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, fileSrc, routes, scroll } from '../_helpers';
+import { t, fMoney, fDate, fileSrc, routes, scroll } from '../_helpers';
 import { orderActions } from '../_actions';
 import { orderService } from '../_services';
 import { Header, LoadingCommon } from '../_components';
@@ -26,16 +26,7 @@ function OrderEditPage() {
 
     useEffect(() => {
         dispatch(orderActions.show(orderId));
-
-        window.echo.private('order.' + orderId)
-            .listen('message-new', (e) => {
-                recievedNewMessage(e.message);
-            });
-
-        return () => {
-            window.echo.leave('order.' + orderId);
-        }
-    }, []);
+    }, [orderId]);
 
     useEffect(() => {
         if (!order) return;
@@ -49,20 +40,21 @@ function OrderEditPage() {
         }
     }, [order]);
 
-    function recievedNewMessage(message) {
-        if (message.is_system) {
-            dispatch(orderActions.show(orderId))
-                .then(() => {
-                    scroll.getPercent() > 60 && scroll.goDown();
-                })
-        } else {
-            dispatch(orderActions.messageAddDirect(orderId, message));
-            scroll.getPercent() > 60 && scroll.goDown();
-        }
+    const messages = order ? order.messages : null;
+    useEffect(() => {
+        condScrollDown();
+    }, [messages]);
+
+    function condScrollDown() {
+        scroll.getPercent() > 60 && scroll.goDown();
     }
 
     function sendMessage(message) {
-        orderService.sendMessage(orderId, message);
+        orderService.sendMessage(orderId, message)
+            .then((response) => {
+                dispatch(orderActions.messageAdd(orderId, message));
+                condScrollDown();
+            });
     }
 
     function handleChangeMessageText(e) {
@@ -72,7 +64,11 @@ function OrderEditPage() {
     function handleSubmit(e) {
         e.preventDefault();
         if (!(messageText.trim())) return;
-        sendMessage({text: messageText});
+        const message = {
+            text: messageText,
+            owner_uid,
+        };
+        sendMessage(message)
         setMessageText('');
     }
 
@@ -102,7 +98,7 @@ function OrderEditPage() {
                             <h5 className="h5 font-weight-600 line-height-1">
                                 <b>{order.table_name}</b> / {t('Заказ')} #{order.id}
                             </h5>
-                            <p className="m-0 small">{t('создан')+' '+order.created_at}</p>
+                            <p className="m-0 small">{t('создан')+' '+fDate(order.created_at, 'в ')}</p>
                             <p className="m-0 mt-1">{t('Официант:')} <span className="font-weight-600">{order.worker_name}</span></p>
                             <p className="m-0">{t('Персон:')} <span className="font-weight-600">{order.cutlery_qty}</span></p>
                         </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, fileSrc, routes } from '../_helpers';
+import { t, fMoney, fDate, fileSrc, routes } from '../_helpers';
 import { Header, NavScroller, LoadingCommon } from '../_components';
 import { orderService } from '../_services';
 import { orderActions, userActions } from '../_actions';
@@ -32,7 +32,7 @@ const SortableItem = ({value}) => {
                 <h5 className="h5 font-weight-600 line-height-1">
                     <b>{value.table_name}</b> / {t('Заказ')} #{value.id}
                 </h5>
-                <p className="m-0 small">{t('создан')+' '+value.created_at}</p>
+                <p className="m-0 small">{t('создан')+' '+fDate(value.created_at, 'в ')}</p>
             </div>
             <div className="mt-1">
                 {t('Гость №')+value.guest_id} /
@@ -102,11 +102,8 @@ function OrderPage() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const params = {
-            date: orderAll.filter.date,
-        };
-        dispatch(orderActions.index(params));
-    }, [orderAll.filter.date]);
+        fetchOrderAll();
+    }, [orderAll.filter.date, orderAll.filter.fake]);
 
     useEffect(() => {
         if ((!orderAll.filter.orderStatusPhaseId)
@@ -123,6 +120,13 @@ function OrderPage() {
         }
         setItems((items) => [...orderAll.data]);
     }, [orderAll.data]);
+
+    function fetchOrderAll() {
+        const params = {
+            date: orderAll.filter.date,
+        };
+        dispatch(orderActions.index(params, orderAll.filter.silent));
+    }
 
     function getFilteredItems() {
         let _items = orderAll.filter.orderStatusPhaseId

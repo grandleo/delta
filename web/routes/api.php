@@ -118,5 +118,9 @@ Route::prefix('v1/worker')
         Route::resource('orders', 'OrderApiController')->only([
             'index', 'show', 'update',
         ]);
+        Route::post('notifs/mark-read', 'NotifApiController@markRead');
+        Route::resource('notifs', 'NotifApiController')->only([
+            'index',
+        ]);
     });
 });
