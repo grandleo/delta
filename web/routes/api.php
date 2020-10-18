@@ -99,6 +99,9 @@ Route::prefix('v1/manager')
         Route::resource('notifs', 'NotifApiController')->only([
             'index',
         ]);
+        Route::resource('finances', 'FinanceApiController')->only([
+            'index',
+        ]);
     });
 });
 

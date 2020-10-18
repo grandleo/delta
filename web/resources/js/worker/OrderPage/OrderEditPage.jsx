@@ -76,6 +76,10 @@ function OrderEditPage() {
         orderService.setOrderStatus(orderId, orderStatusId);
     }
 
+    function handleClickTakeOrder(e) {
+        orderService.takeOrder(order.id);
+    }
+
     return (
         <div className="d-flex flex-column home-page">
             <Header
@@ -148,6 +152,14 @@ function OrderEditPage() {
                                 </div>
                             )}
                         </div>
+                        {!order.worker_id &&
+                            <div className="mb-3 p-3 text-center">
+                                <button
+                                    onClick={handleClickTakeOrder}
+                                    className="btn btn-success px-5 text-white rounded-pill"
+                                    >{t('Принять заказ')}</button>
+                            </div>
+                        }
                         <div className="mb-3 p-3 bg-dark text-white">
                             {quickAnswers.length > 0 &&
                                 <div className="mb-2">
@@ -158,7 +170,7 @@ function OrderEditPage() {
                                             className="text-white mr-4"
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                sendMessage({text: qAnswer.text});
+                                                sendMessage({text: qAnswer.text, owner_uid});
                                                 setQuickAnswers((quickAnswers) => quickAnswers.filter((v) => v.text !== qAnswer.text));
                                             }}
                                             >

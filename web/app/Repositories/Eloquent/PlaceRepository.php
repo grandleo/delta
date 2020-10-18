@@ -40,7 +40,13 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         if ($table_id) {
             $model->load([
                 'tables' => function($query1) use ($table_id) {
-                    $query1->where('id', $table_id);
+                    $query1->status('active')->where('id', $table_id);
+                },
+            ]);
+        } else {
+            $model->load([
+                'tables' => function($query1) {
+                    $query1->status('active')->inRandomOrder();
                 },
             ]);
         }

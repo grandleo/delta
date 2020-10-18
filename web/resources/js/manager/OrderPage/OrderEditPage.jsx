@@ -158,7 +158,7 @@ function OrderEditPage() {
                                             className="text-white mr-4"
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                sendMessage({text: qAnswer.text});
+                                                sendMessage({text: qAnswer.text, owner_uid});
                                                 setQuickAnswers((quickAnswers) => quickAnswers.filter((v) => v.text !== qAnswer.text));
                                             }}
                                             >
