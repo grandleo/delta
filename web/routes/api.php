@@ -29,6 +29,14 @@ Route::prefix('v1/guest')
         Route::resource('orders', 'OrderApiController')->only([
             'index', 'show',
         ]);
+        Route::post('notifs/mark-read', 'NotifApiController@markRead');
+        Route::resource('notifs', 'NotifApiController')->only([
+            'index',
+        ]);
+        Route::resource('images', 'ImageApiController')->only([
+            'store',
+        ]);
+        Route::post('auth/update', 'AuthApiController@update');
     });
 
     // public

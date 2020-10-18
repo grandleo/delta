@@ -12,4 +12,11 @@ interface GuestRepositoryInterface
     * @return Collection
     */
     public function getByPlaceIdSorted($place_id): Collection;
+
+    /**
+    * @param $id
+    * @param array $attributes
+    * @return Guest
+    */
+    public function updateFromForm($id, array $attributes): ?Guest;
 }

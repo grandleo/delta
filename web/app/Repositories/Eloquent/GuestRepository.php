@@ -47,4 +47,26 @@ class GuestRepository extends BaseRepository implements GuestRepositoryInterface
 
         return $models;
     }
+
+    /**
+    * @param $id
+    * @param array $attributes
+    * @return Guest
+    */
+    public function updateFromForm($id, array $attributes): ?Guest
+    {
+        $model = $this->find($id);
+
+        $model->fill($attributes);
+
+        if (!empty($attributes['params'])) {
+            foreach ($attributes['params'] as $key => $value) {
+                $model->setJson('params', $key, $value);
+            }
+        }
+
+        $model->save();
+
+        return $model;
+    }
 }

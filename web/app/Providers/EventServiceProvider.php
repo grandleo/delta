@@ -23,6 +23,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\OrderOrderStatusSet' => [
             'App\Listeners\OrderSetOrderStatusAny',
+            'App\Listeners\OrderOrderStatusNotificationsCreate',
+        ],
+        'App\Events\OrderMessageSend' => [
+            'App\Listeners\OrderMessageNotificationsCreate',
         ],
     ];
 

@@ -64,7 +64,6 @@ class AuthApiController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $name = 'Manager #'.rand(1000, 9000);
         $manager = $this->managerRepository->create([
             'name' => $request->full_name,
             'name_full' => $request->full_name,

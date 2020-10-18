@@ -60,4 +60,14 @@ class Guest extends Authenticatable
     {
         return $this->hasMany('App\Models\Order');
     }
+
+    /**
+     * The channels the user receives notification broadcasts on.
+     *
+     * @return string
+     */
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'guest.'.$this->id;
+    }
 }

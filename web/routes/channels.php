@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('order.{orderId}', function ($user, $orderId) {
     return true;
 });
+
+Broadcast::channel('guest.{guestId}', function ($user, $guestId) {
+    return (int) $guestId === (int) $user->id && get_class($user) === 'App\Models\Guest';
+});

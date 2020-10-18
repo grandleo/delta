@@ -14,6 +14,8 @@ use App\Repositories\OrderStatusRepositoryInterface;
 class OrderSetOrderStatusAny
 {
     private $orderRepository;
+    private $placeRepository;
+    private $orderStatusRepository;
 
     /**
      * Create the event listener.

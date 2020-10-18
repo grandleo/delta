@@ -52,12 +52,11 @@ class AuthApiController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'full_name' => ['required', 'string', 'max:250'],
+            'full_name' => ['required', 'string', 'min:2', 'max:250'],
             'email' => ['required', 'string', 'email', 'max:250', 'unique:guests'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $name = 'Guest #'.rand(1000, 9000);
         $guest = $this->guestRepository->create([
             'name' => $request->full_name,
             'name_full' => $request->full_name,
@@ -67,6 +66,24 @@ class AuthApiController extends Controller
 
         $token = $guest->createToken('guest_common')->plainTextToken;
         $guest->token = $token;
+
+        return new GuestResource($guest);
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+        $guest = \Auth::user();
+
+        $reqData = $request->validate([
+            'name_full' => ['required', 'string', 'min:2', 'max:250'],
+            'image' => 'nullable|string|max:250',
+        ]);
+
+        $guest = $this->guestRepository->updateFromForm($guest->id, $reqData);
 
         return new GuestResource($guest);
     }
