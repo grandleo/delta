@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/tbl{marker_code}', [App\Http\Controllers\TableMarkerController::class, 'index'])
+Route::get('/met{marker_code}', [App\Http\Controllers\TableMarkerController::class, 'index'])
     ->where('marker_code', '\d+');
 
 Route::view('/', 'index')->name('landing');
