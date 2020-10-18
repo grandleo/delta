@@ -95,6 +95,10 @@ Route::prefix('v1/manager')
         Route::resource('settings', 'SettingsApiController')->only([
             'show', 'update',
         ]);
+        Route::post('notifs/mark-read', 'NotifApiController@markRead');
+        Route::resource('notifs', 'NotifApiController')->only([
+            'index',
+        ]);
     });
 });
 

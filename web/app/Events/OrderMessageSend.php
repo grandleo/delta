@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 
 use App\Http\Resources\Guest\MessageResource;
 
-class OrderMessageSend implements ShouldBroadcastNow
+class OrderMessageSend
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -28,20 +28,5 @@ class OrderMessageSend implements ShouldBroadcastNow
     public function __construct($message)
     {
         $this->message = $message;
-    }
-
-    public function broadcastOn()
-    {
-        return new PrivateChannel('order.' .  $this->message->messageable_id);
-    }
-
-    public function broadcastWith()
-    {
-        return ['message' => new MessageResource($this->message)];
-    }
-
-    public function broadcastAs()
-    {
-      return 'message-new';
     }
 }

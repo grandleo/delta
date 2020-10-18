@@ -72,4 +72,14 @@ class Worker extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Table');
     }
+
+    /**
+     * The channels the user receives notification broadcasts on.
+     *
+     * @return string
+     */
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'worker.'.$this->id;
+    }
 }

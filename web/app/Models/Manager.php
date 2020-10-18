@@ -56,8 +56,18 @@ class Manager extends Authenticatable
 
     // RELATIONS
 
-    public function tables()
+    public function places()
     {
-        return $this->belongsToMany('App\Models\Table');
+        return $this->hasMany('App\Models\Place');
+    }
+
+    /**
+     * The channels the user receives notification broadcasts on.
+     *
+     * @return string
+     */
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'manager.'.$this->id;
     }
 }

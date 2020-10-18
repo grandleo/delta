@@ -20,6 +20,19 @@ class ManagerRepository extends BaseRepository implements ManagerRepositoryInter
     }
 
     /**
+    * @param $place_id
+    * @return Manager
+    */
+    public function findByPlaceId($place_id): ?Manager
+    {
+        return $this->model
+            ->whereHas('places', function ($query) use ($place_id) {
+                $query->where('id', $place_id);
+            })
+            ->first();
+    }
+
+    /**
     * @param $id
     * @param array $attributes
     * @return Manager

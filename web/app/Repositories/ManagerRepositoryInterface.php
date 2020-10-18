@@ -8,6 +8,12 @@ use Illuminate\Support\Collection;
 interface ManagerRepositoryInterface
 {
     /**
+    * @param $place_id
+    * @return Manager
+    */
+    public function findByPlaceId($place_id): ?Manager;
+
+    /**
     * @param $id
     * @param array $attributes
     * @return Manager

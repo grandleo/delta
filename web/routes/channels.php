@@ -20,3 +20,11 @@ Broadcast::channel('order.{orderId}', function ($user, $orderId) {
 Broadcast::channel('guest.{guestId}', function ($user, $guestId) {
     return (int) $guestId === (int) $user->id && get_class($user) === 'App\Models\Guest';
 });
+
+Broadcast::channel('worker.{workerId}', function ($user, $workerId) {
+    return (int) $workerId === (int) $user->id && get_class($user) === 'App\Models\Worker';
+});
+
+Broadcast::channel('manager.{managerId}', function ($user, $managerId) {
+    return (int) $managerId === (int) $user->id && get_class($user) === 'App\Models\Manager';
+});

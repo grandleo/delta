@@ -8,6 +8,8 @@ use Illuminate\Queue\InteractsWithQueue;
 
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\GuestRepositoryInterface;
+use App\Repositories\WorkerRepositoryInterface;
+use App\Repositories\ManagerRepositoryInterface;
 
 use App\Notifications\OrderOrderStatusNotification;
 
@@ -15,6 +17,8 @@ class OrderOrderStatusNotificationsCreate
 {
     private $orderRepository;
     private $guestRepository;
+    private $workerRepository;
+    private $managerRepository;
 
     /**
      * Create the event listener.
@@ -23,11 +27,15 @@ class OrderOrderStatusNotificationsCreate
      */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        GuestRepositoryInterface $guestRepository
+        GuestRepositoryInterface $guestRepository,
+        WorkerRepositoryInterface $workerRepository,
+        ManagerRepositoryInterface $managerRepository
     )
     {
         $this->orderRepository = $orderRepository;
         $this->guestRepository = $guestRepository;
+        $this->workerRepository = $workerRepository;
+        $this->managerRepository = $managerRepository;
     }
 
     /**
@@ -44,9 +52,30 @@ class OrderOrderStatusNotificationsCreate
         }
 
         $orderStatus = $event->orderStatus;
+        $userable = $event->userable;
 
-        // notify to guest
+        // notify guest
         $guest = $this->guestRepository->find($order->guest_id);
-        $guest->notify(new OrderOrderStatusNotification($order->id, $orderStatus));
+        if ($guest && $userable->id !== $guest->id) {
+            $guest->notify(new OrderOrderStatusNotification($order->id, $orderStatus));
+        }
+
+        // notify workers
+        $workers = $this->workerRepository->getByPlaceIdSorted($order->place_id);
+        foreach ($workers as $worker) {
+            $canSeeAll = $worker->getJson('params', 'orders_see_all', 0);
+            if (
+                $order->worker_id === $worker->id ||
+                (!$order->worker_id &&
+                    ($canSeeAll || ($order->table_id && in_array($order->table_id, $worker->tables->pluck('id')->toArray())))
+                )
+            ) {
+                $worker->notify(new OrderOrderStatusNotification($order->id, $orderStatus));
+            }
+        }
+
+        // notify manager
+        $manager = $this->managerRepository->findByPlaceId($order->place_id);
+        $manager && $manager->notify(new OrderOrderStatusNotification($order->id, $orderStatus));
     }
 }
