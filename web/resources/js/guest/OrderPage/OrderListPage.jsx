@@ -1,7 +1,7 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, routes } from '../_helpers';
+import { t, fMoney, fDate, routes } from '../_helpers';
 import { orderActions } from '../_actions';
 import { Link, Header, NavScroller, LoadingCommon } from '../_components';
 
@@ -33,7 +33,7 @@ function OrderListItem({ order }) {
                     {order.orderStatus_name || t('Ожидает обработки')}
                 </span>
             </div>
-            <small>{t('создан')+' '+order.created_at}</small>
+            <small>{t('создан')+' '+fDate(order.created_at, 'в ')}</small>
             <div className="mt-1">
                 {(order.table_name || order.worker_name) &&
                     <Fragment>
@@ -83,15 +83,13 @@ function OrderListItem({ order }) {
 }
 
 function OrderListPage() {
+    const user = useSelector(state => state.authentication.user);
     const orderAll = useSelector(state => state.order.all);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const params = {
-            date: orderAll.filter.date,
-        };
-        dispatch(orderActions.getAll(params));
-    }, [orderAll.filter.date]);
+        fetchOrderAll();
+    }, [orderAll.filter.date, orderAll.filter.fake]);
 
     useEffect(() => {
         if ((!orderAll.filter.orderStatusPhaseId)
@@ -101,6 +99,13 @@ function OrderListPage() {
             }));
         }
     }, [orderAll.orderStatusPhases]);
+
+    function fetchOrderAll() {
+        const params = {
+            date: orderAll.filter.date,
+        };
+        dispatch(orderActions.getAll(params, orderAll.filter.silent));
+    }
 
     function getFilteredItems(items) {
         let _items = orderAll.filter.orderStatusPhaseId

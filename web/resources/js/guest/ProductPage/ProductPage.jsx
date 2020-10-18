@@ -12,6 +12,7 @@ function ProductPage() {
     const { placeSlug, productSlug } = useParams();
     const placeCurrent = useSelector(state => state.place.current);
     const productCurrent = useSelector(state => state.product.current);
+    const cartPlacesTableId = useSelector(state => state.cart.placesTableId);
     const cartPlaces = useSelector(state => state.cart.places);
     const dispatch = useDispatch();
 
@@ -20,7 +21,7 @@ function ProductPage() {
 
     useEffect(() => {
         if (!placeCurrent.data || placeCurrent.data.slug !== placeSlug) {
-            dispatch(placeActions.getById(placeSlug));
+            dispatch(placeActions.getById(placeSlug, {table_id: cartPlacesTableId[placeSlug]}));
         }
         dispatch(productActions.show(productSlug));
     }, [placeSlug, productSlug]);

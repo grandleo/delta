@@ -4,19 +4,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import qs from 'qs';
 
 import { t, fileSrc, routes } from '../_helpers';
-import { placeActions } from '../_actions';
+import { placeActions, cartActions } from '../_actions';
 import { Header, CartInfoFixed, Link, LoadingCommon } from '../_components';
 
 function PlacePage() {
     const { placeSlug } = useParams();
     const placeCurrent = useSelector(state => state.place.current);
+    const cartPlacesTableId = useSelector(state => state.cart.placesTableId);
     const location = useLocation();
     const dispatch = useDispatch();
 
     useEffect(() => {
         const table_id = qs.parse(location.search, { ignoreQueryPrefix: true }).t;
+
+        if (table_id) {
+            dispatch(cartActions.setTableId(placeSlug, table_id));
+        }
+
         if (!placeCurrent.data || placeCurrent.data.slug !== placeSlug) {
-            dispatch(placeActions.getById(placeSlug, table_id ? {table_id} : null));
+            dispatch(placeActions.getById(placeSlug, {table_id: table_id || cartPlacesTableId[placeSlug]}));
         }
     }, []);
 

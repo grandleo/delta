@@ -1,4 +1,5 @@
 export * from './alert.constants';
+export * from './notif.constants';
 export * from './user.constants';
 export * from './place.constants';
 export * from './product-category.constants';

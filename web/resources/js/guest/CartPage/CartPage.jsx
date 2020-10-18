@@ -10,6 +10,7 @@ import { QtyChanger } from './QtyChanger';
 function CartPage() {
     const { placeSlug } = useParams();
     const placeCurrent = useSelector(state => state.place.current);
+    const cartPlacesTableId = useSelector(state => state.cart.placesTableId);
     const cartCurrent = useSelector(state => state.cart.current);
     const cartCheckout = useSelector(state => state.cart.checkout);
     const cartPlaces = useSelector(state => state.cart.places);
@@ -36,7 +37,7 @@ function CartPage() {
 
     useEffect(() => {
         if (!placeCurrent.data || placeCurrent.data.slug !== placeSlug) {
-            dispatch(placeActions.getById(placeSlug));
+            dispatch(placeActions.getById(placeSlug, {table_id: cartPlacesTableId[placeSlug]}));
         } else if (productIds.length) {
             dispatch(cartActions.getCurrent(placeId, productIds));
         }

@@ -10,12 +10,13 @@ import { AddToCartButton } from './AddToCartButton';
 function ProductCategoryPage() {
     const { placeSlug, productCategorySlug } = useParams();
     const placeCurrent = useSelector(state => state.place.current);
+    const cartPlacesTableId = useSelector(state => state.cart.placesTableId);
     const productCategory = useSelector(state => state.productCategory.current);
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (!placeCurrent.data || placeCurrent.data.slug !== placeSlug) {
-            dispatch(placeActions.getById(placeSlug));
+            dispatch(placeActions.getById(placeSlug, {table_id: cartPlacesTableId[placeSlug]}));
         }
         dispatch(productCategoryActions.getById(productCategorySlug));
     }, [placeSlug, productCategorySlug]);

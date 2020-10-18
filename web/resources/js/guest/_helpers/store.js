@@ -33,6 +33,7 @@ store.subscribe(throttle(() => {
         authentication: store.getState().authentication,
         cart: {
             places: store.getState().cart.places,
+            placesTableId: store.getState().cart.placesTableId,
             checkout: store.getState().cart.checkout,
         },
     });

@@ -3,6 +3,7 @@ import { cartService } from '../_services';
 
 export const cartActions = {
     addToCart,
+    setTableId,
     paramsChange,
     getCurrent,
     checkout,
@@ -13,6 +14,10 @@ export const cartActions = {
 
 function addToCart(placeId, productId, price, changeQty) {
     return { type: cartConstants.ADD_ITEM, placeId, productId, price, changeQty };
+}
+
+function setTableId(placeId, tableId) {
+    return { type: cartConstants.SET_TABLE_ID, placeId, tableId };
 }
 
 function paramsChange(name, value) {

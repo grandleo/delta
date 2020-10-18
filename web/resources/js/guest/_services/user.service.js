@@ -1,23 +1,24 @@
-import { fetchClient, lsSetItem, lsRemoveItem, echoInit } from '../_helpers';
+import { fetchClient, lsSetItem, lsRemoveItem } from '../_helpers';
 
 export const userService = {
     login,
     logout,
     register,
+
+    update,
 };
 
 function login(inputs) {
     const requestOptions = {
         method: 'POST',
         url: 'auth/login',
-        data: { ...inputs },
+        data: inputs,
     };
 
     return fetchClient()(requestOptions).then(handleResponse)
         .then(payload => {
             if (payload.data.token) {
                 lsSetItem('token', payload.data.token);
-                echoInit();
             }
             return payload;
         });
@@ -31,17 +32,26 @@ function register(inputs) {
     const requestOptions = {
         method: 'POST',
         url: 'auth/register',
-        data: { ...inputs },
+        data: inputs,
     };
 
     return fetchClient()(requestOptions).then(handleResponse)
         .then(payload => {
             if (payload.data.token) {
                 lsSetItem('token', payload.data.token);
-                echoInit();
             }
             return payload;
         });
+}
+
+function update(inputs) {
+    const requestOptions = {
+        method: 'POST',
+        url: 'auth/update',
+        data: inputs,
+    };
+
+    return fetchClient()(requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

@@ -1,17 +1,21 @@
 import { orderConstants } from '../_constants';
 import { orderService } from '../_services';
+import { fDateGetCurrent } from '../_helpers/strings';
 
 export const orderActions = {
     getAll,
     getById,
 
     indexFilterSet,
+    messageAdd,
     messageAddDirect,
 };
 
-function getAll(params) {
+function getAll(params, silent = false) {
     return dispatch => {
-        dispatch(request());
+        if (!silent) {
+            dispatch(request());
+        }
 
         return orderService.getAll(params)
             .then(
@@ -41,9 +45,25 @@ function getById(orderId) {
     function failure(error) { return { type: orderConstants.GETBYID_FAILURE, error } }
 }
 
-function indexFilterSet(filter) {
-    const payload = filter;
+function indexFilterSet(filter, silent = false) {
+    const payload = {
+        ...filter,
+        silent,
+    };
     return { type: orderConstants.INDEX_FILTER_SET, payload };
+}
+
+function messageAdd(orderId, message) {
+    const payload = {
+        orderId,
+        message: {
+            created_at: fDateGetCurrent(),
+            is_system: false,
+            id: Date.now(),
+            ...message,
+        },
+    };
+    return { type: orderConstants.MESSAGE_ADD, payload };
 }
 
 function messageAddDirect(orderId, message) {

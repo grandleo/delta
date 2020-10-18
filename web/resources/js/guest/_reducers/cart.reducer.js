@@ -8,6 +8,9 @@ const initialState = {
     //         productId_2: { qty, price },
     //     }
     // }
+    placesTableId: {
+        // like places but with tableId
+    },
     current: {
         loading: false,
         error: false,
@@ -52,6 +55,26 @@ function places(state = initialState.places, action) {
             return {
                 ...state,
                 [placeId]: {},
+            };
+
+        default:
+            return state;
+    }
+}
+
+function placesTableId(state = initialState.placesTableId, action) {
+    const { placeId, tableId } = action;
+    switch (action.type) {
+        case cartConstants.SET_TABLE_ID:
+            return {
+                ...state,
+                [placeId]: tableId,
+            };
+
+        case cartConstants.CHECKOUT_CLEAR:
+            return {
+                ...state,
+                [placeId]: null,
             };
 
         default:
@@ -144,6 +167,7 @@ export function cart(state = {}, action) {
         default:
             return {
                 places: places(state.places, action),
+                placesTableId: placesTableId(state.placesTableId, action),
                 current: current(state.current, action),
                 checkout: checkout(state.checkout, action),
             };

@@ -12,6 +12,7 @@ function CartPaymentPage() {
     const [completed, setCompleted] = useState(false);
     const user = useSelector(state => state.authentication.user);
     const placeCurrent = useSelector(state => state.place.current);
+    const cartPlacesTableId = useSelector(state => state.cart.placesTableId);
     const cartCheckout = useSelector(state => state.cart.checkout);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -38,7 +39,7 @@ function CartPaymentPage() {
 
     useEffect(() => {
         if (!placeCurrent.data || placeCurrent.data.slug !== placeSlug) {
-            dispatch(placeActions.getById(placeSlug));
+            dispatch(placeActions.getById(placeSlug, {table_id: cartPlacesTableId[placeSlug]}));
         } else if (placeCurrent.data && placeCurrent.data.id !== cartCheckout.data.place_id) {
             history.push(routes.makeRoute('place', [placeSlug]));
         }

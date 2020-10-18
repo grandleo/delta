@@ -1,12 +1,6 @@
 import Pusher from 'pusher-js';
 import Echo from 'laravel-echo';
-import { config, lsGetItem } from './';
-
-const token = lsGetItem('token');
-
-if (token) {
-    echoInit();
-}
+import { config, lsGetItem, lsLoadState, store } from './';
 
 export function echoInit() {
     const options = {

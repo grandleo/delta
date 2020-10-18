@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { t, fMoney, fileSrc, routes, scroll } from '../_helpers';
@@ -12,6 +12,7 @@ function OrderPage() {
     const { orderId } = useParams();
     const user = useSelector(state => state.authentication.user);
     const orderCurrent = useSelector(state => state.order.current);
+    const history = useHistory();
     const dispatch = useDispatch();
 
     const owner_uid = 'g'+user.id;
@@ -21,16 +22,7 @@ function OrderPage() {
 
     useEffect(() => {
         dispatch(orderActions.getById(orderId));
-
-        window.echo.private('order.' + orderId)
-            .listen('message-new', (e) => {
-                recievedNewMessage(e.message);
-            });
-
-        return () => {
-            window.echo.leave('order.' + orderId);
-        }
-    }, []);
+    }, [orderId]);
 
     useEffect(() => {
         if (!order) return;
@@ -41,16 +33,13 @@ function OrderPage() {
         }
     }, [order]);
 
-    function recievedNewMessage(message) {
-        if (message.is_system) {
-            dispatch(orderActions.getById(orderId))
-                .then(() => {
-                    scroll.getPercent() > 60 && scroll.goDown();
-                })
-        } else {
-            dispatch(orderActions.messageAddDirect(orderId, message));
-            scroll.getPercent() > 60 && scroll.goDown();
-        }
+    const messages = order ? order.messages : null;
+    useEffect(() => {
+        condScrollDown();
+    }, [messages]);
+
+    function condScrollDown() {
+        scroll.getPercent() > 60 && scroll.goDown();
     }
 
     function handleChangeMessageText(e) {
@@ -60,9 +49,15 @@ function OrderPage() {
     function handleSubmit(e) {
         e.preventDefault();
         if (!(messageText.trim())) return;
-        orderService.sendMessage(orderId, {text: messageText})
+        const message = {
+            text: messageText,
+            owner_uid,
+        };
+        orderService.sendMessage(orderId, message)
             .then((response) => {
+                dispatch(orderActions.messageAdd(orderId, message));
                 setMessageText('');
+                condScrollDown();
             });
     }
 
