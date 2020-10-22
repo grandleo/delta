@@ -1,5 +1,8 @@
 @extends('layouts.landing')
 
+@section('meta.title', 'Delta Order - cистема быстрых заказов')
+@section('meta.description', 'IT экосистема для ресторанного бизнеса, позволяющая быстро и просто оформить и оплатить заказ')
+
 @section('content')
     @include('blocks/landing/_header')
 

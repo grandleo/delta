@@ -10,6 +10,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('meta.title')</title>
 
+    <meta name="description" content="@yield('meta.description')">
+
     <!-- Styles -->
     <link href="{{ asset('css/landing.css') }}" rel="stylesheet">
 </head>
