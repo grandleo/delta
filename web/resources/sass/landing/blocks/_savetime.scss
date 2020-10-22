@@ -1,6 +1,5 @@
 .savetime{
   background: #fff;
-  padding: 21px 0 61px 0;
   position: relative;
   z-index: 2;
   &__inner{
@@ -9,8 +8,8 @@
     align-items: center;
   }
   &__item{
-    width: 50%;
-    padding: 0 30px;
+    padding-top: 40px;
+    padding-bottom: 60px;
   }
   &__title{
     margin-top: 40px;
@@ -26,7 +25,6 @@
   }
   &__img{
     width: 100%;
-    background: radial-gradient(42.14% 42.14% at 50% 50%, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%), url("/image.png");
     border-radius: 302px;
   }
 }

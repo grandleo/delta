@@ -10,7 +10,6 @@
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    padding: 0 15px;
   }
   &__logo{
     font-family: Gilroy;
@@ -47,6 +46,38 @@
   }
   &__admission_padding{
     margin-right: 32px;
+  }
+  &__menu{
+    display: none;
+  }
+  &__burger{
+    padding: 10px;
+  }
+  &__nav{
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(#fff, 0.9);
+
+    &:target {
+      display: flex;
+    }
+  }
+  &__nav_close{
+    position: absolute;
+    right: 40px;
+    top: 35px;
+  }
+  &__nav_ul{
+    li {
+      margin: 10px 15px 20px;
+    }
   }
 }
 .active{

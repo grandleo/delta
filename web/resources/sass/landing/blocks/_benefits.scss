@@ -1,5 +1,4 @@
 .benefits{
-  padding-bottom: 63px;
   &_bg{
     background: #f8f8f8 url("/images/img/mobile-bg.png") center no-repeat;
   }
@@ -9,8 +8,8 @@
     align-items: center;
   }
   &__item{
-    width: 50%;
-    padding: 0 30px;
+    padding-top: 100px;
+    padding-bottom: 60px;
   }
   &__img{
     position: relative;
@@ -42,8 +41,6 @@
     margin-bottom: 30px;
   }
   &__list{
-    list-style-image: url("/images/img/list.png");
-    padding-left: 20px;
     & li{
       font-family: AvenirNextCyr;
       font-style: normal;
@@ -52,7 +49,8 @@
       line-height: 120%;
       letter-spacing: 0.02em;
       margin-bottom: 20px;
-      padding-left: 8px;
+      padding-left: 25px;
+      background: url("/images/img/list.png") no-repeat left 2px;
     }
   }
   &__poly{

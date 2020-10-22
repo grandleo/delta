@@ -1,18 +1,20 @@
 .banner{
-  width: 100%;
   background: #f8f8f8 url("/images/img/banner-bg.png") top no-repeat;
   background-size: cover;
   &__inner{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 1;
     height: 100vh;
     max-height: 1080px;
     min-height: 720px;
+    > * {
+      z-index: 1;
+    }
   }
   &__item{
-    width: 50%;
-    padding: 0 30px;
+    //
   }
   &__suptitle{
     font-family: Gilroy;
@@ -37,21 +39,30 @@
     margin-top: 20px;
   }
   &__btns{
-    margin-top: 80px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    > * {
+      margin-top: 80px;
+    }
   }
   &__img{
+    max-width: 130%;
+    margin-left: -20%;
+    margin-top: 100px;
+  }
+  &__bg_text {
     position: absolute;
-    left: -20%;
-    top: -40%;
-    z-index: 3;
-    transform: translateY(-40%);
+    z-index: -1;
+    bottom: 18%;
+    left: -160px;
+    font-size: 330px;
+    font-weight: 800;
+    color: #F2F2F2;
   }
 }
 .play-video{
-  display: flex;
+  display: inline-flex;
   position: relative;
   z-index: 15;
   margin-left: 30px;

@@ -1,14 +1,13 @@
 .about{
   background: #31456A;
-  padding: 116px 0 127px 0;
   &__inner{
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
   &__item{
-    width: 50%;
-    padding: 0 15px;
+    padding-top: 120px;
+    padding-bottom: 125px;
   }
   &__title{
     margin-bottom: 46px;
@@ -32,16 +31,16 @@
   }
 }
 .devices{
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
   position: relative;
+  display: flex;
+  align-items: center;
+
   &__item{
     display: block;
     &_phone-one{
       width: 117%;
       position: absolute;
-      left: -20%;
+      left: -32%;
       top: -48%;
       z-index: 3;
       transform: translateY(-48%);
@@ -50,7 +49,7 @@
       width: 100%;
       position: absolute;
       top: -48%;
-      left: 22%;
+      left: 13%;
       transform: translateY(-48%);
       z-index: 4;
     }
@@ -65,7 +64,6 @@
       position: absolute;
       top: -18%;
       left: 69%;
-      transform: translateY(-18%);
       z-index: 2;
     }
     &_poly-three{

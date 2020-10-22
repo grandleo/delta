@@ -1,29 +1,30 @@
-@media (max-width: 1210px){
-  .banner{
-    &__img{
-      max-width: 650px;
-      top: -45%;
-      transform: translateY(-45%);
-    }
-  }
-  .play-video{
-    margin-left: 0;
-    margin-top: 20px;
+@media (max-width: 1350px){
+  .container {
+    padding: 0 30px;
+    overflow: hidden;
   }
 }
+
 @media (max-width: 1024px){
   .text{
     &_title{
-    font-size: 40px;
+      font-size: 40px;
     }
     &_suptitle{
       font-size: 16px;
     }
   }
   .banner{
+    &__inner {
+      height: unset;
+      min-height: unset;
+    }
     &__title{
       font-size: 90px;
     }
+  }
+  .play-video{
+    margin: 30px 15px 0;
   }
   .about{
     &__title{
@@ -55,7 +56,14 @@
     }
   }
 }
-@media (max-width: 785px){
+@media (max-width: 768px){
+  .col-1 {
+    width: unset;
+    padding-right: 0;
+  }
+  .col-2 {
+    width: unset;
+  }
   .text{
     &_title{
     font-size: 26px;
@@ -65,18 +73,31 @@
     }
   }
   .header{
+    padding-top: 20px;
     &__logo{
       font-size: 20px;
     }
-    &__choice_padding{
-      margin-right: 15px;
+    &__choice{
+      display: none;
+    }
+    &__admission{
+      display: none;
+    }
+    &__menu{
+      display: block;
     }
   }
+  .devices {
+    display: none;
+  }
   .banner{
-    &__img{
-      max-width: 550px;
-      top: -45%;
-      transform: translateY(-45%);
+    text-align: center;
+    &__inner{
+      display: block;
+    }
+    &__item{
+      padding-top: 140px;
+      padding-bottom: 70px;
     }
     &__suptitle{
       font-size: 15px;
@@ -87,11 +108,21 @@
     &__text{
       font-size: 16px;
     }
+    &__btns{
+      display: block;
+      > * {
+        margin-top: 30px;
+      }
+    }
   }
   .about{
-    padding: 76px 0;
-    &__content{
-      width: 100%;
+    text-align: center;
+    &__inner{
+      display: block;
+    }
+    &__item{
+      padding-top: 80px;
+      padding-bottom: 200px;
     }
     &__title{
       font-size: 36px;
@@ -105,48 +136,105 @@
     }
   }
   .mobile{
-    padding: 78px 0 192px 0;
+    position: relative;
+    text-align: center;
+    &__mob_img_wr{
+      display: block;
+    }
+    &__inner{
+      display: block;
+    }
+    &__item {
+      padding-top: 300px;
+      padding-bottom: 110px;
+    }
     &__text{
       font-size: 14px;
       &_black{
         font-size: 14px;
       }
     }
+    .devices {
+      display: block;
+      height: 300px;
+    }
+    .devices__item {
+      transform: unset;
+    }
+    &__image-one {
+      left: 10%;
+      height: 100%;
+    }
+    &__image-two {
+      top: -40%;
+      left: 10%;
+      height: 100%;
+    }
+    &__image-three {
+      left: 35%;
+      top: 20%;
+      height: 50%;
+    }
   }
   .benefits{
-    padding-bottom: 33px;
+    text-align: center;
     &__inner{
-      flex-wrap: wrap;
-      justify-content: center;
+      display: block;
     }
-    &__item{
-      width: 100%;
+    &__item {
+      padding-top: 40px;
+      padding-bottom: 50px;
     }
     &__block{
-      padding: 20px 30px;
+      padding: 25px 20px 10px;
+      text-align: left;
     }
-    &__suptitle{
-      font-size: 16px;
+    &__subtitle{
+      font-size: 20px;
+    }
+    &__img{
+      margin-left: -30%;
+      width: 160%;
     }
   }
   .savetime{
-    padding: 21px 0;
+    text-align: center;
+    &__inner{
+      display: block;
+    }
+    &__item {
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
     &__text{
       margin-top: 30px;
       font-size: 16px;
     }
-    &__inner{
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    &__item{
-      width: 100%;
+    &__img{
+      margin-bottom: 30px;
     }
   }
   .chathistory{
-    padding: 74px 0;
-    &__item{
-      width: 100%;
+    text-align: center;
+    .devices {
+      display: block;
+    }
+    .devices__item {
+      position: relative;
+      display: none;
+    }
+    .chathistory__image-two {
+      display: initial;
+      left: -30%;
+      top: unset;
+      transform: unset;
+    }
+    &__inner{
+      display: block;
+    }
+    &__item {
+      padding-top: 0;
+      padding-bottom: 60px;
     }
     &__list{
       & li{
@@ -173,52 +261,10 @@
     }
   }
 }
-@media (max-width: 575px){
+@media (max-width: 425px){
   .header{
-    padding-top: 10px;
-    &__logo{
-      width: 100%;
-      margin: 0 auto 15px;
-    }
-    &__choice{
-      margin: 0 auto;
-    }
-    &__admission{
-      width: 100%;
-      justify-content: center;
-      margin-top: 15px;
-    }
-  }
-  .banner{
-    &__item{
-      width: 100%;
-    }
-    &__img{
+    .text-color_title {
       display: none;
     }
-    &__btns{
-      margin-top: 15px;
-    }
-  }
-  .about{
-    padding: 36px 0;
-  }
-  .mobile{
-    padding: 38px 0;
-    &__item{
-      width: 100%;
-    }
-  }
-  .benefits{
-    padding-bottom: 0;
-  }
-  .savetime{
-    padding-bottom: 0px;
-  }
-  .chathistory{
-    padding: 24px 0;
-  }
-  .devices{
-    display: none;
   }
 }

@@ -1,14 +1,29 @@
 .mobile{
-  width: 100%;
-  padding: 118px 0 192px 0;
+  &__mob_img_wr {
+    display: none;
+    position: absolute;
+    height: 580px;
+    top: -230px;
+    width: 100%;
+    overflow: hidden;
+  }
+  &__mob_img {
+    position: absolute;
+    left: -50%;
+    right: -50%;
+  }
+  &__mob_img img {
+    max-width: 80%;
+  }
+
   &__inner{
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
   &__item{
-    width: 50%;
-    padding: 0 30px;
+    padding-top: 100px;
+    padding-bottom: 170px;
   }
   &__title{
     margin: 9px 0 38px 0;

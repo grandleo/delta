@@ -1,12 +1,26 @@
+* {
+  box-sizing: border-box;
+}
 html{
   overflow-x: hidden;
 }
 body{
   color: #333;
+  font-family: Gilroy;
 }
 .container{
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
+  padding: 0 15px;
+}
+.col-1 {
+  width: 50%;
+  padding-right: 30px;
+  flex-shrink: 0;
+}
+.col-2 {
+  width: 50%;
+  flex-shrink: 0;
 }

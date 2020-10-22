@@ -1,6 +1,7 @@
 {
     "/js/guest.js": "/js/guest.js",
     "/css/app.css": "/css/app.css",
+    "/css/landing.css": "/css/landing.css",
     "/js/manager.js": "/js/manager.js",
     "/js/worker.js": "/js/worker.js"
 }
