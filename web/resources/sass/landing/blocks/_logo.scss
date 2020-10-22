@@ -1,0 +1,29 @@
+.logo{
+  padding-left: 61px;
+  position: relative;
+  padding-top: 8px;
+  display: block;
+  min-width: 135px;
+  &__img{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+  }
+  &__title{
+    font-family: Gilroy;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 100%;
+    letter-spacing: 0.1em;
+    margin-bottom: 3px;
+  }
+  &__subtitle{
+    font-family: Gilroy;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 100%;
+  }
+}

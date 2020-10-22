@@ -1,0 +1,31 @@
+.button{
+  display: inline-block;
+  vertical-align: top;
+  background: #6FCF97;
+  text-decoration: none;
+  padding: 10px 30px;
+  box-shadow: -4px -2px 16px #FFFFFF, 4px 2px 16px rgba(136, 165, 191, 0.54);
+  border-radius: 52px;
+  font-family: Gilroy;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 1.26px;
+  transition: .2s linear;
+  &:hover{
+    box-shadow: none;
+    background: #67c08c;
+  }
+
+  &_big{
+    padding: 21px 55px;
+  }
+
+  &_red{
+    background: #EB5757;
+    &:hover{
+      background: #fb6262;
+    }
+  }
+}

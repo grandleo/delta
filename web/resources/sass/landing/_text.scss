@@ -1,0 +1,49 @@
+.text-color {
+  &_title {
+    color: #31456A;
+  }
+
+  &_black {
+    color: #000;
+  }
+
+  &_dark-gray {
+    color: #4F4F4F;
+  }
+
+  &_gray {
+    color: #828282;
+  }
+
+  &_light-gray {
+    color: #BDBDBD;
+  }
+
+  &_white {
+    color: #fff;
+  }
+}
+
+.text {
+  &_title {
+    font-family: AvenirNextCyr;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 100%;
+    letter-spacing: 0.02em;
+  }
+
+  &_suptitle {
+    font-family: AvenirNextCyr;
+    font-style: normal;
+    font-weight: 450;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0.02em;
+  }
+
+  &-weight_semi {
+    font-weight: 600;
+  }
+}

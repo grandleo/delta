@@ -1,0 +1,86 @@
+.about{
+  background: #31456A;
+  padding: 116px 0 127px 0;
+  &__inner{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__item{
+    width: 50%;
+    padding: 0 15px;
+  }
+  &__title{
+    margin-bottom: 46px;
+  }
+  &__text{
+    font-family: AvenirNextCyr;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 130%;
+    letter-spacing: 0.8px;
+    &_two{
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 100%;
+      margin: 20px 0 39px 0;
+    }
+    &_three{
+      font-size: 16px;
+    }
+  }
+}
+.devices{
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  &__item{
+    display: block;
+    &_phone-one{
+      width: 117%;
+      position: absolute;
+      left: -20%;
+      top: -48%;
+      z-index: 3;
+      transform: translateY(-48%);
+    }
+    &_phone-two{
+      width: 100%;
+      position: absolute;
+      top: -48%;
+      left: 22%;
+      transform: translateY(-48%);
+      z-index: 4;
+    }
+    &_poly-one{
+      position: absolute;
+      top: -103%;
+      left: -10%;
+      transform: translateY(-103%);
+      z-index: 1;
+    }
+    &_poly-two{
+      position: absolute;
+      top: -18%;
+      left: 69%;
+      transform: translateY(-18%);
+      z-index: 2;
+    }
+    &_poly-three{
+      position: absolute;
+      top: 99%;
+      left: 159%;
+      transform: translateY(99%);
+      z-index: 10;
+    }
+    &_poly-four{
+      position: absolute;
+      left: -5%;
+      top: -285%;
+      z-index: 10;
+      transform: translateY(-285%);
+    }
+  }
+}

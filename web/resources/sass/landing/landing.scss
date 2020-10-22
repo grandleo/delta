@@ -1,0 +1,18 @@
+@import "../_mixins";
+@import '../fonts-local';
+@import "_reset";
+@import "_text";
+@import "_global";
+
+@import "blocks/_button";
+@import "blocks/_header";
+@import "blocks/_banner";
+@import "blocks/_about";
+@import "blocks/_mobile";
+@import "blocks/_benefits";
+@import "blocks/_savetime";
+@import "blocks/_chathistory";
+@import "blocks/_footer";
+@import "blocks/_logo";
+
+@import "_media";

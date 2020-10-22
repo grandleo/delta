@@ -1,17 +1,16 @@
-// Fonts
-// @import url('https://fonts.googleapis.com/css?family=Nunito');
-// @import url('https://fonts.googleapis.com/css?family=Poppins');
-@import 'fonts-local';
-
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-
 // mixins
 @import 'mixins';
+
+// Fonts
+// @import url('https://fonts.googleapis.com/css?family=Nunito');
+// @import url('https://fonts.googleapis.com/css?family=Poppins');
+@import 'fonts-local';
 
 // utilities
 @import 'utilities';

@@ -1,0 +1,56 @@
+.mobile{
+  width: 100%;
+  padding: 118px 0 192px 0;
+  &__inner{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__item{
+    width: 50%;
+    padding: 0 30px;
+  }
+  &__title{
+    margin: 9px 0 38px 0;
+  }
+  &__text{
+    font-family: Gilroy;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 120%;
+    letter-spacing: 0.05em;
+    &_black{
+      font-family: AvenirNextCyr;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 120%;
+      letter-spacing: 0.02em;
+      margin-top: 45px;
+    }
+  }
+  &__image{
+    &-one{
+      position: absolute;
+      left: 20%;
+      top: -30%;
+      z-index: 1;
+      transform: translateY(-30%);
+    }
+    &-two{
+      position: absolute;
+      left: 0%;
+      top: -55%;
+      z-index: 2;
+      transform: translateY(-55%);
+    }
+    &-three{
+      position: absolute;
+      left: 25%;
+      top: 19%;
+      z-index: 3;
+      transform: translateY(19%);
+    }
+  }
+}

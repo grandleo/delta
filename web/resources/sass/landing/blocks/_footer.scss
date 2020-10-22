@@ -1,0 +1,30 @@
+.footer{
+  background: #fff;
+  padding: 40px 0;
+  &__inner{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__contacts{
+    font-family: Gilroy;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 100%;
+  }
+  &__tel{
+    text-decoration: none;
+    margin-right: 27px;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+  &__mail{
+    border-left: 1px solid #4C5862;
+    padding-left: 27px;
+    &:hover{
+      text-decoration: none;
+    }
+  }
+}

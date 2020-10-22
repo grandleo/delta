@@ -1,0 +1,72 @@
+.chathistory{
+  background: #f8f8f8;
+  padding: 114px 0 191px 0;
+  &__inner{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__item{
+    width: 50%;
+    padding: 0 30px;
+  }
+  &__title{
+    margin: 9px 0 54px 0;
+  }
+  &__subtitle{
+    font-family: Gilroy;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 100%;
+  }
+  &__text{
+    font-family: Gilroy;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 130%;
+    margin: 32px 0 45px 0;
+  }
+  &__list{
+    list-style: url("/images/img/list.png");
+    padding-left: 20px;
+    & li{
+      font-family: Gilroy;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 130%;
+      color: #828282;
+      margin-bottom: 20px;
+      padding-left: 8px;
+    }
+  }
+  &__image{
+    display: block;
+    &-one{
+      width: 95%;
+      position: absolute;
+      left: -18%;
+      top: -12%;
+      z-index: 1;
+      transform: translateY(-40%);
+    }
+    &-two{
+      width: 162%;
+      position: absolute;
+      left: -25%;
+      top: -38%;
+      z-index: 2;
+      transform: translateY(-45%);
+    }
+    &-three{
+      width: 42%;
+      position: absolute;
+      left: -3%;
+      top: 0%;
+      z-index: 3;
+      transform: translateY(20%);
+    }
+  }
+}

@@ -3,3 +3,15 @@
     @content;
   }
 }
+
+$font_path: "/fonts/";
+@mixin font-face($font_name, $file_name, $weight, $style) {
+  @font-face {
+    font-family: $font_name;
+    font-display: swap;
+    src: url("#{$font_path}#{$file_name}.woff") format("woff"),
+      url("#{$font_path}#{$file_name}.woff2") format("woff2");
+    font-weight: #{$weight};
+    font-style: #{$style};
+  }
+}
