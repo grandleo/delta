@@ -30,7 +30,7 @@ const store = createStore(
 
 store.subscribe(throttle(() => {
     lsSaveState({
-        authentication: store.getState().authentication,
+        authentication: { user: store.getState().authentication.user },
     });
 }, 1000));
 

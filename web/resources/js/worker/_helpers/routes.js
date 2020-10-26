@@ -5,7 +5,7 @@ const { pathPrefix: pp } = config;
 export const routes = {
     home: pp,
 
-    login: pp + '/login',
+    login: '/manager' + '/login',
 
     orderList: pp + '/order',
     orderEdit: pp + '/order/:orderId',

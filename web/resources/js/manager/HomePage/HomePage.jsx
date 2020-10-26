@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, routes } from '../_helpers';
+import { t, fMoney, routes } from '../_helpers';
 import { Header } from '../_components';
-import { userActions } from '../_actions';
+import { userActions, financeActions } from '../_actions';
 
 const links = [
     {to: routes.orderList, icon: 'orders.svg', text: t('Заказы')},
@@ -18,7 +18,17 @@ const links = [
 
 function HomePage() {
     const user = useSelector(state => state.authentication.user);
+    const financeAll = useSelector(state => state.finance.all);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!financeAll.data) {
+            dispatch(financeActions.index());
+        }
+    }, []);
+    const financeToday = financeAll.data && financeAll.data[0]
+        ? financeAll.data[0]
+        : null;
 
     function handleLogoutClick(e) {
         e.preventDefault();
@@ -33,6 +43,23 @@ function HomePage() {
                 routeBack={null}
                 />
             <div className="content-wrapper">
+                <div className="">
+                    <Link to={links[0].to} className="d-flex align-items-center justify-content-between btn btn-xlg btn-primary btn-block mb-3 text-left shadow-btn-3 text-white opacity-07">
+                        <div>
+                            <small>{t('Заказов сегодня')}</small>
+                            <h3 className="m-0">{financeToday ? financeToday.count : '?'}</h3>
+                        </div>
+                        <div>
+                            <small>{t('На сумму')}</small>
+                            <h3 className="m-0">{financeToday ? fMoney(financeToday.amount, user.place.currency) : '?'}</h3>
+                        </div>
+                        <div>
+                            <img src="/images/icon/arrow-left.svg" alt="see"
+                                className="transform-rotate-180deg"
+                                />
+                        </div>
+                    </Link>
+                </div>
                 <div className="">
                     {links.map(link =>
                         <Link key={link.to} to={link.to} className="btn btn-xlg btn-light btn-block mb-3 text-left shadow-btn-3 text-primary">

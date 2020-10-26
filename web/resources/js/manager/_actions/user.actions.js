@@ -16,8 +16,12 @@ function login(inputs, history, from) {
         return userService.login(inputs)
             .then(
                 payload => {
-                    dispatch(success(payload));
-                    history.push(from);
+                    if (payload && !payload.is_worker) {
+                        dispatch(success(payload));
+                        history.push(from);
+                    } else {
+                        dispatch(failure(''));
+                    }
                 },
                 error => {
                     dispatch(failure(error.toString()));

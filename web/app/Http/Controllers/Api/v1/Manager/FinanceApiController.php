@@ -74,6 +74,8 @@ class FinanceApiController extends Controller
                 ->whereBetween('created_at', [$d1, $d2])->sum('amount'),
         ];
 
-        return $res;
+        return [
+            'data' => $res
+        ];
     }
 }

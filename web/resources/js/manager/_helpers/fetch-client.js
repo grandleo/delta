@@ -31,7 +31,6 @@ export function fetchClient() {
         // not 2xx status codes
         displayErrorMessage(error.response);
 
-        console.log(error.response);
         if (error.response && error.response.status === 401) {
             store.dispatch(userActions.logout());
         }

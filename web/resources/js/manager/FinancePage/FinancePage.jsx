@@ -1,16 +1,15 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useEffect, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, fileSrc, routes } from '../_helpers';
+import { t, fMoney, routes } from '../_helpers';
 import { Header, LoadingCommon } from '../_components';
-import { financeService } from '../_services';
+import { financeActions } from '../_actions';
 
 const SortableItem = ({value}) => {
     const user = useSelector(state => state.authentication.user);
 
     return (
-        <div className="card-manager-product-category rounded-065rem bg-light mb-3 shadow-btn-3 text-primary py-3 px-2">
+        <div className="card-manager-product-category rounded-065rem bg-light mb-3 shadow-btn-3 text-primary p-3">
             <div className="">
                 <h5>{value.title}</h5>
                 <div>{t('Кол-во:')+' '+value.count}</div>
@@ -33,14 +32,11 @@ const SortableList = ({items, disabled}) => {
 };
 
 function FinancePage() {
-    const [data, setData] = useState([]);
-    const user = useSelector(state => state.authentication.user);
+    const financeAll = useSelector(state => state.finance.all);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        financeService.index()
-            .then(response => {
-                setData(data => response);
-            });
+        dispatch(financeActions.index());
     }, []);
 
     return (
@@ -50,11 +46,11 @@ function FinancePage() {
                 routeBack={routes.home}
                 />
             <div className="content-wrapper">
-                {data.length === 0 && <LoadingCommon />}
-                {data && data.length !== 0 &&
+                {financeAll.loading && <LoadingCommon />}
+                {financeAll.data && financeAll.data.length !== 0 &&
                     <Fragment>
                         <SortableList
-                            items={data}
+                            items={financeAll.data}
                             />
                     </Fragment>
                 }

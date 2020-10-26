@@ -8,3 +8,4 @@ export * from './table.actions';
 export * from './worker.actions';
 export * from './order.actions';
 export * from './guest.actions';
+export * from './finance.actions';

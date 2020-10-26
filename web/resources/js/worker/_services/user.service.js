@@ -1,4 +1,4 @@
-import { fetchClient, lsSetItem, lsRemoveItem, echoInit } from '../_helpers';
+import { fetchClient, routes, lsSetItem, lsRemoveItem, echoInit } from '../_helpers';
 
 export const userService = {
     login,
@@ -26,6 +26,7 @@ function login(data) {
 
 function logout() {
     lsRemoveItem('token', null);
+    location.href = routes.login;
 }
 
 function show() {

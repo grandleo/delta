@@ -98,7 +98,9 @@ class WorkerApiController extends Controller
             'image' => 'nullable|string|max:250',
             'phone' => 'nullable|string|max:250',
             'email' => ['required', 'string', 'email', 'max:250',
-                Rule::unique('workers', 'email')->ignore($id)],
+                Rule::unique('workers', 'email')->ignore($id),
+                'unique:managers',
+            ],
             'password' => [$isNew ? 'required' : 'nullable', 'string', 'min:8',
                 'confirmed'],
 

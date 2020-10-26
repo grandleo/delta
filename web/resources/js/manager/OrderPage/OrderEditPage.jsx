@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, fDate, fileSrc, routes, scroll } from '../_helpers';
+import { t, fMoney, fDate, fileSrc, msgGroupedFn, routes, scroll } from '../_helpers';
 import { orderActions } from '../_actions';
 import { orderService } from '../_services';
 import { Header, LoadingCommon } from '../_components';
 
 function OrderEditPage() {
+    const [submitting, setSubmitting] = useState(false);
     const [messageText, setMessageText] = useState('');
+    const [messagesGrouped, setMessagesGrouped] = useState([]);
     const [quickAnswers, setQuickAnswers] = useState([
         {text: 'Здравствуйте!'},
         {text: 'Заказ скоро будет передан на кухню'},
@@ -43,6 +45,7 @@ function OrderEditPage() {
     const messages = order ? order.messages : null;
     useEffect(() => {
         condScrollDown();
+        setMessagesGrouped(msgGroupedFn(messages || [], owner_uid));
     }, [messages]);
 
     function condScrollDown() {
@@ -50,10 +53,15 @@ function OrderEditPage() {
     }
 
     function sendMessage(message) {
+        if (submitting) return;
+        setSubmitting(true);
         orderService.sendMessage(orderId, message)
             .then((response) => {
                 dispatch(orderActions.messageAdd(orderId, message));
                 condScrollDown();
+            })
+            .then(() => {
+                setSubmitting(false);
             });
     }
 
@@ -68,12 +76,24 @@ function OrderEditPage() {
             text: messageText,
             owner_uid,
         };
-        sendMessage(message)
+        sendMessage(message);
         setMessageText('');
     }
 
     function handleClickStatus(orderStatusId, e) {
-        orderService.setOrderStatus(orderId, orderStatusId);
+        if (submitting) return;
+        setSubmitting(true);
+        orderService.setOrderStatus(orderId, orderStatusId)
+            .then(() => {
+                setSubmitting(false);
+            });
+    }
+
+    function handleClickQuickMessage(qAnswer, e) {
+        e.preventDefault();
+        if (submitting) return;
+        sendMessage({text: qAnswer.text, owner_uid});
+        setQuickAnswers((quickAnswers) => quickAnswers.filter((v) => v.text !== qAnswer.text));
     }
 
     return (
@@ -134,17 +154,73 @@ function OrderEditPage() {
                             </div>
                         </div>
                         <hr className="mt-2" />
-                        <div className="d-flex flex-column align-items-start">
-                            {order.messages.map((message) =>
-                                <div key={message.id}
+                        <div className="d-flex flex-column align-items-start pb-3">
+                            {messagesGrouped.map((msgGroup) =>
+                                <div key={msgGroup.key}
                                     className={
-                                        'mb-3 px-3 py-1 pre-line'
-                                        + (message.is_system ? ' align-self-center bg-info text-white ml-5' : ' bg-light')
-                                        + (message.owner_uid.indexOf('w') === 0 || message.owner_uid === owner_uid ? ' align-self-end ml-5' : ' mr-5')
-                                        + (message.owner_uid.indexOf('w') === 0 ? ' border border-info' : '')
+                                        'msgGroup'
+                                        + (msgGroup.is_system ? ' msgGroup_system'
+                                            : msgGroup.is_owner || !msgGroup.is_guest ? ' msgGroup_self' : ' msgGroup_other')
+                                        + (msgGroup.is_system ? ' align-self-center my-2'
+                                            : msgGroup.is_owner || !msgGroup.is_guest ? ' align-self-end ml-5' : ' mr-5')
                                     }
                                     >
-                                    {message.text}
+                                    <div className="msgGroup-header mb-1">
+                                        {!msgGroup.is_system && !!msgGroup.is_owner &&
+                                            <div className="position-relative pr-4 mb-1">
+                                                {!msgGroup.is_row &&
+                                                    <Fragment>
+                                                        <div className="font-weight-600 text-primary mt-1">{t('Вы')}</div>
+                                                        <span className="text-success msgGroup-status">{'\u25CF'}</span>
+                                                    </Fragment>
+                                                }
+                                                <p className="m-0 small text-muted">{fDate(msgGroup.created_at)}</p>
+                                            </div>
+                                        }
+                                        {!msgGroup.is_system && !msgGroup.is_owner && !msgGroup.is_guest &&
+                                            <div className="position-relative pr-4 mb-1">
+                                                {!msgGroup.is_row &&
+                                                    <Fragment>
+                                                        <div className="font-weight-600 text-primary mt-1">{t('Официант')}</div>
+                                                        <span className="text-info msgGroup-status">{'\u25CF'}</span>
+                                                    </Fragment>
+                                                }
+                                                <p className="m-0 small text-muted">{fDate(msgGroup.created_at)}</p>
+                                            </div>
+                                        }
+                                        {!msgGroup.is_system && !msgGroup.is_owner && !!msgGroup.is_guest &&
+                                            <div className="position-relative pl-4 mb-1">
+                                                {!msgGroup.is_row &&
+                                                    <Fragment>
+                                                        <div className="font-weight-600 text-primary mt-1">{t('Гость №')+order.guest_id+' \u00A0 / \u00A0 '+order.guest_name}</div>
+                                                        <span className="text-warning msgGroup-status">{'\u25CF'}</span>
+                                                    </Fragment>
+                                                }
+                                                <p className="m-0 small text-muted">{fDate(msgGroup.created_at)}</p>
+                                            </div>
+                                        }
+                                        {msgGroup.is_system &&
+                                            <div className="mb-1">
+                                                <p className="m-0 small text-muted">{fDate(msgGroup.created_at)}</p>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div
+                                        className={
+                                            'msgGroup-content'
+                                            +( !msgGroup.is_system && (msgGroup.is_owner || !msgGroup.is_guest) ? ' mr-4' : '')
+                                            +( !msgGroup.is_system && !msgGroup.is_owner ? ' ml-4' : '')
+                                        }
+                                        >
+                                        {msgGroup.items.map((message) =>
+                                            <div key={message.id}
+                                                className={
+                                                    'msgGroup-text mb-2 px-3 py-2 pre-line'
+                                                    + (message.is_system ? ' bg-info text-white' : ' bg-light')
+                                                }
+                                                >{message.text}</div>
+                                        )}
+                                    </div>
                                 </div>
                             )}
                         </div>
@@ -156,11 +232,7 @@ function OrderEditPage() {
                                         <a href="#"
                                             key={qAnswer.text}
                                             className="text-white mr-4"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                sendMessage({text: qAnswer.text, owner_uid});
-                                                setQuickAnswers((quickAnswers) => quickAnswers.filter((v) => v.text !== qAnswer.text));
-                                            }}
+                                            onClick={handleClickQuickMessage.bind(this, qAnswer)}
                                             >
                                             [{qAnswer.text}]
                                         </a>

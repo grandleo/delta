@@ -107,7 +107,7 @@ function TableEditPage() {
                                 />
                             <label htmlFor="current-form.marker_code">{t('Код для привязки')}</label>
                             <small className="form-text text-muted text-right">
-                                {t('Узнать его вы можете из QR кода ментки')}
+                                {t('Узнать его вы можете из QR кода метки')}
                             </small>
                             {validate('marker_code') &&
                                 <div className="invalid-feedback text-right">{validate('marker_code')}</div>

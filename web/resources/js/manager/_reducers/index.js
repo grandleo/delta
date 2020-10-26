@@ -12,6 +12,7 @@ import { worker } from './worker.reducer';
 import { order } from './order.reducer';
 import { guest } from './guest.reducer';
 import { notif } from './notif.reducer';
+import { finance } from './finance.reducer';
 
 const rootReducer = combineReducers({
     alert,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     order,
     guest,
     notif,
+    finance,
 });
 
 export default rootReducer;

@@ -74,7 +74,9 @@ class SettingsApiController extends Controller
             'user' => 'required|array',
             'user.name_full' => 'required|string|min:4|max:250',
             'user.email' => ['required', 'string', 'email', 'max:250',
-                Rule::unique('managers', 'email')->ignore($manager_id)],
+                Rule::unique('managers', 'email')->ignore($manager_id),
+                Rule::unique('workers', 'email'),
+            ],
             'user.password' => 'nullable|string|min:8|confirmed',
         ]);
 

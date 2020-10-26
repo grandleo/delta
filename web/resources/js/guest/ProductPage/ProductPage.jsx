@@ -61,7 +61,7 @@ function ProductPage() {
                             </span>
                         </div>
                         <small>{product.productCategory_name}</small>
-                        <div className="d-flex justify-content-between mt-3 px-4">
+                        <div className="d-flex justify-content-between mt-3 px-1">
                             <div>
                                 <img src="/images/icon/flame.svg" alt="weight" className="mr-2" />
                                 {product.kcal+' '+t('кКал')}

@@ -1,0 +1,44 @@
+.msgGroup {
+
+  &-status {
+    position: absolute;
+    top: 9px;
+    font-size: 30px;
+    line-height: 0;
+    user-select: none;
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+  }
+  &-text {
+    line-height: 1.3;
+  }
+
+  &_system {
+    text-align: center;
+    .msgGroup-content {
+      align-items: center;
+    }
+  }
+  &_self {
+    .msgGroup-header {
+      text-align: right;
+    }
+    .msgGroup-status {
+      right: 0;
+    }
+    .msgGroup-content {
+      align-items: flex-end;
+    }
+  }
+  &_other {
+    .msgGroup-status {
+      left: 0;
+    }
+    .msgGroup-content {
+      align-items: flex-start;
+    }
+  }
+}

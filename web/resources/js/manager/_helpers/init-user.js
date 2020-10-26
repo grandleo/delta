@@ -1,5 +1,5 @@
 import { lsGetItem, lsLoadState, store, echoInit, notifInit } from './';
-import { userActions, notifActions, orderActions } from '../_actions';
+import { userActions, notifActions, orderActions, financeActions } from '../_actions';
 
 const token = lsGetItem('token');
 
@@ -48,6 +48,7 @@ export function initUser(userId = null) {
                         && curState.order.current.data.id == notif.order_id) {
                         dispatch(orderActions.show(notif.order_id));
                     }
+                    dispatch(financeActions.index());
                     break;
             }
         });

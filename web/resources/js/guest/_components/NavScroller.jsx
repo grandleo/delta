@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 function NavScroller({ links, children }) {
 
     return (
-        <div className="nav-scroller shadow-input-1">
+        <div className="nav-scroller">
             <nav className="nav">
                 {links && links.map((link) =>
                     <NavLink

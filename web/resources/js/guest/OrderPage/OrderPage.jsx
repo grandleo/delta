@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, fileSrc, routes, scroll } from '../_helpers';
+import { t, fMoney, fDate, fileSrc, msgGroupedFn, routes, scroll } from '../_helpers';
 import { orderActions } from '../_actions';
 import { orderService } from '../_services';
 import { Link, Header, LoadingCommon } from '../_components';
 
 function OrderPage() {
+    const [submitting, setSubmitting] = useState(false);
     const [messageText, setMessageText] = useState('');
+    const [messagesGrouped, setMessagesGrouped] = useState([]);
     const { orderId } = useParams();
     const user = useSelector(state => state.authentication.user);
     const orderCurrent = useSelector(state => state.order.current);
@@ -35,6 +37,7 @@ function OrderPage() {
     const messages = order ? order.messages : null;
     useEffect(() => {
         condScrollDown();
+        setMessagesGrouped(msgGroupedFn(messages || [], owner_uid));
     }, [messages]);
 
     function condScrollDown() {
@@ -47,7 +50,8 @@ function OrderPage() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        if (!(messageText.trim())) return;
+        if (!(messageText.trim()) || submitting) return;
+        setSubmitting(true);
         const message = {
             text: messageText,
             owner_uid,
@@ -57,16 +61,27 @@ function OrderPage() {
                 dispatch(orderActions.messageAdd(orderId, message));
                 setMessageText('');
                 condScrollDown();
+                setSubmitting(false);
             });
     }
 
     return (
-        <div className="d-flex flex-column home-page">
+        <div className="d-flex flex-column order-page">
             <Header
                 routeBack={routes.orders}
                 headingTop={t('Заказ')+' #'+orderId}
                 />
-            <div className="pt-4 d-flex flex-grow-1">
+            {order &&
+                <div className="d-flex justify-content-center">
+                    <Link
+                        to={routes.makeRoute('place', [order.place_slug])}
+                        className="btn btn-order-new btn-danger rounded-circle d-flex justify-content-center"
+                        >
+                        <img src="/images/icon/plus.svg" alt="icon" />
+                    </Link>
+                </div>
+            }
+            <div className="pt-3 d-flex flex-grow-1">
                 {!order && orderCurrent.loading && <div className="w-100"><LoadingCommon /></div>}
                 {orderCurrent.error && <span className="text-danger">{t('Ошибка')}: {orderCurrent.error}</span>}
                 {order &&
@@ -120,16 +135,62 @@ function OrderPage() {
                             </div>
                         }
                         <hr />
-                        <div className="d-flex flex-column align-items-start pb-2">
-                            {order.messages.map((message) =>
-                                <div key={message.id}
+                        <div className="d-flex flex-column align-items-start pb-3">
+                            {messagesGrouped.map((msgGroup) =>
+                                <div key={msgGroup.key}
                                     className={
-                                        'mb-3 px-3 py-1 pre-line'
-                                        + (message.is_system ? ' align-self-center bg-info text-white'
-                                            : message.owner_uid === owner_uid ? ' align-self-end ml-5 bg-light' : ' mr-5 bg-light')
+                                        'msgGroup'
+                                        + (msgGroup.is_system ? ' msgGroup_system'
+                                            : msgGroup.is_owner ? ' msgGroup_self' : ' msgGroup_other')
+                                        + (msgGroup.is_system ? ' align-self-center my-2'
+                                            : msgGroup.is_owner ? ' align-self-end ml-5' : ' mr-5')
                                     }
                                     >
-                                    {message.text}
+                                    <div className="msgGroup-header mb-1">
+                                        {!msgGroup.is_system && msgGroup.is_owner &&
+                                            <div className="position-relative pr-4 mb-1">
+                                                {!msgGroup.is_row &&
+                                                    <Fragment>
+                                                        <span className="font-weight-600 text-primary mt-1">{t('Вы')}</span>
+                                                        <span className="text-success msgGroup-status">{'\u25CF'}</span>
+                                                    </Fragment>
+                                                }
+                                                <p className="m-0 small text-muted">{fDate(msgGroup.created_at)}</p>
+                                            </div>
+                                        }
+                                        {!msgGroup.is_system && !msgGroup.is_owner &&
+                                            <div className="position-relative pl-4 mb-1">
+                                                {!msgGroup.is_row &&
+                                                    <Fragment>
+                                                        <span className="font-weight-600 text-primary mt-1">{msgGroup.is_worker && order.worker_id ? order.worker_name : order.place_name}</span>
+                                                        <span className="text-warning msgGroup-status">{'\u25CF'}</span>
+                                                    </Fragment>
+                                                }
+                                                <p className="m-0 small text-muted">{fDate(msgGroup.created_at)}</p>
+                                            </div>
+                                        }
+                                        {msgGroup.is_system &&
+                                            <div className="mb-1">
+                                                <p className="m-0 small text-muted">{fDate(msgGroup.created_at)}</p>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div
+                                        className={
+                                            'msgGroup-content'
+                                            +( !msgGroup.is_system && msgGroup.is_owner ? ' mr-4' : '')
+                                            +( !msgGroup.is_system && !msgGroup.is_owner ? ' ml-4' : '')
+                                        }
+                                        >
+                                        {msgGroup.items.map((message) =>
+                                            <div key={message.id}
+                                                className={
+                                                    'mb-2 px-3 py-1 pre-line'
+                                                    + (message.is_system ? ' bg-info text-white' : ' bg-light')
+                                                }
+                                                >{message.text}</div>
+                                        )}
+                                    </div>
                                 </div>
                             )}
                         </div>

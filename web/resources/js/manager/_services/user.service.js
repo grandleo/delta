@@ -18,6 +18,13 @@ function login(data) {
     return fetchClient()(requestOptions).then(handleResponse)
         .then(payload => {
             if (payload.data.token) {
+                if (payload.is_worker) {
+                    localStorage.setItem('worker_token', payload.data.token);
+                    const worker_state = JSON.stringify({'authentication': {'user': payload.data}});
+                    localStorage.setItem('worker_state', worker_state);
+                    location.href = '/worker';
+                    return null;
+                }
                 lsSetItem('token', payload.data.token);
                 echoInit();
             }

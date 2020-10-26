@@ -96,6 +96,16 @@ class TableApiController extends Controller
             'workers.*' => 'required|numeric',
         ]);
 
+        $tableWithSameCode = $this->tableRepository->findByWhere([
+            ['id', '!=', $id],
+            ['marker_code', '=', $reqData['marker_code']],
+        ]);
+        if ($tableWithSameCode) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'marker_code' => [__('Данный код уже используется.')],
+            ]);
+        }
+
         $isNew = $id == '0';
 
         $place = $this->getPlace($reqData['place_id']);

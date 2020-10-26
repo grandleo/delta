@@ -59,3 +59,35 @@ const storagePrefix = '/storage/';
 export function fileSrc(path) {
     return storagePrefix + path;
 }
+
+export function msgGroupedFn(initMessages, uid) {
+    const resMessages = [];
+
+    let resI = 0;
+    initMessages.forEach((v) => {
+        const { is_system, owner_uid, created_at } = v;
+        const is_owner = !is_system && uid === owner_uid;
+        const is_worker = !is_system && !is_owner && owner_uid.indexOf('w') > -1;
+        const is_guest = !is_system && !is_owner && owner_uid.indexOf('g') > -1;
+        const key = '' + is_system + owner_uid + created_at.substr(0, 16);
+        const found = resMessages.find((v1) => v1.key === key)
+        const is_row = resMessages[resI-1] && resMessages[resI-1].owner_uid === owner_uid;
+        if (found) {
+            found.items.push(v);
+        } else {
+            resMessages.push({
+                key,
+                is_owner,
+                is_worker,
+                is_guest,
+                is_system,
+                is_row,
+                owner_uid,
+                created_at,
+                items: [v],
+            });
+            resI += 1;
+        }
+    })
+    return resMessages;
+}
