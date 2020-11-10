@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, fMoney, routes } from '../_helpers';
-import { placeActions, cartActions } from '../_actions';
+import {t, fMoney, routes, fetchClient} from '../_helpers';
+import { placeActions, cartActions, paymentActions } from '../_actions';
 import { Header } from '../_components';
 
 function CartPaymentPage() {
@@ -18,6 +18,16 @@ function CartPaymentPage() {
     const history = useHistory();
 
     useEffect(() => {
+        let searchParams =  new URLSearchParams(window.location.search);
+        if (searchParams.get('success-payment') == 'true') {
+            setCompleted(true)
+            setTimeout(() => {
+                const orderId = cartCheckout.data.id;
+                dispatch(cartActions.checkoutClear(cartCheckout.data.place_id));
+                history.push(routes.makeRoute('order', [orderId]));
+            }, 3000)
+        }
+
         if (!user) {
             history.push(routes.makeRoute('placeCartCheckout', [placeSlug]));
             return;
@@ -47,21 +57,16 @@ function CartPaymentPage() {
 
     function handleClickPay(e) {
         e.preventDefault();
-
         setProcessing(true);
-
-        setTimeout(() => {
-            setCompleted(true);
-        }, 3000);
-        setTimeout(() => {
-            const orderId = cartCheckout.data.id;
-
-            dispatch(cartActions.checkoutSetStatus(cartCheckout.data.id, 'paid'))
-                .then(() => {
-                    dispatch(cartActions.checkoutClear(cartCheckout.data.place_id));
-                    history.push(routes.makeRoute('order', [orderId]));
-                });
-        }, 4500);
+        const orderId = cartCheckout.data.id;
+        const requestOptions = {
+            url: 'payment/init/' + orderId,
+        };
+        return fetchClient()(requestOptions).then(res => {
+            if(res.data.data && res.data.data.Success) {
+                window.location.href = res.data.data.PaymentURL;
+            }
+        });
     }
 
     function handleClickCancel(e) {

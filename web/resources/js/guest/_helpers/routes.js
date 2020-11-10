@@ -10,6 +10,7 @@ export const routes = {
 
     profile: pp + '/profile',
     profileCards: pp + '/profile-cards',
+    profileAddCard: '/profile-add-card',
 
     orders: pp + '/orders',
     order: pp + '/order/:orderId',

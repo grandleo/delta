@@ -6,3 +6,4 @@ export * from './product-category.constants';
 export * from './product.constants';
 export * from './cart.constants';
 export * from './order.constants';
+export * from './payment.constants';

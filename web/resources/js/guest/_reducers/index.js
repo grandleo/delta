@@ -10,6 +10,7 @@ import { cart } from './cart.reducer';
 import { order } from './order.reducer';
 import { alert } from './alert.reducer';
 import { notif } from './notif.reducer';
+import { payment } from './payment.reducer';
 
 const rootReducer = combineReducers({
     authentication,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     cart,
     order,
     alert,
+    payment,
     notif,
 });
 

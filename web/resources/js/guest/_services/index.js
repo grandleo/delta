@@ -6,3 +6,4 @@ export * from './cart.service';
 export * from './order.service';
 export * from './notif.service';
 export * from './image.service';
+export * from './payment.service';

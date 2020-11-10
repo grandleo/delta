@@ -1,14 +1,31 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { t, routes } from '../_helpers';
+import { t, routes, fetchClient } from '../_helpers';
 import { Header } from '../_components';
-import { userActions } from '../_actions';
+import {paymentActions} from '../_actions';
 
 function ProfileCardsPage() {
-    const user = useSelector(state => state.authentication.user);
+    const cards = useSelector(state => state.payment.cards);
     const dispatch = useDispatch();
+
+    function addNewCard() {
+      const requestOptions = {
+        method: 'GET',
+        url: 'payment/init',
+      };
+
+      return fetchClient()(requestOptions).then(res => {
+        console.log(res);
+      });
+    }
+
+    useEffect(() => {
+      dispatch(paymentActions.getCardsList()).then(res => {
+        console.log('cards', cards);
+      });
+    }, []);
 
     return (
         <div className="home-page">
@@ -26,11 +43,10 @@ function ProfileCardsPage() {
                             borderRadius: '8px',
                         }}
                         >
-                        <div className="number mt-5 pt-3">4747 **** **** 5251</div>
+                        <div className="number mt-5 pt-3"></div>
                         <div className="name mt-2">Peter Pan</div>
                     </div>
                 </div>
-
             </div>
         </div>
     );

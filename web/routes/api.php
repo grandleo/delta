@@ -37,6 +37,12 @@ Route::prefix('v1/guest')
             'store',
         ]);
         Route::post('auth/update', 'AuthApiController@update');
+        Route::group(['prefix' => 'payment'], function() {
+            Route::get('/init/{order_id}', 'PaymentApiController@initPayment');
+            Route::post('/add-customer', 'PaymentApiController@storeCustomer');
+            Route::get('/cards', 'PaymentApiController@getCards');
+            Route::get('/customer', 'PaymentApiController@customer');
+        });
     });
 
     // public
@@ -52,6 +58,7 @@ Route::prefix('v1/guest')
     Route::resource('cart', 'CartApiController')->only([
         'index', 'store',
     ]);
+
 });
 
 Route::prefix('v1/manager')

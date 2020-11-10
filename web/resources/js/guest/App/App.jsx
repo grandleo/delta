@@ -11,7 +11,7 @@ import { RegisterPage } from '../RegisterPage';
 import { PlacePage } from '../PlacePage';
 import { ProductCategoryPage } from '../ProductCategoryPage';
 import { CartPage, CartCheckoutPage, CartPaymentPage } from '../CartPage';
-import { ProfilePage, ProfileCardsPage } from '../ProfilePage';
+import { ProfilePage, ProfileCardsPage, ProfileAddCardPage } from '../ProfilePage';
 import { OrderPage, OrderListPage } from '../OrderPage';
 import { ProductPage } from '../ProductPage';
 
@@ -51,6 +51,13 @@ function App() {
             <PrivateRoute
                 path={routes.profileCards}
                 component={ProfileCardsPage}
+                condition={user}
+                redirectTo={routes.login}
+                />
+
+            <PrivateRoute
+                path={routes.profileAddCard}
+                component={ProfileAddCardPage}
                 condition={user}
                 redirectTo={routes.login}
                 />
