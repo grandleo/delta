@@ -46157,11 +46157,14 @@ function CartPaymentPage() {
 
     if (searchParams.get('success-payment') == 'true') {
       setCompleted(true);
-      setTimeout(function () {
-        var orderId = cartCheckout.data.id;
+      var orderId = cartCheckout.data.id;
+      console.log('orderId', orderId);
+      dispatch(_actions__WEBPACK_IMPORTED_MODULE_4__["cartActions"].checkoutSetStatus(cartCheckout.data.id, 'paid')).then(function () {
         dispatch(_actions__WEBPACK_IMPORTED_MODULE_4__["cartActions"].checkoutClear(cartCheckout.data.place_id));
+      });
+      setTimeout(function () {
         history.push(_helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].makeRoute('order', [orderId]));
-      }, 3000);
+      }, 4000);
     }
 
     if (!user) {
@@ -46205,6 +46208,8 @@ function CartPaymentPage() {
       if (res.data.data && res.data.data.Success) {
         window.location.href = res.data.data.PaymentURL;
       }
+
+      if (res.data.data && !res.data.data.Success) {}
     });
   }
 

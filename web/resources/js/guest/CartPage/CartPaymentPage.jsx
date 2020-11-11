@@ -21,11 +21,16 @@ function CartPaymentPage() {
         let searchParams =  new URLSearchParams(window.location.search);
         if (searchParams.get('success-payment') == 'true') {
             setCompleted(true)
+            const orderId = cartCheckout.data.id;
+            console.log('orderId', orderId);
+            dispatch(cartActions.checkoutSetStatus(cartCheckout.data.id, 'paid'))
+              .then(() => {
+                  dispatch(cartActions.checkoutClear(cartCheckout.data.place_id));
+              });
+
             setTimeout(() => {
-                const orderId = cartCheckout.data.id;
-                dispatch(cartActions.checkoutClear(cartCheckout.data.place_id));
                 history.push(routes.makeRoute('order', [orderId]));
-            }, 3000)
+            }, 4000)
         }
 
         if (!user) {
@@ -65,6 +70,10 @@ function CartPaymentPage() {
         return fetchClient()(requestOptions).then(res => {
             if(res.data.data && res.data.data.Success) {
                 window.location.href = res.data.data.PaymentURL;
+            }
+
+            if(res.data.data && !res.data.data.Success) {
+
             }
         });
     }
