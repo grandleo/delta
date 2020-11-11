@@ -28,7 +28,7 @@ class PaymentApiController extends Controller
             'CustomerKey' => $customer_key,
             'OrderId' => $order_id,
             'Amount' => $order->amount,
-            'SuccessURL' => 'http://delta.loc/maykop/cart-payment?success-payment=true',
+            'SuccessURL' => env('APP_URL') . '/maykop/cart-payment?success-payment=true',
         ];
 
         if ($guest->has_tinkoff) {
