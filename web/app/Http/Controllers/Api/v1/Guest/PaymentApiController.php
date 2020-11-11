@@ -22,7 +22,7 @@ class PaymentApiController extends Controller
     {
         $guest = \Auth::user();
         $customer_key = $this->user_prefix . $guest->id;
-        $order = $this->orderRepository->findByIdAndGuestId($order_id, $guest->id);
+        $order = $this->orderRepository->findById($order_id);
 
         $params = [
             'CustomerKey' => $customer_key,

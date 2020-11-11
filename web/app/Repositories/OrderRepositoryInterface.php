@@ -32,6 +32,13 @@ interface OrderRepositoryInterface
 
     /**
     * @param $id
+    * @param $guest_id
+    * @return Order
+    */
+    public function findById($id): ?Order;
+
+    /**
+    * @param $id
     * @param array $attributes
     * @return Order
     */

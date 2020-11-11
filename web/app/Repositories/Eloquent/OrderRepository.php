@@ -98,6 +98,25 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     }
 
     /**
+     * @param $id
+     *
+     * @return Order|null
+     */
+    public function findById($id): ?Order
+    {
+        return $this->model
+            ->with([
+                'place',
+                'place.placeCategory',
+                'orderProducts',
+                'orderStatus',
+                'messages',
+            ])
+            ->where('id', $id)
+            ->first();
+    }
+
+    /**
     * @param $id
     * @param array $attributes
     * @return Order
