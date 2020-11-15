@@ -1,5 +1,319 @@
 @charset "UTF-8";
 
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-Thin.woff") format("woff"), url("/fonts/AvenirNextCyr-Thin.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-ThinItalic.woff") format("woff"), url("/fonts/AvenirNextCyr-ThinItalic.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-UltraLight.woff") format("woff"), url("/fonts/AvenirNextCyr-UltraLight.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-UltraLightIt.woff") format("woff"), url("/fonts/AvenirNextCyr-UltraLightIt.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-Light.woff") format("woff"), url("/fonts/AvenirNextCyr-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-LightItalic.woff") format("woff"), url("/fonts/AvenirNextCyr-LightItalic.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-Regular.woff") format("woff"), url("/fonts/AvenirNextCyr-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-Italic.woff") format("woff"), url("/fonts/AvenirNextCyr-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-Medium.woff") format("woff"), url("/fonts/AvenirNextCyr-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-MediumItalic.woff") format("woff"), url("/fonts/AvenirNextCyr-MediumItalic.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-Demi.woff") format("woff"), url("/fonts/AvenirNextCyr-Demi.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-DemiItalic.woff") format("woff"), url("/fonts/AvenirNextCyr-DemiItalic.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-Bold.woff") format("woff"), url("/fonts/AvenirNextCyr-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AvenirNextCyr";
+  font-display: swap;
+  src: url("/fonts/AvenirNextCyr-BoldItalic.woff") format("woff"), url("/fonts/AvenirNextCyr-BoldItalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-thin.woff") format("woff"), url("/fonts/gilroy-thin.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-thinitalic.woff") format("woff"), url("/fonts/gilroy-thinitalic.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-ultralight.woff") format("woff"), url("/fonts/gilroy-ultralight.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-ultralightitalic.woff") format("woff"), url("/fonts/gilroy-ultralightitalic.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-light.woff") format("woff"), url("/fonts/gilroy-light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-lightitalic.woff") format("woff"), url("/fonts/gilroy-lightitalic.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-regular.woff") format("woff"), url("/fonts/gilroy-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-regularitalic.woff") format("woff"), url("/fonts/gilroy-regularitalic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-medium.woff") format("woff"), url("/fonts/gilroy-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-mediumitalic.woff") format("woff"), url("/fonts/gilroy-mediumitalic.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-semibold.woff") format("woff"), url("/fonts/gilroy-semibold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-semibolditalic.woff") format("woff"), url("/fonts/gilroy-semibolditalic.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-bold.woff") format("woff"), url("/fonts/gilroy-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-bolditalic.woff") format("woff"), url("/fonts/gilroy-bolditalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-extrabold.woff") format("woff"), url("/fonts/gilroy-extrabold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-extrabolditalic.woff") format("woff"), url("/fonts/gilroy-extrabolditalic.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-black.woff") format("woff"), url("/fonts/gilroy-black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  font-display: swap;
+  src: url("/fonts/gilroy-blackitalic.woff") format("woff"), url("/fonts/gilroy-blackitalic.woff2") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+}
+
+.font-weight-100 {
+  font-weight: 100 !important;
+}
+
+.font-weight-200 {
+  font-weight: 200 !important;
+}
+
+.font-weight-500 {
+  font-weight: 500 !important;
+}
+
+.font-weight-600 {
+  font-weight: 600 !important;
+}
+
+.font-weight-800 {
+  font-weight: 800 !important;
+}
+
+.font-weight-900 {
+  font-weight: 900 !important;
+}
+
+.font-size-15 {
+  font-size: 15px !important;
+}
+
+.m-30 {
+  margin: 30px;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}
+
+.mb-30 {
+  margin-bottom: 30px !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #F5F6F8 !important;
+  font-family: Gilroy;
+}
+
+.main {
+  padding: 40px 36px;
+  margin-top: 60px;
+}
+
 /*!
  * Bootstrap v4.5.2 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors
@@ -11071,377 +11385,282 @@ a.text-purple:focus {
   }
 }
 
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-Thin.woff") format("woff"), url("/fonts/AvenirNextCyr-Thin.woff2") format("woff2");
-  font-weight: 100;
+.header .navbar {
+  background: #FFFFFF;
+  padding: 0;
+  height: 60px;
+}
+
+.header .navbar .navbar-brand {
+  display: flex;
+  width: 256px;
+  box-shadow: 1px 4px 12px rgba(106, 106, 106, 0.25);
+}
+
+.header .navbar .navbar-brand .title {
+  font-family: Gilroy;
   font-style: normal;
-}
-
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-ThinItalic.woff") format("woff"), url("/fonts/AvenirNextCyr-ThinItalic.woff2") format("woff2");
-  font-weight: 100;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-UltraLight.woff") format("woff"), url("/fonts/AvenirNextCyr-UltraLight.woff2") format("woff2");
-  font-weight: 200;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-UltraLightIt.woff") format("woff"), url("/fonts/AvenirNextCyr-UltraLightIt.woff2") format("woff2");
-  font-weight: 200;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-Light.woff") format("woff"), url("/fonts/AvenirNextCyr-Light.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-LightItalic.woff") format("woff"), url("/fonts/AvenirNextCyr-LightItalic.woff2") format("woff2");
-  font-weight: 300;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-Regular.woff") format("woff"), url("/fonts/AvenirNextCyr-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-Italic.woff") format("woff"), url("/fonts/AvenirNextCyr-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-Medium.woff") format("woff"), url("/fonts/AvenirNextCyr-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-MediumItalic.woff") format("woff"), url("/fonts/AvenirNextCyr-MediumItalic.woff2") format("woff2");
-  font-weight: 500;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-Demi.woff") format("woff"), url("/fonts/AvenirNextCyr-Demi.woff2") format("woff2");
   font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  color: #31456A;
+  margin: 0;
+}
+
+.header .navbar .navbar-brand .sub-title {
+  color: #828282;
+  font-family: Gilroy;
   font-style: normal;
-}
-
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-DemiItalic.woff") format("woff"), url("/fonts/AvenirNextCyr-DemiItalic.woff2") format("woff2");
-  font-weight: 600;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-Bold.woff") format("woff"), url("/fonts/AvenirNextCyr-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "AvenirNextCyr";
-  font-display: swap;
-  src: url("/fonts/AvenirNextCyr-BoldItalic.woff") format("woff"), url("/fonts/AvenirNextCyr-BoldItalic.woff2") format("woff2");
-  font-weight: 700;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-thin.woff") format("woff"), url("/fonts/gilroy-thin.woff2") format("woff2");
-  font-weight: 100;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-thinitalic.woff") format("woff"), url("/fonts/gilroy-thinitalic.woff2") format("woff2");
-  font-weight: 100;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-ultralight.woff") format("woff"), url("/fonts/gilroy-ultralight.woff2") format("woff2");
-  font-weight: 200;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-ultralightitalic.woff") format("woff"), url("/fonts/gilroy-ultralightitalic.woff2") format("woff2");
-  font-weight: 200;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-light.woff") format("woff"), url("/fonts/gilroy-light.woff2") format("woff2");
   font-weight: 300;
-  font-style: normal;
+  font-size: 10px;
+  margin: 0;
 }
 
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-lightitalic.woff") format("woff"), url("/fonts/gilroy-lightitalic.woff2") format("woff2");
-  font-weight: 300;
-  font-style: italic;
+.header .navbar-search {
+  width: 85%;
 }
 
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-regular.woff") format("woff"), url("/fonts/gilroy-regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
+.header .navbar-search form {
+  width: 100%;
+  position: relative;
 }
 
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-regularitalic.woff") format("woff"), url("/fonts/gilroy-regularitalic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
+.header .navbar-search form input {
+  width: 100%;
+  height: 100%;
+  padding-left: 40px;
+  border-color: transparent;
 }
 
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-medium.woff") format("woff"), url("/fonts/gilroy-medium.woff2") format("woff2");
+.header .navbar-search-btn {
+  left: 12px;
+  top: 18px;
+  position: absolute;
+}
+
+.sidenav-content {
+  width: 256px;
+  height: 100%;
+  transition: width linear 0.3s;
+  position: relative;
+}
+
+.sidenav-content.close-sidenav {
+  width: 70px !important;
+  transition: width linear 0.3s;
+}
+
+.sidenav-content.close-sidenav nav.sidenav {
+  width: 70px !important;
+  transition: width linear 0.3s;
+  padding-left: 15px;
+}
+
+.sidenav-content.close-sidenav .nav-link span {
+  display: none !important;
+  transition: display linear 0s !important;
+}
+
+.sidenav-content.close-sidenav .sidenav__user__info {
+  display: none;
+}
+
+.sidenav-content.close-sidenav .toggle-sidebar span {
+  display: none !important;
+  transition: display linear 0s !important;
+}
+
+.sidenav {
+  background: #FFFFFF;
+  box-shadow: 6px 0px 18px rgba(0, 0, 0, 0.06);
+  padding-left: 25px;
+  padding-top: 25px;
+  width: 256px;
+  transition: width linear 0.3s;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 60px;
+}
+
+.sidenav .nav {
+  margin-top: 34px;
+}
+
+.sidenav .nav .nav-item .nav-link {
   font-weight: 500;
-  font-style: normal;
+  font-size: 13px;
+  color: #4C5862;
 }
 
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-mediumitalic.woff") format("woff"), url("/fonts/gilroy-mediumitalic.woff2") format("woff2");
+.sidenav .nav .nav-item .nav-link .nav-link-icon {
+  background-image: url("/images/admin/icon/menu-icon.svg");
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.sidenav .nav .nav-item .nav-link img {
+  margin-right: 15px;
+}
+
+.sidenav .nav .nav-item .nav-link span {
+  display: inline;
+  transition: display linear 0.4s;
+  vertical-align: text-bottom;
+}
+
+.sidenav .nav .nav-item .nav-link.active .nav-link-icon {
+  color: #109CF1;
+}
+
+.sidenav .nav .nav-item .nav-link.active span {
+  display: inline;
+  transition: display linear 0.4s;
+  color: #109CF1 !important;
+}
+
+.sidenav .nav .nav-item .nav-link.active img {
+  fill: #109CF1 !important;
+}
+
+.sidenav__user {
+  display: flex;
+}
+
+.sidenav__user__avatar {
+  margin-right: 15px;
+}
+
+.sidenav__user__avatar img {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+}
+
+.sidenav__user__info p {
+  margin-bottom: 0px;
+  font-size: 14px;
+  color: #192A3E;
+}
+
+.sidenav__user__info span {
+  font-size: 11px;
+  letter-spacing: 0.01em;
+  color: #90A0B7;
+}
+
+.sidenav .toggle-sidebar {
+  position: absolute;
+  bottom: 80px;
+}
+
+.sidenav .toggle-sidebar img {
+  margin-right: 14px;
+}
+
+.sidenav .toggle-sidebar a {
+  padding: 0.5rem 1rem;
   font-weight: 500;
-  font-style: italic;
+  font-size: 11px;
+  letter-spacing: 0.01em;
+  color: #90A0B7;
 }
 
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-semibold.woff") format("woff"), url("/fonts/gilroy-semibold.woff2") format("woff2");
-  font-weight: 600;
+.dashboard__header-info {
+  background: #DEE8F2;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  height: 99px;
+}
+
+.dashboard__header-info > div:first-child {
+  border-right: 1px solid #C2CFE0;
+}
+
+.dashboard__header-info .row {
+  align-items: center;
+  height: 100%;
+}
+
+.dashboard__header-info .row .col-2:first-child {
+  border-right: 1px solid #C2CFE0;
+}
+
+.dashboard__header-info__item {
+  align-items: center;
+}
+
+.dashboard__header-info__item__title {
+  font-weight: 500;
+  font-size: 12px;
+  color: #4C5862;
+}
+
+.dashboard__header-info__item__value {
   font-style: normal;
+  font-size: 30px;
+  margin-bottom: 0;
+  color: #4C5862;
 }
 
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-semibolditalic.woff") format("woff"), url("/fonts/gilroy-semibolditalic.woff2") format("woff2");
-  font-weight: 600;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-bold.woff") format("woff"), url("/fonts/gilroy-bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-bolditalic.woff") format("woff"), url("/fonts/gilroy-bolditalic.woff2") format("woff2");
-  font-weight: 700;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-extrabold.woff") format("woff"), url("/fonts/gilroy-extrabold.woff2") format("woff2");
-  font-weight: 800;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-extrabolditalic.woff") format("woff"), url("/fonts/gilroy-extrabolditalic.woff2") format("woff2");
-  font-weight: 800;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-black.woff") format("woff"), url("/fonts/gilroy-black.woff2") format("woff2");
-  font-weight: 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Gilroy";
-  font-display: swap;
-  src: url("/fonts/gilroy-blackitalic.woff") format("woff"), url("/fonts/gilroy-blackitalic.woff2") format("woff2");
-  font-weight: 900;
-  font-style: italic;
-}
-
-.font-weight-100 {
-  font-weight: 100 !important;
-}
-
-.font-weight-200 {
-  font-weight: 200 !important;
-}
-
-.font-weight-500 {
-  font-weight: 500 !important;
-}
-
-.font-weight-600 {
-  font-weight: 600 !important;
-}
-
-.font-weight-800 {
-  font-weight: 800 !important;
-}
-
-.font-weight-900 {
-  font-weight: 900 !important;
-}
-
-.font-size-15 {
-  font-size: 15px !important;
-}
-
-.m-30 {
-  margin: 30px;
-}
-
-.mt-30 {
+.dashboard__main-info {
   margin-top: 30px;
 }
 
-.mb-30 {
-  margin-bottom: 30px !important;
+.dashboard__main-info___order-chart {
+  background: #FFFFFF;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
 }
 
-.line-height-1 {
-  line-height: 1;
+.dashboard__main-info___order-chart canvas {
+  height: 230px !important;
 }
 
-.letter-spacing-005em {
-  letter-spacing: 0.05em;
+.dashboard .info-card__header {
+  display: flex;
+  justify-content: space-between;
+  padding: 25px 15px;
+  border-bottom: 1px solid #EBEFF2;
 }
 
-.letter-spacing-010em {
-  letter-spacing: 0.1em;
+.dashboard .info-card__header__title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 18px;
+  color: #192A3E;
 }
 
-.letter-spacing-015em {
-  letter-spacing: 0.15em;
+.dashboard .info-card__header__date-filter {
+  display: flex;
 }
 
-.letter-spacing-020em {
-  letter-spacing: 0.2em;
+.dashboard .info-card__content {
+  padding: 25px;
 }
 
-.pre-line {
-  white-space: pre-line;
+.dashboard .total-stats__item span {
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  color: #4C5862;
 }
 
-.bg-light-1 {
-  background-color: #f9fcff;
+.dashboard .total-stats__item p {
+  font-weight: bold;
+  font-size: 36px;
+  letter-spacing: 0.01em;
+  color: #4C5862;
 }
 
-.opacity-03 {
-  opacity: 0.3;
-}
-
-.opacity-05 {
-  opacity: 0.5;
-}
-
-.opacity-07 {
-  opacity: 0.7;
-}
-
-.opacity-08 {
-  opacity: 0.8;
-}
-
-.rounded-065rem {
-  border-radius: 0.65rem;
-}
-
-.rounded-xl {
-  border-radius: 17px;
-}
-
-.transform-rotate-180deg {
-  transform: rotate(180deg);
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}
-
-html,
-body {
-  min-height: 100vh;
-  height: 100%;
-}
-
-#app,
-.global-wrapper {
-  height: 100%;
-  max-width: 425px;
-  margin: auto;
-}
-
-input:-webkit-autofill {
-  -webkit-text-fill-color: #333 !important;
+.dashboard .log-history .list-group .list-group-item {
+  padding: 20px;
+  border-radius: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
 }
 
 .shadow-move {
@@ -12148,80 +12367,5 @@ select.form-control {
   line-height: 100%;
   padding: 18px;
   letter-spacing: 0.02em;
-}
-
-.login-page {
-  min-height: 100%;
-  padding: 75px 30px 20px;
-}
-
-.login-page .form-1 {
-  margin-top: 65px;
-}
-
-.register-page {
-  min-height: 100%;
-  padding: 35px 30px 20px;
-}
-
-.register-page .form-1 {
-  margin-top: 35px;
-}
-
-.home-page {
-  min-height: 100%;
-}
-
-.home-page .content-wrapper {
-  padding: 24px 15px 40px;
-}
-
-.product-page {
-  min-height: 100%;
-  position: relative;
-}
-
-.product-page .product-image-wrapper {
-  position: absolute;
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
-}
-
-.product-page .product-image-wrapper .img-free {
-  width: 100%;
-  margin-top: -20px;
-  filter: blur(2px);
-}
-
-.product-page .content-wrapper {
-  padding: 140px 15px 40px;
-}
-
-.product-page .card-product {
-  overflow: visible;
-  height: unset;
-}
-
-.product-page .card-product .btn-product-add {
-  position: initial;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  margin-bottom: -50px;
-}
-
-.product-page .card-product .btn-product-add img {
-  width: 26px;
-}
-
-.order-page {
-  min-height: 100%;
-}
-
-.order-page .btn-order-new {
-  height: 42px;
-  z-index: 10;
-  margin-top: -21px;
 }
 

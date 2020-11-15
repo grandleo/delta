@@ -16,7 +16,8 @@ mix.disableSuccessNotifications();
 mix.react('resources/js/guest/index.jsx', 'public/js/guest.js');
 mix.react('resources/js/worker/index.jsx', 'public/js/worker.js');
 mix.react('resources/js/manager/index.jsx', 'public/js/manager.js');
-
+mix.js('resources/js/admin/index.js', 'public/js/admin.js');
 mix.sass('resources/sass/app.scss', 'public/css');
 
 mix.sass('resources/sass/landing/landing.scss', 'public/css');
+mix.sass('resources/sass/admin/admin.scss', 'public/css');

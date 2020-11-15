@@ -18,6 +18,21 @@
   font-weight: 900 !important;
 }
 
+.font-size-15 {
+  font-size: 15px !important;
+}
+
+.m-30 {
+  margin: 30px;
+}
+.mt-30 {
+  margin-top: 30px;
+}
+
+.mb-30 {
+  margin-bottom: 30px!important;
+}
+
 
 .line-height-1 {
   line-height: 1;
@@ -71,4 +86,9 @@
 
 .transform-rotate-180deg {
   transform: rotate(180deg);
+}
+
+
+.cursor-pointer {
+  cursor: pointer;
 }

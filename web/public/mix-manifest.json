@@ -1,7 +1,9 @@
 {
-    "/js/guest.js": "/js/guest.js",
+    "/js/admin.js": "/js/admin.js",
     "/css/app.css": "/css/app.css",
     "/css/landing.css": "/css/landing.css",
+    "/css/admin.css": "/css/admin.css",
+    "/js/guest.js": "/js/guest.js",
     "/js/manager.js": "/js/manager.js",
     "/js/worker.js": "/js/worker.js"
 }
