@@ -27,8 +27,11 @@
     }
     &-search {
       width: 85%;
+      &> div {
+        width: 10%;
+      }
       form {
-        width: 100%;
+        width: 90%;
         position: relative;
         input {
           width: 100%;

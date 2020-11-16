@@ -11420,8 +11420,12 @@ a.text-purple:focus {
   width: 85%;
 }
 
+.header .navbar-search > div {
+  width: 10%;
+}
+
 .header .navbar-search form {
-  width: 100%;
+  width: 90%;
   position: relative;
 }
 
@@ -11481,13 +11485,18 @@ a.text-purple:focus {
   position: fixed;
   left: 0;
   top: 60px;
+  overflow: hidden;
 }
 
 .sidenav .nav {
   margin-top: 34px;
+  overflow: hidden;
 }
 
 .sidenav .nav .nav-item .nav-link {
+  width: 175px;
+  display: flex;
+  overflow: hidden;
   font-weight: 500;
   font-size: 13px;
   color: #4C5862;
@@ -11561,6 +11570,8 @@ a.text-purple:focus {
 }
 
 .sidenav .toggle-sidebar a {
+  width: 175px;
+  overflow: hidden;
   padding: 0.5rem 1rem;
   font-weight: 500;
   font-size: 11px;
@@ -11631,11 +11642,14 @@ a.text-purple:focus {
   font-weight: bold;
   font-size: 15px;
   line-height: 18px;
-  color: #192A3E;
 }
 
 .dashboard .info-card__header__date-filter {
   display: flex;
+}
+
+.dashboard .info-card .dropdown-toggle {
+  color: #109CF1;
 }
 
 .dashboard .info-card__content {

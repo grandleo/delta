@@ -6,19 +6,19 @@
     <div class="row dashboard">
         <div class="col-12">
             <div class="row m-0 dashboard__header-info">
-                <div class="col-2 d-flex align-items-center justify-content-center">
+                <div class="col-xl-2 col-lg-3 col-md-3 d-flex align-items-center justify-content-center">
                     <div class="dashboard__header-info__item">
                         <span class="dashboard__header-info__item__title">Всего средств на счету</span>
                         <p class="dashboard__header-info__item__value font-weight-bold">100 000 Р</p>
                     </div>
                 </div>
-                <div class="col-2 d-flex align-items-center justify-content-center">
+                <div class="col-xl-2 col-lg-3 col-md-3 d-flex align-items-center justify-content-center">
                     <div class="dashboard__header-info__item">
                         <span class="dashboard__header-info__item__title">Текущий процент</span>
                         <p class="dashboard__header-info__item__value">2 %</p>
                     </div>
                 </div>
-                <div class="col-2 d-flex align-items-center justify-content-center">
+                <div class="col-xl-2 col-lg-3 col-md-3 d-flex align-items-center justify-content-center">
                     <div class="dashboard__header-info__item">
                         <span class="dashboard__header-info__item__title">Ваш заработок</span>
                         <p class="dashboard__header-info__item__value">2 000 Р</p>

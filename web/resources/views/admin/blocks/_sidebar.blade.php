@@ -2,12 +2,11 @@
     <nav class="sidenav">
         <div class="sidenav__user">
             <div class="sidenav__user__avatar">
-                <img src="https://www.w3schools.com/w3images/avatar2.png" alt="">
+                <img src="{{auth('admin')->user()->avatar}}" alt="">
             </div>
             <div class="sidenav__user__info">
-                @dd(auth('admin')-)
-                <p>Sierra Ferguson</p>
-                <span>s.ferguson@gmail.com</span>
+                <p>{{auth('admin')->user()->name}}</p>
+                <span>{{auth('admin')->user()->username}}</span>
             </div>
         </div>
         <ul class="nav flex-column">
@@ -52,7 +51,7 @@
             </li>
         </ul>
         <div class="toggle-sidebar cursor-pointer">
-            <a id="toggleSidebar" href="" class="text-decoration-none">
+            <a id="toggleSidebar" href="" class="text-decoration-none d-flex">
                 <img src="{{ asset('images/admin/icon/toggle.svg') }}" alt="">
                 <span>Toggle sidebar</span>
             </a>

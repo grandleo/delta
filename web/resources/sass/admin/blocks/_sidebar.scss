@@ -41,11 +41,15 @@
     position: fixed;
     left: 0;
     top: 60px;
-
+    overflow: hidden;
     .nav{
       margin-top: 34px;
+      overflow: hidden;
       .nav-item {
         .nav-link {
+          width: 175px;
+          display: flex;
+          overflow: hidden;
           font-weight: 500;
           font-size: 13px;
           color: #4C5862;
@@ -104,13 +108,14 @@
       }
     }
   .toggle-sidebar {
-
     position: absolute;
     bottom: 80px;
     img {
       margin-right: 14px;
     }
     a {
+      width: 175px;
+      overflow: hidden;
       padding: 0.5rem 1rem;
       font-weight: 500;
       font-size: 11px;
