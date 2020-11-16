@@ -19,7 +19,7 @@
                 </a>
                 <input class="mr-sm-2" type="search" placeholder="Global search" aria-label="Search">
             </form>
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center justify-content-around">
                 <a href="#">
                     <img src="{{ asset('images/admin/icon/notification.svg') }}" alt="">
                 </a>
