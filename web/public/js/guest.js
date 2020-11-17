@@ -48292,7 +48292,8 @@ function RegisterPage() {
     full_name: '',
     email: '',
     password: '',
-    password_confirmation: ''
+    password_confirmation: '',
+    terms_agreement: false
   }),
       _useState2 = _slicedToArray(_useState, 2),
       inputs = _useState2[0],
@@ -48348,15 +48349,28 @@ function RegisterPage() {
       case 'password_confirmation':
         if (value !== inputs.password) return Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Пароли не совпадают');
         break;
+
+      case 'terms_agreement':
+        if (value !== inputs.password) return Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Пароли не совпадают');
+        break;
     }
 
     return null;
   }
 
   function handleChange(e) {
+    var checkbox = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     var _e$target = e.target,
         name = _e$target.name,
         value = _e$target.value;
+
+    if (checkbox) {
+      setInputs(function (inputs) {
+        return _objectSpread(_objectSpread({}, inputs), {}, _defineProperty({}, name, !inputs[name]));
+      });
+      return;
+    }
+
     setInputs(function (inputs) {
       return _objectSpread(_objectSpread({}, inputs), {}, _defineProperty({}, name, value));
     });
@@ -48460,7 +48474,25 @@ function RegisterPage() {
       }
     },
     className: "register-button btn btn-lg btn-light btn-block rounded-pill"
-  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Назад')))));
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Назад'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    className: "text-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    value: inputs.terms_agreement,
+    type: "checkbox",
+    name: "terms_agreement",
+    className: "mb-1 align-middle mr-2",
+    onChange: function onChange(e) {
+      return handleChange(e, true);
+    }
+  }), "\u042F \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u043B ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "",
+    className: "font-weight-bold",
+    target: "_blank"
+  }, "\u0423\u0441\u043B\u043E\u0432\u0438\u044F \u0441\u043E\u0433\u043B\u0430\u0448\u0435\u043D\u0438\u044F"), " \u0438 \u0441\u043E\u0433\u043B\u0430\u0441\u0435\u043D \u0441 \u0443\u0441\u043B\u043E\u0432\u044F\u043C"), validate('terms_agreement') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "invalid-feedback text-right"
+  }, validate('terms_agreement')))));
 }
 
 

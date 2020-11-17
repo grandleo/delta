@@ -11642,35 +11642,32 @@ a.text-purple:focus {
   font-weight: bold;
   font-size: 15px;
   line-height: 18px;
+  color: #192A3E;
 }
 
 .dashboard .info-card__header__date-filter {
   display: flex;
 }
 
-.dashboard .info-card .dropdown-toggle {
-  color: #109CF1;
-}
-
-.dashboard .info-card__content {
+.dashboard .info-card__header__content {
   padding: 25px;
 }
 
-.dashboard .total-stats__item span {
+.dashboard .info-card .total-stats__item span {
   font-weight: 500;
   font-size: 12px;
   letter-spacing: 0.01em;
   color: #4C5862;
 }
 
-.dashboard .total-stats__item p {
+.dashboard .info-card .total-stats__item p {
   font-weight: bold;
   font-size: 36px;
   letter-spacing: 0.01em;
   color: #4C5862;
 }
 
-.dashboard .log-history .list-group .list-group-item {
+.dashboard .info-card .log-history .list-group .list-group-item {
   padding: 20px;
   border-radius: 0;
   border-left-color: transparent;

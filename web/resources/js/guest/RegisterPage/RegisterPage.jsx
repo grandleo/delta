@@ -10,7 +10,8 @@ function RegisterPage() {
         full_name: '',
         email: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
+        terms_agreement: false
     });
     const [showErrors, setShowErrors] = useState(false);
     const loading = useSelector(state => state.registration.loading);
@@ -23,7 +24,6 @@ function RegisterPage() {
     function validate(name, ignoreShowErrors = false) {
         if (!showErrors && !ignoreShowErrors) return null;
         const value = inputs[name];
-
         switch(name) {
             case 'full_name': case 'email':
                 if (!validators.length(value, 0, 250)) return t('Максимальная длина 250 символов');
@@ -45,12 +45,19 @@ function RegisterPage() {
             case 'password_confirmation':
                 if (value !== inputs.password) return t('Пароли не совпадают');
                 break;
+            case 'terms_agreement':
+                if (value !== inputs.password) return t('Пароли не совпадают');
+                break;
         }
         return null;
     }
 
-    function handleChange(e) {
+    function handleChange(e, checkbox = false) {
         const { name, value } = e.target;
+        if(checkbox) {
+            setInputs(inputs => ({ ...inputs, [name]: !inputs[name] }));
+            return
+        }
         setInputs(inputs => ({ ...inputs, [name]: value }));
     }
 
@@ -155,6 +162,20 @@ function RegisterPage() {
                         >
                         {t('Назад')}
                     </Link>
+                </div>
+                <div className="form-group">
+                    <label className="text-center">
+                        <input
+                          value={inputs.terms_agreement}
+                          type="checkbox"
+                          name="terms_agreement"
+                          className="mb-1 align-middle mr-2"
+                          onChange={e => handleChange(e, true)}/>
+                        Я прочитал <a href="" className="font-weight-bold" target='_blank'>Условия соглашения</a> и согласен с условям
+                    </label>
+                    {validate('terms_agreement') &&
+                    <div className="invalid-feedback text-right">{validate('terms_agreement')}</div>
+                    }
                 </div>
             </form>
         </div>

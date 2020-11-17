@@ -175,6 +175,12 @@ function RegisterPage() {
                         {t('Назад')}
                     </Link>
                 </div>
+                <div className="form-group">
+                    <label className="text-center">
+                        <input type="checkbox" className="mb-1 align-middle mr-2"/>
+                        Я прочитал <a href="" className="font-weight-bold" target='_blank'>Условия соглашения</a> и согласен с условям
+                    </label>
+                </div>
             </form>
         </div>
     );
