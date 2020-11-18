@@ -12168,6 +12168,15 @@ select.form-control {
   margin-top: 35px;
 }
 
+.reset-password-page {
+  min-height: 100%;
+  padding: 75px 30px 20px;
+}
+
+.reset-password-page .form-1 {
+  margin-top: 65px;
+}
+
 .home-page {
   min-height: 100%;
 }

@@ -54228,6 +54228,9 @@ var userConstants = {
   LOGIN_REQUEST: 'USERS_LOGIN_REQUEST',
   LOGIN_SUCCESS: 'USERS_LOGIN_SUCCESS',
   LOGIN_FAILURE: 'USERS_LOGIN_FAILURE',
+  RESET_PASSWORD_REQUEST: 'RESET_PASSWORD_REQUEST',
+  RESET_PASSWORD_SUCCESS: 'RESET_PASSWORD_SUCCESS',
+  RESET_PASSWORD_FAILURE: 'RESET_PASSWORD_FAILURE',
   LOGOUT: 'USERS_LOGOUT',
   SHOW_REQUEST: 'USERS_SHOW_REQUEST',
   SHOW_SUCCESS: 'USERS_SHOW_SUCCESS',
@@ -58017,6 +58020,10 @@ function RegisterPage() {
       case 'password_confirmation':
         if (value !== inputs.password) return Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Пароли не совпадают');
         break;
+
+      case 'terms_agreement':
+        if (!inputs.terms_agreement) return Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Условия соглашения обязательно');
+        break;
     }
 
     return null;
@@ -58148,13 +58155,20 @@ function RegisterPage() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     className: "text-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    value: inputs.terms_agreement,
     type: "checkbox",
-    className: "mb-1 align-middle mr-2"
+    name: "terms_agreement",
+    className: "mb-1 align-middle mr-2",
+    onChange: function onChange(e) {
+      return handleChange(e, true);
+    }
   }), "\u042F \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u043B ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "",
     className: "font-weight-bold",
     target: "_blank"
-  }, "\u0423\u0441\u043B\u043E\u0432\u0438\u044F \u0441\u043E\u0433\u043B\u0430\u0448\u0435\u043D\u0438\u044F"), " \u0438 \u0441\u043E\u0433\u043B\u0430\u0441\u0435\u043D \u0441 \u0443\u0441\u043B\u043E\u0432\u044F\u043C"))));
+  }, "\u0423\u0441\u043B\u043E\u0432\u0438\u044F \u0441\u043E\u0433\u043B\u0430\u0448\u0435\u043D\u0438\u044F"), " \u0438 \u0441\u043E\u0433\u043B\u0430\u0441\u0435\u043D \u0441 \u0443\u0441\u043B\u043E\u0432\u044F\u043C"), validate('terms_agreement') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "text-center text-danger"
+  }, validate('terms_agreement')))));
 }
 
 

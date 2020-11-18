@@ -29,6 +29,7 @@ function RegisterPage() {
                 if (!validators.length(value, 0, 250)) return t('Максимальная длина 250 символов');
                 break;
         }
+        console.log(name);
         switch(name) {
             case 'full_name':
                 if (!value) return t('Имя не заполнено');
@@ -46,7 +47,7 @@ function RegisterPage() {
                 if (value !== inputs.password) return t('Пароли не совпадают');
                 break;
             case 'terms_agreement':
-                if (value !== inputs.password) return t('Пароли не совпадают');
+                if (!inputs.terms_agreement) return t('Условия соглашения обязательно');
                 break;
         }
         return null;
@@ -174,7 +175,7 @@ function RegisterPage() {
                         Я прочитал <a href="" className="font-weight-bold" target='_blank'>Условия соглашения</a> и согласен с условям
                     </label>
                     {validate('terms_agreement') &&
-                    <div className="invalid-feedback text-right">{validate('terms_agreement')}</div>
+                        <div className="text-center text-danger">{validate('terms_agreement')}</div>
                     }
                 </div>
             </form>

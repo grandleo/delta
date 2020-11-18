@@ -20,6 +20,7 @@ Route::prefix('v1/guest')
     // auth
     Route::post('auth/login', 'AuthApiController@login');
     Route::post('auth/register', 'AuthApiController@register');
+    Route::post('auth/reset-password', 'AuthApiController@sendResetPasswordLink');
 
     // private
     Route::middleware(['auth:sanctum', 'auth.sanctum.ext:App\Models\Guest'])

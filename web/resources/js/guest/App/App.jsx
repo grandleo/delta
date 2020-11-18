@@ -8,6 +8,7 @@ import { PrivateRoute, AlertContainer } from '../_components';
 import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
+import { ResetPasswordPage } from '../ResetPasswordPage';
 import { PlacePage } from '../PlacePage';
 import { ProductCategoryPage } from '../ProductCategoryPage';
 import { CartPage, CartCheckoutPage, CartPaymentPage } from '../CartPage';
@@ -65,6 +66,12 @@ function App() {
             <PrivateRoute
                 path={routes.login}
                 component={LoginPage}
+                condition={!user}
+                redirectTo={routes.home}
+                />
+            <PrivateRoute
+                path={routes.resetPassword}
+                component={ResetPasswordPage}
                 condition={!user}
                 redirectTo={routes.home}
                 />

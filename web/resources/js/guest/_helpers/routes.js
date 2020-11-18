@@ -7,6 +7,7 @@ export const routes = {
 
     login: pp + '/login',
     register: pp + '/register',
+    resetPassword: pp + '/reset-password',
 
     profile: pp + '/profile',
     profileCards: pp + '/profile-cards',

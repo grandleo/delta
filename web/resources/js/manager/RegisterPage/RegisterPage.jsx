@@ -49,6 +49,9 @@ function RegisterPage() {
             case 'password_confirmation':
                 if (value !== inputs.password) return t('Пароли не совпадают');
                 break;
+            case 'terms_agreement':
+                if (!inputs.terms_agreement) return t('Условия соглашения обязательно');
+                break;
         }
         return null;
     }
@@ -177,9 +180,17 @@ function RegisterPage() {
                 </div>
                 <div className="form-group">
                     <label className="text-center">
-                        <input type="checkbox" className="mb-1 align-middle mr-2"/>
+                        <input
+                            value={inputs.terms_agreement}
+                            type="checkbox"
+                            name="terms_agreement"
+                            className="mb-1 align-middle mr-2"
+                            onChange={e => handleChange(e, true)}/>
                         Я прочитал <a href="" className="font-weight-bold" target='_blank'>Условия соглашения</a> и согласен с условям
                     </label>
+                    {validate('terms_agreement') &&
+                    <div className="text-center text-danger">{validate('terms_agreement')}</div>
+                    }
                 </div>
             </form>
         </div>

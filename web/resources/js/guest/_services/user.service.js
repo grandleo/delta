@@ -4,6 +4,7 @@ export const userService = {
     login,
     logout,
     register,
+    resetPassword,
 
     update,
 };
@@ -40,6 +41,19 @@ function register(inputs) {
             if (payload.data.token) {
                 lsSetItem('token', payload.data.token);
             }
+            return payload;
+        });
+}
+
+function resetPassword(inputs) {
+    const requestOptions = {
+        method: 'POST',
+        url: 'auth/reset-password',
+        data: inputs,
+    };
+
+    return fetchClient()(requestOptions).then(handleResponse)
+        .then(payload => {
             return payload;
         });
 }

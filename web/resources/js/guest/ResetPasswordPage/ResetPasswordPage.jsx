@@ -5,10 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { t, validators, routes } from '../_helpers';
 import { userActions } from '../_actions';
 
-function LoginPage() {
+function ResetPasswordPage() {
     const [inputs, setInputs] = useState({
-        email: '',
-        password: ''
+        email: ''
     });
     const [showErrors, setShowErrors] = useState(false);
     const loading = useSelector(state => state.authentication.loading);
@@ -25,9 +24,6 @@ function LoginPage() {
             case 'email':
                 if (!value) return t('Email не заполнен');
                 if (!validators.email(value)) return t('Невалидный Email');
-                break;
-            case 'password':
-                if (!value) return t('Пароль не заполнен');
                 break;
         }
         return null;
@@ -46,20 +42,23 @@ function LoginPage() {
             if (valFailed = validate(name, true)) break;
         }
         if (!valFailed) {
-            dispatch(userActions.login(inputs, history, locationFrom));
+            dispatch(userActions.resetPassword(inputs));
         }
 
         setShowErrors(true);
     }
 
     return (
-        <div className="login-page logo-wrapper text-center">
+        <div className="reset-password-page logo-wrapper text-center">
             <img src="/images/logo-delta.svg" className="logo-img"/>
             <hgroup>
                 <h1 className="heading-h1 text-uppercase m-0">{t('Delta-order')}</h1>
                 <h2 className="heading-h2 m-0">{t('Система быстрых заказов')}</h2>
             </hgroup>
             <form className="form-1 text-left" onSubmit={handleSubmit}>
+                <p className="text-center">
+                    {t('Введите электронную почту вашего аккаунта, вам будет выслана ссылка для восстановления пароля.')}
+                </p>
                 <div className="form-group form-label-group">
                     <input
                         id="login-form.email"
@@ -76,52 +75,18 @@ function LoginPage() {
                         <div className="invalid-feedback text-right">{validate('email')}</div>
                     }
                 </div>
-                <div className="form-group form-label-group">
-                    <input
-                        id="login-form.password"
-                        type="password"
-                        name="password"
-                        placeholder={t('Пароль')}
-                        value={inputs.password}
-                        onChange={handleChange}
-                        className={'form-control' + (validate('password') ? ' is-invalid' : '')}
-                        />
-                    <label htmlFor="login-form.password">{t('Пароль')}</label>
-                    {validate('password') &&
-                        <div className="invalid-feedback text-right">{validate('password')}</div>
-                    }
-                </div>
-                <div className="form-group text-right mb-2">
-                    <Link
-                        to={routes.resetPassword}
-                        className="text-black-50"
-                    >
-                        {t('Забыли пароль?')}
-                    </Link>
-                </div>
-                <div className="form-group mt-2">
+                <div className="form-group mt-4">
                     <button
                         className="login-button text-white btn btn-lg btn-success btn-block rounded-pill"
                         disabled={loading}
                         >
-                        {t('Войти')}
+                        {t('Выслать ссылку')}
                         {loading && <span className="spinner-border spinner-border-sm ml-1"></span>}
                     </button>
                 </div>
-                <div className="form-group">
-                    <Link
-                        to={{
-                            pathname: routes.register,
-                            state: { from: locationFrom }
-                        }}
-                        className="register-button btn btn-lg btn-light btn-block rounded-pill"
-                        >
-                        {t('Зарегистрироваться')}
-                    </Link>
-                </div>
                 <div className="form-group mt-5 text-center">
                     <Link
-                        to={routes.home}
+                        to={routes.login}
                         className="text-black-50"
                         >
                         {t('назад')}
@@ -132,4 +97,4 @@ function LoginPage() {
     );
 }
 
-export { LoginPage };
+export { ResetPasswordPage };

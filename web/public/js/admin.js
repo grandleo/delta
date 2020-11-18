@@ -37916,6 +37916,14 @@ if (ctx) {
       }]
     },
     options: {
+      legend: {
+        labels: {
+          usePointStyle: true,
+          boxWidth: 3,
+          align: 'left',
+          position: 'center'
+        }
+      },
       scales: {
         yAxes: [{
           ticks: {
