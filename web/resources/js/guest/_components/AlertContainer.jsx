@@ -7,7 +7,7 @@ function AlertContainer() {
     if (!alertItems || !alertItems.length) {
         return null;
     }
-
+    console.log('alertItems', alertItems);
     return (
         <div className="fixed-top pt-3 pr-2" style={{left: 'auto'}}>
             {alertItems.map((item) =>

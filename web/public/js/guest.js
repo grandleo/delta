@@ -45718,12 +45718,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _LoginPage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../LoginPage */ "./resources/js/guest/LoginPage/index.js");
 /* harmony import */ var _RegisterPage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../RegisterPage */ "./resources/js/guest/RegisterPage/index.js");
 /* harmony import */ var _ResetPasswordPage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../ResetPasswordPage */ "./resources/js/guest/ResetPasswordPage/index.js");
-/* harmony import */ var _PlacePage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../PlacePage */ "./resources/js/guest/PlacePage/index.js");
-/* harmony import */ var _ProductCategoryPage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../ProductCategoryPage */ "./resources/js/guest/ProductCategoryPage/index.js");
-/* harmony import */ var _CartPage__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../CartPage */ "./resources/js/guest/CartPage/index.js");
-/* harmony import */ var _ProfilePage__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../ProfilePage */ "./resources/js/guest/ProfilePage/index.js");
-/* harmony import */ var _OrderPage__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../OrderPage */ "./resources/js/guest/OrderPage/index.js");
-/* harmony import */ var _ProductPage__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../ProductPage */ "./resources/js/guest/ProductPage/index.js");
+/* harmony import */ var _ForgotPasswordPage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../ForgotPasswordPage */ "./resources/js/guest/ForgotPasswordPage/index.js");
+/* harmony import */ var _PlacePage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../PlacePage */ "./resources/js/guest/PlacePage/index.js");
+/* harmony import */ var _ProductCategoryPage__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../ProductCategoryPage */ "./resources/js/guest/ProductCategoryPage/index.js");
+/* harmony import */ var _CartPage__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../CartPage */ "./resources/js/guest/CartPage/index.js");
+/* harmony import */ var _ProfilePage__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../ProfilePage */ "./resources/js/guest/ProfilePage/index.js");
+/* harmony import */ var _OrderPage__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../OrderPage */ "./resources/js/guest/OrderPage/index.js");
+/* harmony import */ var _ProductPage__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../ProductPage */ "./resources/js/guest/ProductPage/index.js");
+
 
 
 
@@ -45753,36 +45755,36 @@ function App() {
     component: _HomePage__WEBPACK_IMPORTED_MODULE_5__["HomePage"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].placeCartPayment,
-    component: _CartPage__WEBPACK_IMPORTED_MODULE_11__["CartPaymentPage"]
+    component: _CartPage__WEBPACK_IMPORTED_MODULE_12__["CartPaymentPage"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].placeCartCheckout,
-    component: _CartPage__WEBPACK_IMPORTED_MODULE_11__["CartCheckoutPage"]
+    component: _CartPage__WEBPACK_IMPORTED_MODULE_12__["CartCheckoutPage"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].placeCart,
-    component: _CartPage__WEBPACK_IMPORTED_MODULE_11__["CartPage"]
+    component: _CartPage__WEBPACK_IMPORTED_MODULE_12__["CartPage"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_4__["PrivateRoute"], {
     path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].orders,
-    component: _OrderPage__WEBPACK_IMPORTED_MODULE_13__["OrderListPage"],
+    component: _OrderPage__WEBPACK_IMPORTED_MODULE_14__["OrderListPage"],
     condition: user,
     redirectTo: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].login
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_4__["PrivateRoute"], {
     path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].order,
-    component: _OrderPage__WEBPACK_IMPORTED_MODULE_13__["OrderPage"],
+    component: _OrderPage__WEBPACK_IMPORTED_MODULE_14__["OrderPage"],
     condition: user,
     redirectTo: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].login
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_4__["PrivateRoute"], {
     path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].profile,
-    component: _ProfilePage__WEBPACK_IMPORTED_MODULE_12__["ProfilePage"],
+    component: _ProfilePage__WEBPACK_IMPORTED_MODULE_13__["ProfilePage"],
     condition: user,
     redirectTo: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].login
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_4__["PrivateRoute"], {
     path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].profileCards,
-    component: _ProfilePage__WEBPACK_IMPORTED_MODULE_12__["ProfileCardsPage"],
+    component: _ProfilePage__WEBPACK_IMPORTED_MODULE_13__["ProfileCardsPage"],
     condition: user,
     redirectTo: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].login
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_4__["PrivateRoute"], {
     path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].profileAddCard,
-    component: _ProfilePage__WEBPACK_IMPORTED_MODULE_12__["ProfileAddCardPage"],
+    component: _ProfilePage__WEBPACK_IMPORTED_MODULE_13__["ProfileAddCardPage"],
     condition: user,
     redirectTo: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].login
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_4__["PrivateRoute"], {
@@ -45791,10 +45793,15 @@ function App() {
     condition: !user,
     redirectTo: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].home
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_4__["PrivateRoute"], {
+    path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].forgotPassword,
+    component: _ForgotPasswordPage__WEBPACK_IMPORTED_MODULE_9__["ForgotPasswordPage"],
+    condition: !user,
+    redirectTo: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].login
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_4__["PrivateRoute"], {
     path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].resetPassword,
     component: _ResetPasswordPage__WEBPACK_IMPORTED_MODULE_8__["ResetPasswordPage"],
     condition: !user,
-    redirectTo: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].home
+    redirectTo: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].login
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_4__["PrivateRoute"], {
     path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].register,
     component: _RegisterPage__WEBPACK_IMPORTED_MODULE_7__["RegisterPage"],
@@ -45802,13 +45809,13 @@ function App() {
     redirectTo: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].home
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].placeProduct,
-    component: _ProductPage__WEBPACK_IMPORTED_MODULE_14__["ProductPage"]
+    component: _ProductPage__WEBPACK_IMPORTED_MODULE_15__["ProductPage"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].placeProductCategory,
-    component: _ProductCategoryPage__WEBPACK_IMPORTED_MODULE_10__["ProductCategoryPage"]
+    component: _ProductCategoryPage__WEBPACK_IMPORTED_MODULE_11__["ProductCategoryPage"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].place,
-    component: _PlacePage__WEBPACK_IMPORTED_MODULE_9__["PlacePage"]
+    component: _PlacePage__WEBPACK_IMPORTED_MODULE_10__["PlacePage"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
     from: "*",
     to: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].home
@@ -46369,6 +46376,272 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/guest/ForgotPasswordPage/ForgotPasswordPage.jsx":
+/*!**********************************************************************!*\
+  !*** ./resources/js/guest/ForgotPasswordPage/ForgotPasswordPage.jsx ***!
+  \**********************************************************************/
+/*! exports provided: ForgotPasswordPage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ForgotPasswordPage", function() { return ForgotPasswordPage; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_helpers */ "./resources/js/guest/_helpers/index.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_actions */ "./resources/js/guest/_actions/index.js");
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function _slicedToArray(arr, i) {
+  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+function _iterableToArrayLimit(arr, i) {
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+
+
+
+
+
+
+function ForgotPasswordPage() {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    email: ''
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      inputs = _useState2[0],
+      setInputs = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      showErrors = _useState4[0],
+      setShowErrors = _useState4[1];
+
+  var loading = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["useSelector"])(function (state) {
+    return state.authentication.loading;
+  });
+  var dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["useDispatch"])();
+  var location = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
+
+  var _ref = location.state || {
+    from: {
+      pathname: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].home
+    }
+  },
+      locationFrom = _ref.from;
+
+  function validate(name) {
+    var ignoreShowErrors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    if (!showErrors && !ignoreShowErrors) return null;
+    var value = inputs[name];
+
+    switch (name) {
+      case 'email':
+        if (!value) return Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Email не заполнен');
+        if (!_helpers__WEBPACK_IMPORTED_MODULE_3__["validators"].email(value)) return Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Невалидный Email');
+        break;
+    }
+
+    return null;
+  }
+
+  function handleChange(e) {
+    var _e$target = e.target,
+        name = _e$target.name,
+        value = _e$target.value;
+    setInputs(function (inputs) {
+      return _objectSpread(_objectSpread({}, inputs), {}, _defineProperty({}, name, value));
+    });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    var valFailed = null;
+
+    for (var name in inputs) {
+      if (valFailed = validate(name, true)) break;
+    }
+
+    if (!valFailed) {
+      dispatch(_actions__WEBPACK_IMPORTED_MODULE_4__["userActions"].forgotPassword(inputs));
+    }
+
+    setShowErrors(true);
+  }
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (loading === false) {
+      setInputs({
+        email: ''
+      });
+      setShowErrors(false);
+    }
+  }, [loading]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "reset-password-page logo-wrapper text-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/images/logo-delta.svg",
+    className: "logo-img"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hgroup", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "heading-h1 text-uppercase m-0"
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Delta-order')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "heading-h2 m-0"
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Система быстрых заказов'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    className: "form-1 text-left",
+    onSubmit: handleSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "text-center"
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Введите электронную почту вашего аккаунта, вам будет выслана ссылка для восстановления пароля.')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group form-label-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: "login-form.email",
+    autoFocus: true,
+    type: "email",
+    name: "email",
+    placeholder: Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Email'),
+    value: inputs.email,
+    onChange: handleChange,
+    className: 'form-control' + (validate('email') ? ' is-invalid' : '')
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "login-form.email"
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Email')), validate('email') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "invalid-feedback text-right"
+  }, validate('email'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group mt-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "login-button text-white btn btn-lg btn-success btn-block rounded-pill",
+    disabled: loading
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Выслать ссылку'), loading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "spinner-border spinner-border-sm ml-1"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group mt-5 text-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].login,
+    className: "text-black-50"
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('назад')))));
+}
+
+
+
+/***/ }),
+
+/***/ "./resources/js/guest/ForgotPasswordPage/index.js":
+/*!********************************************************!*\
+  !*** ./resources/js/guest/ForgotPasswordPage/index.js ***!
+  \********************************************************/
+/*! exports provided: ForgotPasswordPage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ForgotPasswordPage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ForgotPasswordPage */ "./resources/js/guest/ForgotPasswordPage/ForgotPasswordPage.jsx");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ForgotPasswordPage", function() { return _ForgotPasswordPage__WEBPACK_IMPORTED_MODULE_0__["ForgotPasswordPage"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/guest/HomePage/HomePage.jsx":
 /*!**************************************************!*\
   !*** ./resources/js/guest/HomePage/HomePage.jsx ***!
@@ -46727,7 +47000,7 @@ function LoginPage() {
   }, validate('password'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group text-right mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].resetPassword,
+    to: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].forgotPassword,
     className: "text-black-50"
   }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Забыли пароль?'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group mt-2"
@@ -48342,8 +48615,6 @@ function RegisterPage() {
         break;
     }
 
-    console.log(name);
-
     switch (name) {
       case 'full_name':
         if (!value) return Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Имя не заполнено');
@@ -48660,11 +48931,15 @@ function _arrayWithHoles(arr) {
 
 function ResetPasswordPage() {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
-    email: ''
+    password: '',
+    password_confirmation: ''
   }),
       _useState2 = _slicedToArray(_useState, 2),
       inputs = _useState2[0],
       setInputs = _useState2[1];
+
+  var _useParams = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useParams"])(),
+      token = _useParams.token;
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState4 = _slicedToArray(_useState3, 2),
@@ -48675,8 +48950,8 @@ function ResetPasswordPage() {
     return state.authentication.loading;
   });
   var dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["useDispatch"])();
-  var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
   var location = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
+  var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
 
   var _ref = location.state || {
     from: {
@@ -48691,9 +48966,13 @@ function ResetPasswordPage() {
     var value = inputs[name];
 
     switch (name) {
-      case 'email':
-        if (!value) return Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Email не заполнен');
-        if (!_helpers__WEBPACK_IMPORTED_MODULE_3__["validators"].email(value)) return Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Невалидный Email');
+      case 'password':
+        if (!value) return Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Пароль не заполнен');
+        if (!_helpers__WEBPACK_IMPORTED_MODULE_3__["validators"].length(value, 8)) return Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Пароль должен быть минимум 8 символов');
+        break;
+
+      case 'password_confirmation':
+        if (value !== inputs.password) return Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Пароли не совпадают');
         break;
     }
 
@@ -48718,12 +48997,22 @@ function ResetPasswordPage() {
     }
 
     if (!valFailed) {
-      dispatch(_actions__WEBPACK_IMPORTED_MODULE_4__["userActions"].resetPassword(inputs));
+      inputs.token = token;
+      dispatch(_actions__WEBPACK_IMPORTED_MODULE_4__["userActions"].resetPassword(inputs, history, locationFrom));
     }
 
     setShowErrors(true);
   }
 
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (loading === false) {
+      setInputs({
+        password: '',
+        password_confirmation: ''
+      });
+      setShowErrors(false);
+    }
+  }, [loading]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "reset-password-page logo-wrapper text-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -48736,36 +49025,47 @@ function ResetPasswordPage() {
   }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Система быстрых заказов'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     className: "form-1 text-left",
     onSubmit: handleSubmit
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "text-center"
-  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Введите электронную почту вашего аккаунта, вам будет выслана ссылка для восстановления пароля.')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group form-label-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    id: "login-form.email",
-    autoFocus: true,
-    type: "email",
-    name: "email",
-    placeholder: Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Email'),
-    value: inputs.email,
+    id: "register-form.password",
+    type: "password",
+    name: "password",
+    placeholder: Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Пароль'),
+    value: inputs.password,
     onChange: handleChange,
-    className: 'form-control' + (validate('email') ? ' is-invalid' : '')
+    className: 'form-control' + (validate('password') ? ' is-invalid' : '')
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "login-form.email"
-  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Email')), validate('email') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    htmlFor: "register-form.password"
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Пароль')), validate('password') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "invalid-feedback text-right"
-  }, validate('email'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, validate('password'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group form-label-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: "register-form.password_confirmation",
+    type: "password",
+    name: "password_confirmation",
+    placeholder: Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Подтвердите пароль'),
+    value: inputs.password_confirmation,
+    onChange: handleChange,
+    className: 'form-control' + (validate('password_confirmation') ? ' is-invalid' : '')
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "register-form.password_confirmation"
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Подтвердите пароль')), validate('password_confirmation') && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "invalid-feedback text-right"
+  }, validate('password_confirmation'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group mt-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "login-button text-white btn btn-lg btn-success btn-block rounded-pill",
     disabled: loading
-  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Выслать ссылку'), loading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('сбросить пароль'), loading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "spinner-border spinner-border-sm ml-1"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group mt-5 text-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].login,
     className: "text-black-50"
-  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('назад')))));
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Назад')))));
 }
 
 
@@ -48776,7 +49076,7 @@ function ResetPasswordPage() {
 /*!*******************************************************!*\
   !*** ./resources/js/guest/ResetPasswordPage/index.js ***!
   \*******************************************************/
-/*! no static exports found */
+/*! exports provided: ResetPasswordPage */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49623,6 +49923,7 @@ var userActions = {
   logout: logout,
   register: register,
   resetPassword: resetPassword,
+  forgotPassword: forgotPassword,
   update: update
 };
 
@@ -49666,11 +49967,44 @@ function logout() {
   };
 }
 
-function resetPassword(inputs) {
+function forgotPassword(inputs) {
+  return function (dispatch) {
+    dispatch(request());
+    _services__WEBPACK_IMPORTED_MODULE_1__["userService"].forgotPassword(inputs).then(function (payload) {
+      dispatch(success(payload));
+    }, function (error) {
+      dispatch(failure(error.toString()));
+    });
+  };
+
+  function request() {
+    return {
+      type: _constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].FORGET_PASSWORD_REQUEST
+    };
+  }
+
+  function success(payload) {
+    return {
+      type: _constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].FORGET_PASSWORD_SUCCESS,
+      payload: payload
+    };
+  }
+
+  function failure(error) {
+    return {
+      type: _constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].FORGET_PASSWORD_FAILURE,
+      error: error
+    };
+  }
+}
+
+function resetPassword(inputs, history, from) {
   return function (dispatch) {
     dispatch(request());
     _services__WEBPACK_IMPORTED_MODULE_1__["userService"].resetPassword(inputs).then(function (payload) {
       dispatch(success(payload));
+      history.push(from);
+      Object(_helpers__WEBPACK_IMPORTED_MODULE_2__["initUser"])(payload.data.id);
     }, function (error) {
       dispatch(failure(error.toString()));
     });
@@ -49772,6 +50106,7 @@ function AlertContainer() {
     return null;
   }
 
+  console.log('alertItems', alertItems);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "fixed-top pt-3 pr-2",
     style: {
@@ -50651,6 +50986,9 @@ var userConstants = {
   LOGIN_REQUEST: 'USERS_LOGIN_REQUEST',
   LOGIN_SUCCESS: 'USERS_LOGIN_SUCCESS',
   LOGIN_FAILURE: 'USERS_LOGIN_FAILURE',
+  FORGET_PASSWORD_REQUEST: 'FORGET_PASSWORD_REQUEST',
+  FORGET_PASSWORD_SUCCESS: 'FORGET_PASSWORD_SUCCESS',
+  FORGET_PASSWORD_FAILURE: 'FORGET_PASSWORD_FAILURE',
   RESET_PASSWORD_REQUEST: 'RESET_PASSWORD_REQUEST',
   RESET_PASSWORD_SUCCESS: 'RESET_PASSWORD_SUCCESS',
   RESET_PASSWORD_FAILURE: 'RESET_PASSWORD_FAILURE',
@@ -51145,7 +51483,8 @@ var routes = {
   home: pp + '/guest',
   login: pp + '/login',
   register: pp + '/register',
-  resetPassword: pp + '/reset-password',
+  forgotPassword: pp + '/forgot-password',
+  resetPassword: pp + '/reset-password/:token',
   profile: pp + '/profile',
   profileCards: pp + '/profile-cards',
   profileAddCard: '/profile-add-card',
@@ -51159,6 +51498,9 @@ var routes = {
   placeProductCategory: '/:placeSlug/:productCategorySlug',
   makeRoute: function makeRoute(name, params) {
     switch (name) {
+      case 'resetPassword':
+        return pp + '/reset-password/' + params[0];
+
       case 'order':
         return pp + '/order/' + params[0];
 
@@ -51561,6 +51903,7 @@ function authentication() {
 
   switch (action.type) {
     case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].LOGIN_REQUEST:
+    case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].FORGET_PASSWORD_REQUEST:
       return {
         loading: true
       };
@@ -51569,17 +51912,24 @@ function authentication() {
     case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].REGISTER_SUCCESS:
     case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].SHOW_SUCCESS:
     case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].UPDATE_SUCCESS:
+    case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].RESET_PASSWORD_SUCCESS:
       return {
         user: action.payload.data
       };
 
     case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].LOGIN_FAILURE:
+    case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].FORGET_PASSWORD_FAILURE:
       return {
         error: action.error
       };
 
     case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].LOGOUT:
       return initialState;
+
+    case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].FORGET_PASSWORD_SUCCESS:
+      return {
+        loading: false
+      };
 
     default:
       return state;
@@ -52204,7 +52554,6 @@ function cardsList() {
       };
 
     case _constants__WEBPACK_IMPORTED_MODULE_0__["paymentConstants"].CARDS_LIST_SUCCESS:
-      console.log(action.payload.data);
       return {
         loading: false,
         error: false,
@@ -53066,6 +53415,7 @@ var userService = {
   logout: logout,
   register: register,
   resetPassword: resetPassword,
+  forgotPassword: forgotPassword,
   update: update
 };
 
@@ -53103,6 +53453,17 @@ function register(inputs) {
   });
 }
 
+function forgotPassword(inputs) {
+  var requestOptions = {
+    method: 'POST',
+    url: 'auth/forgot-password',
+    data: inputs
+  };
+  return Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["fetchClient"])()(requestOptions).then(handleResponse).then(function (payload) {
+    return payload;
+  });
+}
+
 function resetPassword(inputs) {
   var requestOptions = {
     method: 'POST',
@@ -53110,6 +53471,10 @@ function resetPassword(inputs) {
     data: inputs
   };
   return Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["fetchClient"])()(requestOptions).then(handleResponse).then(function (payload) {
+    if (payload.data.token) {
+      Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["lsSetItem"])('token', payload.data.token);
+    }
+
     return payload;
   });
 }

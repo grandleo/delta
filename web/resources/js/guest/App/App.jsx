@@ -9,6 +9,7 @@ import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
 import { ResetPasswordPage } from '../ResetPasswordPage';
+import { ForgotPasswordPage } from '../ForgotPasswordPage';
 import { PlacePage } from '../PlacePage';
 import { ProductCategoryPage } from '../ProductCategoryPage';
 import { CartPage, CartCheckoutPage, CartPaymentPage } from '../CartPage';
@@ -70,11 +71,19 @@ function App() {
                 redirectTo={routes.home}
                 />
             <PrivateRoute
+                path={routes.forgotPassword}
+                component={ForgotPasswordPage}
+                condition={!user}
+                redirectTo={routes.login}
+                />
+
+            <PrivateRoute
                 path={routes.resetPassword}
                 component={ResetPasswordPage}
                 condition={!user}
-                redirectTo={routes.home}
+                redirectTo={routes.login}
                 />
+
             <PrivateRoute
                 path={routes.register}
                 component={RegisterPage}

@@ -1,10 +1,13 @@
 import { userConstants } from '../_constants';
 import { userService } from '../_services';
+import {initUser} from "../../guest/_helpers";
 
 export const userActions = {
     login,
     logout,
     register,
+    forgotPassword,
+    resetPassword,
 
     show,
 };
@@ -32,6 +35,49 @@ function login(inputs, history, from) {
     function request() { return { type: userConstants.LOGIN_REQUEST } }
     function success(payload) { return { type: userConstants.LOGIN_SUCCESS, payload } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+}
+
+
+function resetPassword(inputs, history, from) {
+  return dispatch => {
+    dispatch(request());
+
+    userService.resetPassword(inputs)
+      .then(
+        payload => {
+          dispatch(success(payload));
+          history.push(from);
+          initUser(payload.data.id);
+        },
+        error => {
+          dispatch(failure(error.toString()));
+        }
+      );
+  };
+
+  function request() { return { type: userConstants.RESET_PASSWORD_REQUEST } }
+  function success(payload) { return { type: userConstants.RESET_PASSWORD_SUCCESS, payload } }
+  function failure(error) { return { type: userConstants.RESET_PASSWORD_FAILURE, error } }
+}
+
+function forgotPassword(inputs) {
+  return dispatch => {
+    dispatch(request());
+
+    userService.forgotPassword(inputs)
+      .then(
+        payload => {
+          dispatch(success(payload));
+        },
+        error => {
+          dispatch(failure(error.toString()));
+        }
+      );
+  };
+
+  function request() { return { type: userConstants.FORGET_PASSWORD_REQUEST } }
+  function success(payload) { return { type: userConstants.FORGET_PASSWORD_SUCCESS, payload } }
+  function failure(error) { return { type: userConstants.FORGET_PASSWORD_FAILURE, error } }
 }
 
 function logout() {

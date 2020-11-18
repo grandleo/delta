@@ -19,4 +19,12 @@ interface GuestRepositoryInterface
     * @return Guest
     */
     public function updateFromForm($id, array $attributes): ?Guest;
+
+    /**
+     * @param $email
+     * @param $password
+     *
+     * @return Guest|null
+     */
+    public function updatePassword($email, $password): ?Guest;
 }

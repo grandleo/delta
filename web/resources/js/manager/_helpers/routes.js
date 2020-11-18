@@ -7,6 +7,8 @@ export const routes = {
 
     login: pp + '/login',
     register: pp + '/register',
+    forgotPassword: pp + '/forgot-password',
+    resetPassword: pp + '/reset-password/:token',
 
     orderList: pp + '/order',
     orderEdit: pp + '/order/:orderId',
@@ -33,6 +35,8 @@ export const routes = {
 
     makeRoute(name, params) {
         switch(name) {
+            case 'resetPassword':
+                return pp + '/reset-password/' + params[0];
             case 'orderEdit':
                 return pp + '/order/' + params[0];
             case 'tableEdit':

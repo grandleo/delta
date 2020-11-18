@@ -13,4 +13,14 @@
             <a href="/login" class="button text-color_white">Войти</a>
         </div><!--footer__inner-->
     </div><!--container-->
+    <div class="cookie-bar">
+        <div class="cookie-bar__modal">
+            <div class="cookie-bar__anim cookie-bar__show">
+                <p class="cookie-bar__modal__text">Мы используем cookie, чтобы вы могли эффективно пользоваться сайтом.</p>
+                <div class="cookie-bar__modal__btns">
+                    <a href="" type="button" class="cookie-bar__link">подробнее</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </footer><!--footer-->

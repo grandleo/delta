@@ -17,7 +17,6 @@ function cardsList(state = initialState, action) {
                 data: null,
             };
         case paymentConstants.CARDS_LIST_SUCCESS:
-            console.log(action.payload.data);
             return {
                 loading: false,
                 error: false,

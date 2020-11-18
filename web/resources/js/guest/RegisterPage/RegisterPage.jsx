@@ -29,7 +29,6 @@ function RegisterPage() {
                 if (!validators.length(value, 0, 250)) return t('Максимальная длина 250 символов');
                 break;
         }
-        console.log(name);
         switch(name) {
             case 'full_name':
                 if (!value) return t('Имя не заполнено');

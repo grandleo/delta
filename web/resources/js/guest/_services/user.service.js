@@ -5,6 +5,7 @@ export const userService = {
     logout,
     register,
     resetPassword,
+    forgotPassword,
 
     update,
 };
@@ -45,6 +46,20 @@ function register(inputs) {
         });
 }
 
+function forgotPassword(inputs) {
+    const requestOptions = {
+        method: 'POST',
+        url: 'auth/forgot-password',
+        data: inputs,
+    };
+
+    return fetchClient()(requestOptions).then(handleResponse)
+        .then(payload => {
+
+            return payload;
+        });
+}
+
 function resetPassword(inputs) {
     const requestOptions = {
         method: 'POST',
@@ -54,6 +69,9 @@ function resetPassword(inputs) {
 
     return fetchClient()(requestOptions).then(handleResponse)
         .then(payload => {
+            if (payload.data.token) {
+                lsSetItem('token', payload.data.token);
+            }
             return payload;
         });
 }

@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api\v1\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Guest\GuestResource;
 use App\Models\Guest;
 use App\Models\PasswordReset;
+use App\Notifications\MailResetPasswordNotification;
+use App\Repositories\GuestRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
-use App\Repositories\GuestRepositoryInterface;
-use App\Http\Resources\Guest\GuestResource;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+
 class AuthApiController extends Controller
 {
     private $guestRepository;
@@ -91,6 +91,11 @@ class AuthApiController extends Controller
         return new GuestResource($guest);
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sendResetPasswordLink(Request $request)
     {
         $request->validate([
@@ -109,9 +114,44 @@ class AuthApiController extends Controller
                 'token' => Str::random(60)
             ]
         );
-        if ($user && $passwordReset)
-        return response()->json([
-            'message' => 'We have e-mailed your password reset link!'
+        if ($user && $passwordReset) {
+            $user->notify(new MailResetPasswordNotification('reset-password' , $passwordReset->token));
+            return response()->json([
+                'status' => 'success',
+                'alerts' => [
+                    [
+                        'type'    => 'success',
+                        'message' => 'Мы отправили вам ссылку для сброса пароля по электронной почте!',
+                    ]
+                ],
+            ]);
+        }
+
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return GuestResource|\Illuminate\Http\JsonResponse
+     */
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'token' => 'required'
         ]);
+        $tokenData = PasswordReset::where('token', $request->token)->where('user_type', PasswordReset::MANAGER)->first();
+
+        if (!$tokenData) {
+            return response()->json([
+                'message' => 'Используемый токен недействителен!'
+            ], 404);
+        }
+
+        $guest = $this->guestRepository->updatePassword($tokenData->email, $request->password);
+        $token = $guest->createToken('guest_common')->plainTextToken;
+        $guest->token = $token;
+        $tokenData->delete();
+        return new GuestResource($guest);
     }
 }

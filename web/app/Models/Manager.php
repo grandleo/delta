@@ -17,6 +17,7 @@ class Manager extends Authenticatable
     use HasApiTokens;
     use JsonFieldTrait;
 
+    protected $with = ['place'];
     /**
      * The attributes that are mass assignable.
      *
@@ -56,11 +57,10 @@ class Manager extends Authenticatable
 
     // RELATIONS
 
-    public function places()
+    public function place()
     {
-        return $this->hasMany('App\Models\Place');
+        return $this->hasOne('App\Models\Place');
     }
-
     /**
      * The channels the user receives notification broadcasts on.
      *

@@ -19,4 +19,12 @@ interface ManagerRepositoryInterface
     * @return Manager
     */
     public function updateFromForm($id, array $attributes): ?Manager;
+
+    /**
+     * @param $email
+     * @param $password
+     *
+     * @return Manager|null
+     */
+    public function updatePassword($email, $password): ?Manager;
 }

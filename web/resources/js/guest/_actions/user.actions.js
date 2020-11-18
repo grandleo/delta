@@ -1,12 +1,13 @@
-import { userConstants } from '../_constants';
-import { userService } from '../_services';
-import { initUser } from '../_helpers';
+import {userConstants} from '../_constants';
+import {userService} from '../_services';
+import {initUser} from '../_helpers';
 
 export const userActions = {
     login,
     logout,
     register,
     resetPassword,
+    forgotPassword,
 
     update,
 };
@@ -38,7 +39,27 @@ function logout() {
     return { type: userConstants.LOGOUT };
 }
 
-function resetPassword(inputs) {
+function forgotPassword(inputs) {
+    return dispatch => {
+        dispatch(request());
+
+        userService.forgotPassword(inputs)
+            .then(
+                payload => {
+                    dispatch(success(payload));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function request() { return { type: userConstants.FORGET_PASSWORD_REQUEST } }
+    function success(payload) { return { type: userConstants.FORGET_PASSWORD_SUCCESS, payload } }
+    function failure(error) { return { type: userConstants.FORGET_PASSWORD_FAILURE, error } }
+}
+
+function resetPassword(inputs, history, from) {
     return dispatch => {
         dispatch(request());
 
@@ -46,6 +67,8 @@ function resetPassword(inputs) {
             .then(
                 payload => {
                     dispatch(success(payload));
+                    history.push(from);
+                    initUser(payload.data.id);
                 },
                 error => {
                     dispatch(failure(error.toString()));

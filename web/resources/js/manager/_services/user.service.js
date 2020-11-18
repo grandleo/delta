@@ -4,6 +4,8 @@ export const userService = {
     login,
     logout,
     register,
+    forgotPassword,
+    resetPassword,
 
     show,
 };
@@ -34,6 +36,36 @@ function login(data) {
 
 function logout() {
     lsRemoveItem('token', null);
+}
+
+function forgotPassword(inputs) {
+    const requestOptions = {
+        method: 'POST',
+        url: 'auth/forgot-password',
+        data: inputs,
+    };
+
+    return fetchClient()(requestOptions).then(handleResponse)
+      .then(payload => {
+
+          return payload;
+      });
+}
+
+function resetPassword(inputs) {
+    const requestOptions = {
+        method: 'POST',
+        url: 'auth/reset-password',
+        data: inputs,
+    };
+
+    return fetchClient()(requestOptions).then(handleResponse)
+      .then(payload => {
+          if (payload.data.token) {
+              lsSetItem('token', payload.data.token);
+          }
+          return payload;
+      });
 }
 
 function register(data) {

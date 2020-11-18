@@ -51,7 +51,7 @@ function HomePage() {
                         </div>
                         <div>
                             <small>{t('На сумму')}</small>
-                            <h3 className="m-0">{financeToday ? fMoney(financeToday.amount, user.place.currency) : '?'}</h3>
+                            <h3 className="m-0">{(financeToday && user.place.currency) ? fMoney(financeToday.amount, user.place.currency) : '?'}</h3>
                         </div>
                         <div>
                             <img src="/images/icon/arrow-left.svg" alt="see"

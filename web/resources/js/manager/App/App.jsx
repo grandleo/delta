@@ -16,6 +16,8 @@ import { WorkerPage, WorkerEditPage } from '../WorkerPage';
 import { OrderPage, OrderEditPage } from '../OrderPage';
 import { GuestPage } from '../GuestPage';
 import { FinancePage } from '../FinancePage';
+import {ForgotPasswordPage} from "../ForgotPasswordPage";
+import {ResetPasswordPage} from "../ResetPasswordPage";
 
 function App() {
     const user = useSelector(state => state.authentication.user);
@@ -85,7 +87,19 @@ function App() {
                 condition={user && user.place && user.place.id}
                 redirectTo={routes.login}
                 />
+            <PrivateRoute
+              path={routes.forgotPassword}
+              component={ForgotPasswordPage}
+              condition={!user}
+              redirectTo={routes.login}
+            />
 
+            <PrivateRoute
+              path={routes.resetPassword}
+              component={ResetPasswordPage}
+              condition={!user}
+              redirectTo={routes.login}
+            />
             <PrivateRoute
                 path={routes.prodList}
                 component={ProductPage}

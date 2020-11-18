@@ -93,7 +93,7 @@ function LoginPage() {
                 </div>
                 <div className="form-group text-right mb-2">
                     <Link
-                        to={routes.resetPassword}
+                        to={routes.forgotPassword}
                         className="text-black-50"
                     >
                         {t('Забыли пароль?')}

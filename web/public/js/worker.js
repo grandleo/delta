@@ -44953,6 +44953,7 @@ function AlertContainer() {
     return null;
   }
 
+  console.log('alertItems', alertItems);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "fixed-top pt-3 pr-2",
     style: {
@@ -45180,6 +45181,9 @@ var userConstants = {
   LOGIN_REQUEST: 'USERS_LOGIN_REQUEST',
   LOGIN_SUCCESS: 'USERS_LOGIN_SUCCESS',
   LOGIN_FAILURE: 'USERS_LOGIN_FAILURE',
+  FORGET_PASSWORD_REQUEST: 'FORGET_PASSWORD_REQUEST',
+  FORGET_PASSWORD_SUCCESS: 'FORGET_PASSWORD_SUCCESS',
+  FORGET_PASSWORD_FAILURE: 'FORGET_PASSWORD_FAILURE',
   RESET_PASSWORD_REQUEST: 'RESET_PASSWORD_REQUEST',
   RESET_PASSWORD_SUCCESS: 'RESET_PASSWORD_SUCCESS',
   RESET_PASSWORD_FAILURE: 'RESET_PASSWORD_FAILURE',
@@ -45502,6 +45506,7 @@ function authentication() {
 
   switch (action.type) {
     case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].LOGIN_REQUEST:
+    case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].FORGET_PASSWORD_REQUEST:
       return {
         loading: true
       };
@@ -45510,17 +45515,24 @@ function authentication() {
     case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].REGISTER_SUCCESS:
     case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].SHOW_SUCCESS:
     case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].UPDATE_SUCCESS:
+    case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].RESET_PASSWORD_SUCCESS:
       return {
         user: action.payload.data
       };
 
     case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].LOGIN_FAILURE:
+    case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].FORGET_PASSWORD_FAILURE:
       return {
         error: action.error
       };
 
     case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].LOGOUT:
       return initialState;
+
+    case _constants_user_constants__WEBPACK_IMPORTED_MODULE_0__["userConstants"].FORGET_PASSWORD_SUCCESS:
+      return {
+        loading: false
+      };
 
     default:
       return state;

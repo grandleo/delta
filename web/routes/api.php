@@ -20,7 +20,8 @@ Route::prefix('v1/guest')
     // auth
     Route::post('auth/login', 'AuthApiController@login');
     Route::post('auth/register', 'AuthApiController@register');
-    Route::post('auth/reset-password', 'AuthApiController@sendResetPasswordLink');
+    Route::post('auth/forgot-password', 'AuthApiController@sendResetPasswordLink');
+    Route::post('auth/reset-password', 'AuthApiController@resetPassword');
 
     // private
     Route::middleware(['auth:sanctum', 'auth.sanctum.ext:App\Models\Guest'])
@@ -68,7 +69,8 @@ Route::prefix('v1/manager')
     // auth
     Route::post('auth/login', 'AuthApiController@login');
     Route::post('auth/register', 'AuthApiController@register');
-
+    Route::post('auth/forgot-password', 'AuthApiController@sendResetPasswordLink');
+    Route::post('auth/reset-password', 'AuthApiController@resetPassword');
     // private
     Route::middleware(['auth:sanctum', 'auth.sanctum.ext:App\Models\Manager'])
     ->group(function () {

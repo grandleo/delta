@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api\v1\Manager;
 
 use App\Http\Controllers\Controller;
+use App\Models\Manager;
+use App\Models\PasswordReset;
+use App\Notifications\MailResetPasswordNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,6 +14,7 @@ use App\Repositories\WorkerRepositoryInterface;
 use App\Repositories\PlaceRepositoryInterface;
 use App\Http\Resources\Manager\ManagerResource;
 use App\Http\Resources\Worker\WorkerResource;
+use Illuminate\Support\Str;
 
 class AuthApiController extends Controller
 {
@@ -115,6 +119,70 @@ class AuthApiController extends Controller
         $token = $manager->createToken('manager_common')->plainTextToken;
         $manager->token = $token;
 
+        return new ManagerResource($manager);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendResetPasswordLink(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|email',
+        ]);
+        $user = Manager::where('email', $request->email)->first();
+        if (!$user)
+            return response()->json([
+                'message' => 'Мы не нашли пользователя с таким адресом электронной почты'
+            ], 404);
+
+        $passwordReset = PasswordReset::updateOrCreate(
+            ['email' => $user->email, 'user_type' => PasswordReset::MANAGER],
+            [
+                'email' => $user->email,
+                'token' => Str::random(60)
+            ]
+        );
+        if ($user && $passwordReset) {
+            $user->notify(new MailResetPasswordNotification('manager/reset-password' , $passwordReset->token));
+            return response()->json([
+                'status' => 'success',
+                'alerts' => [
+                    [
+                        'type'    => 'success',
+                        'message' => 'Мы отправили вам ссылку для сброса пароля по электронной почте!',
+                    ]
+                ],
+            ]);
+        }
+
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return ManagerResource|\Illuminate\Http\JsonResponse
+     */
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'token' => 'required'
+        ]);
+        $tokenData = PasswordReset::where('token', $request->token)->where('user_type', PasswordReset::MANAGER)->first();
+
+        if (!$tokenData) {
+            return response()->json([
+                'message' => 'Используемый токен недействителен!'
+            ], 404);
+        }
+
+        $manager = $this->managerRepository->updatePassword($tokenData->email, $request->password);
+        $token = $manager->createToken('guest_common')->plainTextToken;
+        $manager->token = $token;
+        $tokenData->delete();
         return new ManagerResource($manager);
     }
 }

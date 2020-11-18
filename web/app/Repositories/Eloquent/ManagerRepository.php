@@ -53,4 +53,14 @@ class ManagerRepository extends BaseRepository implements ManagerRepositoryInter
 
         return $model;
     }
+
+    public function updatePassword($email, $password): ?Manager
+    {
+        $model = $this->model->where('email', $email)->first();
+
+        $model->password = \Hash::make($password);
+        $model->update();
+
+        return $model;
+    }
 }

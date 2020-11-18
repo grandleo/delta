@@ -69,4 +69,20 @@ class GuestRepository extends BaseRepository implements GuestRepositoryInterface
 
         return $model;
     }
+
+    /**
+     * @param $email
+     * @param $password
+     *
+     * @return Guest|null
+     */
+    public function updatePassword($email, $password): ?Guest
+    {
+        $model = $this->model->where('email', $email)->first();
+
+        $model->password = \Hash::make($password);
+        $model->update();
+
+        return $model;
+    }
 }
