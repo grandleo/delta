@@ -49,7 +49,7 @@ class OrderApiController extends Controller
             ['created_at', 'like', $reqData['date'].'%'],
         ];
         $orders = $this->orderRepository->getByGuestId($guest_id, $conditions);
-dd($orders);
+
         foreach ($orders as $order) {
             $orStPh = $orderStatusPhases->firstWhere('id', optional($order->orderStatus)->order_status_phase_id);
             !$orStPh && ($orStPh = $orderStatusPhases->first()) && ($order->orderStatus_phase_id = $orStPh->id);
