@@ -1519,6 +1519,7 @@ body {
 @media only screen and (max-width: 480px) {
   .cookie-bar__modal {
     right: 0;
+    padding: 1em 1em;
     width: 17em;
   }
 }
@@ -1551,6 +1552,8 @@ body {
 @media only screen and (max-width: 600px) {
   .cookie-bar__modal__close {
     margin-bottom: 10px;
+    width: 20px;
+    height: 20px;
   }
 }
 
