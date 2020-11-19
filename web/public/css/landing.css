@@ -1520,7 +1520,8 @@ body {
   .cookie-bar__modal {
     right: 0;
     padding: 1em 1em;
-    width: 17em;
+    width: 100%;
+    bottom: 0;
   }
 }
 
