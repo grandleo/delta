@@ -85,7 +85,7 @@ function OrderPage() {
                 {!order && orderCurrent.loading && <div className="w-100"><LoadingCommon /></div>}
                 {orderCurrent.error && <span className="text-danger">{t('Ошибка')}: {orderCurrent.error}</span>}
                 {order &&
-                    <div className="px-3 py-4 pb-5 bg-white w-100 rounded-xl">
+                    <div className="px-3 py-4 pb-5 bg-white w-100 rounded-xl position-relative">
                         <div className="d-flex justify-content-between align-items-start">
                             <h2 className="h4 font-weight-bold line-height-1">{t('Заказ')} #{order.id}</h2>
                             <span
@@ -194,7 +194,7 @@ function OrderPage() {
                                 </div>
                             )}
                         </div>
-                        <div className="fixed-bottom">
+                        <div className="w-100 fixed-bottom">
                             <form
                                 className="position-relative global-wrapper shadow-btn-1 overflow-hidden"
                                 autoComplete="off"

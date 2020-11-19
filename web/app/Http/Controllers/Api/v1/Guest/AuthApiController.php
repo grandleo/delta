@@ -140,7 +140,7 @@ class AuthApiController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'token' => 'required'
         ]);
-        $tokenData = PasswordReset::where('token', $request->token)->where('user_type', PasswordReset::MANAGER)->first();
+        $tokenData = PasswordReset::where('token', $request->token)->where('user_type', PasswordReset::GUEST)->first();
 
         if (!$tokenData) {
             return response()->json([

@@ -47397,7 +47397,7 @@ function OrderPage() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_6__["LoadingCommon"], null)), orderCurrent.error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "text-danger"
   }, Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Ошибка'), ": ", orderCurrent.error), order && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "px-3 py-4 pb-5 bg-white w-100 rounded-xl"
+    className: "px-3 py-4 pb-5 bg-white w-100 rounded-xl position-relative"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between align-items-start"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
@@ -47480,7 +47480,7 @@ function OrderPage() {
       }, message.text);
     })));
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "fixed-bottom"
+    className: "w-100 fixed-bottom"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     className: "position-relative global-wrapper shadow-btn-1 overflow-hidden",
     autoComplete: "off",
