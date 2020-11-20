@@ -18,6 +18,7 @@ class TableResource extends JsonResource
             'id' => $this->id,
             'marker_code' => $this->marker_code ?? '',
             'name' => $this->name,
+            'deleted_at' => $this->deleted_at,
             'active' => +$this->hasStatus('active'),
             'workers' => WorkerShortResource::collection($this->workers),
         ];

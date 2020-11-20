@@ -159,6 +159,24 @@ class TableApiController extends Controller
         ]);
     }
 
+    public function restore($id)
+    {
+        $place = $this->getPlace();
+
+        $table = $this->tableRepository->findWithTrashed($id);
+        abort_if(!$table || $table->place_id !== $place->id, 403);
+
+        $table->restore();
+
+        return response()->json([
+            'status' => 'success',
+            'alerts' => [[
+                 'type' => 'info',
+                 'message' => __('Стол восстановлен'),
+             ]],
+        ]);
+    }
+
 
     private function getPlace($place_id = null)
     {

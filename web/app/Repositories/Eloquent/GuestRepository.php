@@ -23,6 +23,7 @@ class GuestRepository extends BaseRepository implements GuestRepositoryInterface
     */
     public function getByPlaceIdSorted($place_id): Collection
     {
+        dd(6666);
         $query = $this->model
             ->withCount([
                 'orders' => function ($query1) use ($place_id) {

@@ -12234,3 +12234,122 @@ select.form-control {
   margin-top: -21px;
 }
 
+.finance-page__total-price-title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #31456A;
+  margin: 0;
+}
+
+.finance-page__total-price {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 64px;
+  color: #31456A;
+}
+
+.finance-page__see-all-statistics {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.finance-page__see-all-statistics a {
+  color: #109CF1;
+}
+
+.finance-page__total-result {
+  color: #4F4F4F;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.finance-page__total-result__status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  background: #FFFFFF;
+  border-radius: 50%;
+}
+
+.finance-page__total-result__price {
+  font-weight: 500;
+  font-size: 18px;
+  color: #31456A;
+}
+
+.finance-page__total-result__title {
+  font-weight: 500;
+  font-size: 14px;
+  color: #4F4F4F;
+  margin: 0;
+}
+
+.finance-page__info {
+  font-weight: 500;
+  font-size: 12px;
+  color: #BDBDBD;
+  margin: 11px 70px;
+}
+
+.finance-page__service-info__content {
+  background: #FFFFFF;
+  height: 102px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.finance-page__service-info__content > div {
+  padding-top: 15px;
+}
+
+.finance-page__service-info__content h5 {
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 100%;
+  color: #31456A;
+}
+
+.finance-page__service-info__content p {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #31456A;
+}
+
+.finance-page__card-list {
+  margin-top: 15px;
+}
+
+.finance-page__card-list__item {
+  padding: 0 22px;
+  height: 124px;
+  background: #FFFFFF;
+  border-radius: 16px;
+}
+
+.finance-page__card-list__item__info__card-code {
+  font-size: 18px;
+  line-height: 31px;
+  letter-spacing: 0.0878em;
+  color: #31456A;
+  text-align: left;
+  text-shadow: 0px 0.701049px 3px rgba(77, 5, 169, 0.3);
+  margin-bottom: 0;
+}
+
+.finance-page__card-list__item__info__card-name {
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #31456A;
+  text-align: left;
+  text-shadow: 0px 0.701049px 3px rgba(77, 5, 169, 0.3);
+}
+
+.finance-page__card-list__item .btn:hover {
+  background-color: white;
+}
+

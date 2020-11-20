@@ -5,6 +5,7 @@ export const tableService = {
     show,
     update,
     destroy,
+    restore,
 };
 
 function index() {
@@ -37,6 +38,15 @@ function destroy(tableId) {
     const requestOptions = {
         method: 'DELETE',
         url: `tables/${tableId}`,
+    };
+
+    return fetchClient()(requestOptions).then(handleResponse);
+}
+
+function restore(tableId) {
+    const requestOptions = {
+        method: 'GET',
+        url: `tables/${tableId}/restore`,
     };
 
     return fetchClient()(requestOptions).then(handleResponse);

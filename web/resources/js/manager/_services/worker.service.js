@@ -5,6 +5,7 @@ export const workerService = {
     show,
     update,
     destroy,
+    restore,
 };
 
 function index() {
@@ -37,6 +38,15 @@ function destroy(workerId) {
     const requestOptions = {
         method: 'DELETE',
         url: `workers/${workerId}`,
+    };
+
+    return fetchClient()(requestOptions).then(handleResponse);
+}
+
+function restore(workerId) {
+    const requestOptions = {
+        method: 'GET',
+        url: `workers/${workerId}/restore`,
     };
 
     return fetchClient()(requestOptions).then(handleResponse);

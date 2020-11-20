@@ -20,6 +20,7 @@ class WorkerResource extends JsonResource
             'name_full' => $this->name_full,
             'image' => $this->image,
             'email' => $this->email,
+            'deleted_at' => $this->deleted_at,
             'phone' => $this->phone ?? '',
             'active' => +$this->hasStatus('active'),
             'card_number' => $this->getJson('params', 'card_number', ''),

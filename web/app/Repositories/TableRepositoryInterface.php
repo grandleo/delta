@@ -20,4 +20,11 @@ interface TableRepositoryInterface
     * @return Table
     */
     public function updateFromForm($id, array $attributes): ?Table;
+
+    /**
+     * @param $id
+     *
+     * @return Table|null
+     */
+    public function findWithTrashed($id): ?Table;
 }

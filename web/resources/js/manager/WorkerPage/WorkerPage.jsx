@@ -19,6 +19,14 @@ const SortableItem = ({value}) => {
             });
     }
 
+    function handleRestore(id) {
+        if (!confirm(t('Вы уверены что хотите восстановить этого официанта?'))) return;
+        workerService.restore(id)
+          .then((res) => {
+              dispatch(workerActions.index());
+          });
+    }
+
     const worker_shift = user.place.worker_shifts.find((v) => value.shift_key === v.key);
 
     return (
@@ -50,12 +58,20 @@ const SortableItem = ({value}) => {
                 </div>
             </div>
             <div className="ml-auto text-nowrap">
-                <Link
+                {value.deleted_at &&
+                <button
+                  onClick={(e) => handleRestore(value.id)}
+                  className="btn btn-light btn-sm btn-sm-control mr-1"
+                >
+                    <img className="w-75" src="/images/icon/restore.svg" alt="restore" />
+                </button> }
+
+                {!value.deleted_at && <Link
                     to={routes.makeRoute('workerEdit', [value.id])}
                     className="btn btn-light btn-sm btn-sm-control mr-1"
                     >
                     <img src="/images/icon/pencil.svg" alt="edit" />
-                </Link>
+                </Link>}
                 <button
                     onClick={(e) => handleDelete(value.id)}
                     className="btn btn-light btn-sm btn-sm-control"

@@ -26,6 +26,7 @@ class TableRepository extends BaseRepository implements TableRepositoryInterface
     {
         $query = $this->model
             ->with(['workers'])
+            ->withTrashed()
             ->where('place_id', $place_id)
             ->orderBy('name');
 
@@ -60,4 +61,8 @@ class TableRepository extends BaseRepository implements TableRepositoryInterface
         return $model;
     }
 
+    public function findWithTrashed($id) : ?Table
+    {
+        return $this->model->withTrashed()->find($id);
+    }
 }

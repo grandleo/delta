@@ -25,6 +25,7 @@ class WorkerRepository extends BaseRepository implements WorkerRepositoryInterfa
     public function getByPlaceIdSorted($place_id, $all = false): Collection
     {
         $query = $this->model
+            ->withTrashed()
             ->with(['tables'])
             ->where('place_id', $place_id)
             ->orderBy('name');
@@ -64,6 +65,11 @@ class WorkerRepository extends BaseRepository implements WorkerRepositoryInterfa
         $model->save();
 
         return $model;
+    }
+
+    public function findWithTrashed($id) : ?Worker
+    {
+        return $this->model->withTrashed()->find($id);
     }
 
 }

@@ -18,6 +18,14 @@ const SortableItem = ({value}) => {
             });
     }
 
+    function handleRestore(id) {
+        if (!confirm(t('Вы уверены что хотите восстановить этот стол?'))) return;
+        tableService.restore(id)
+            .then((res) => {
+                dispatch(tableActions.index());
+            });
+    }
+
     return (
         <div className="card-manager-product-category d-flex align-items-center rounded-065rem bg-light btn-block mb-3 shadow-btn-3 text-primary py-3 px-2">
             <div className="position-relative mr-3 pr-3">
@@ -32,12 +40,20 @@ const SortableItem = ({value}) => {
                 </div>
             </div>
             <div className="ml-auto text-nowrap">
-                <Link
+                {value.deleted_at &&
+                <button
+                  onClick={(e) => handleRestore(value.id)}
+                  className="btn btn-light btn-sm btn-sm-control mr-1"
+                >
+                    <img className="w-75" src="/images/icon/restore.svg" alt="restore" />
+                </button> }
+
+                {!value.deleted_at && <Link
                     to={routes.makeRoute('tableEdit', [value.id])}
                     className="btn btn-light btn-sm btn-sm-control mr-1"
                     >
                     <img src="/images/icon/pencil.svg" alt="edit" />
-                </Link>
+                </Link>}
                 <button
                     onClick={(e) => handleDelete(value.id)}
                     className="btn btn-light btn-sm btn-sm-control"

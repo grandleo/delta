@@ -20,4 +20,11 @@ interface WorkerRepositoryInterface
     * @return Worker
     */
     public function updateFromForm($id, array $attributes): ?Worker;
+
+    /**
+     * @param $id
+     *
+     * @return Worker|null
+     */
+    public function findWithTrashed($id): ?Worker;
 }

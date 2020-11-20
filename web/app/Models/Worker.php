@@ -23,6 +23,8 @@ class Worker extends Authenticatable
         'active' => 1,
     ];
 
+    protected $dates = ['deleted_at'];
+
     /**
      * The attributes that are mass assignable.
      *

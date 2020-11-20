@@ -40,7 +40,6 @@ class WorkerApiController extends Controller
     public function index()
     {
         $place = $this->getPlace();
-
         $workers = $this->workerRepository->getByPlaceIdSorted($place->id, true);
 
         return WorkerResource::collection($workers);
@@ -176,6 +175,23 @@ class WorkerApiController extends Controller
         ]);
     }
 
+    public function restore($id)
+    {
+        $place = $this->getPlace();
+
+        $worker = $this->workerRepository->findWithTrashed($id);
+        abort_if(!$worker || $worker->place_id !== $place->id, 403);
+
+        $worker->restore();
+
+        return response()->json([
+            'status' => 'success',
+            'alerts' => [[
+                 'type' => 'info',
+                 'message' => __('Официант восстановлен'),
+             ]],
+        ]);
+    }
 
     private function getPlace($place_id = null)
     {

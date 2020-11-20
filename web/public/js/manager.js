@@ -58051,6 +58051,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_helpers */ "./resources/js/manager/_helpers/index.js");
 /* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_components */ "./resources/js/manager/_components/index.js");
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_actions */ "./resources/js/manager/_actions/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_services */ "./resources/js/manager/_services/index.js");
+
+
 
 
 
@@ -58084,6 +58088,10 @@ var SortableList = function SortableList(_ref2) {
   }));
 };
 
+function handleDelete(id) {
+  if (!confirm(Object(_helpers__WEBPACK_IMPORTED_MODULE_2__["t"])('Вы уверены что хотите удалить этот card?'))) return;
+}
+
 function FinancePage() {
   var financeAll = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["useSelector"])(function (state) {
     return state.finance.all;
@@ -58098,10 +58106,88 @@ function FinancePage() {
     headingTop: Object(_helpers__WEBPACK_IMPORTED_MODULE_2__["t"])('Финансы'),
     routeBack: _helpers__WEBPACK_IMPORTED_MODULE_2__["routes"].home
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "content-wrapper"
-  }, financeAll.loading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_3__["LoadingCommon"], null), financeAll.data && financeAll.data.length !== 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SortableList, {
-    items: financeAll.data
-  }))));
+    className: "content-wrapper finance-page"
+  }, financeAll.loading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components__WEBPACK_IMPORTED_MODULE_3__["LoadingCommon"], null), financeAll.data && financeAll.data.length !== 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-12 text-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "finance-page__total-price-title"
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_2__["t"])('Ваш баланс')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "finance-page__total-price"
+  }, "15 002 \u0420")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-6 finance-page__total-result"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "finance-page__total-result__title"
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_2__["t"])('Поступления')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "d-flex"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "finance-page__total-result__status"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/images/icon/arrow-top.svg",
+    alt: ""
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "finance-page__total-result__price ml-2"
+  }, "5 002 \u0420"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-6 finance-page__total-result"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "finance-page__total-result__title"
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_2__["t"])('Выведено средств')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "d-flex"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "finance-page__total-result__status"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/images/icon/arrow-down.svg",
+    alt: ""
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "finance-page__total-result__price ml-2"
+  }, "5 002 \u0420"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-12 text-center finance-page__see-all-statistics"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: ""
+  }, Object(_helpers__WEBPACK_IMPORTED_MODULE_2__["t"])('смотреть всю статистику'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-12 text-center form-group mt-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "shadow-btn-3 btn btn-lg btn-light btn-block rounded-pill",
+    href: "/manager/register"
+  }, "\u0437\u0430\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u0432\u044B\u0432\u043E\u0434 \u0441\u0440\u0435\u0434\u0441\u0442\u0432"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "finance-page__info"
+  }, "1 \u0431\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u044B\u0439 \u0432\u044B\u0432\u043E\u0434 \u0441\u0440\u0435\u0434\u0441\u0442\u0432 \u0432 \u043D\u0435\u0434\u0435\u043B\u044E, \u0434\u0430\u043B\u0435\u0435 \u043F\u043E 50 \u0420 \u0437\u0430 \u043A\u0430\u0436\u0434\u044B\u0439 \u043D\u043E\u0432\u044B\u0439 \u0437\u0430\u043F\u0440\u043E\u0441")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-12 text-center finance-page__service-info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex bg-white finance-page__service-info__content"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-100"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u041F\u0440\u043E\u0446\u0435\u043D\u0442 \u044D\u043A\u0432\u0430\u0438\u0440\u0438\u043D\u0433\u0430"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "5%")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-100"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u041F\u0440\u043E\u0446\u0435\u043D\u0442 \u0441\u0435\u0440\u0432\u0438\u0441\u0430"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "5%")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-12 text-center finance-page__card-list"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "finance-page__card-list__item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u0428\u0430\u0431\u043B\u043E\u043D \u0434\u043B\u044F \u0432\u044B\u0432\u043E\u0434\u0430 \u0441\u0440\u0435\u0434\u0441\u0442\u0432")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "finance-page__card-list__item__info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "finance-page__card-list__item__info__card-code"
+  }, "4747  .... ....  4747"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "finance-page__card-list__item__info__card-name"
+  }, "alexandra Smith")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "ml-auto text-nowrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "btn btn-light btn-sm btn-sm-control mr-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/images/icon/pencil.svg",
+    alt: "edit"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: function onClick(e) {
+      return handleDelete();
+    },
+    className: "btn btn-light btn-sm btn-sm-control"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/images/icon/trash.svg",
+    alt: "delete"
+  })))))))));
 }
 
 
@@ -63229,6 +63315,13 @@ var SortableItem = function SortableItem(_ref) {
     });
   }
 
+  function handleRestore(id) {
+    if (!confirm(Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Вы уверены что хотите восстановить этот стол?'))) return;
+    _services__WEBPACK_IMPORTED_MODULE_6__["tableService"].restore(id).then(function (res) {
+      dispatch(_actions__WEBPACK_IMPORTED_MODULE_5__["tableActions"].index());
+    });
+  }
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card-manager-product-category d-flex align-items-center rounded-065rem bg-light btn-block mb-3 shadow-btn-3 text-primary py-3 px-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -63243,7 +63336,16 @@ var SortableItem = function SortableItem(_ref) {
     return v.name_full;
   }).join(', '))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ml-auto text-nowrap"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, value.deleted_at && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: function onClick(e) {
+      return handleRestore(value.id);
+    },
+    className: "btn btn-light btn-sm btn-sm-control mr-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "w-75",
+    src: "/images/icon/restore.svg",
+    alt: "restore"
+  })), !value.deleted_at && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].makeRoute('tableEdit', [value.id]),
     className: "btn btn-light btn-sm btn-sm-control mr-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -64079,6 +64181,13 @@ var SortableItem = function SortableItem(_ref) {
     });
   }
 
+  function handleRestore(id) {
+    if (!confirm(Object(_helpers__WEBPACK_IMPORTED_MODULE_3__["t"])('Вы уверены что хотите восстановить этого официанта?'))) return;
+    _services__WEBPACK_IMPORTED_MODULE_6__["workerService"].restore(id).then(function (res) {
+      dispatch(_actions__WEBPACK_IMPORTED_MODULE_5__["workerActions"].index());
+    });
+  }
+
   var worker_shift = user.place.worker_shifts.find(function (v) {
     return value.shift_key === v.key;
   });
@@ -64106,7 +64215,16 @@ var SortableItem = function SortableItem(_ref) {
     return v.name;
   }).join(', '))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ml-auto text-nowrap"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }, value.deleted_at && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: function onClick(e) {
+      return handleRestore(value.id);
+    },
+    className: "btn btn-light btn-sm btn-sm-control mr-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "w-75",
+    src: "/images/icon/restore.svg",
+    alt: "restore"
+  })), !value.deleted_at && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: _helpers__WEBPACK_IMPORTED_MODULE_3__["routes"].makeRoute('workerEdit', [value.id]),
     className: "btn btn-light btn-sm btn-sm-control mr-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -68509,7 +68627,8 @@ var tableService = {
   index: index,
   show: show,
   update: update,
-  destroy: destroy
+  destroy: destroy,
+  restore: restore
 };
 
 function index() {
@@ -68539,6 +68658,14 @@ function destroy(tableId) {
   var requestOptions = {
     method: 'DELETE',
     url: "tables/".concat(tableId)
+  };
+  return Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["fetchClient"])()(requestOptions).then(handleResponse);
+}
+
+function restore(tableId) {
+  var requestOptions = {
+    method: 'GET',
+    url: "tables/".concat(tableId, "/restore")
   };
   return Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["fetchClient"])()(requestOptions).then(handleResponse);
 }
@@ -68673,7 +68800,8 @@ var workerService = {
   index: index,
   show: show,
   update: update,
-  destroy: destroy
+  destroy: destroy,
+  restore: restore
 };
 
 function index() {
@@ -68703,6 +68831,14 @@ function destroy(workerId) {
   var requestOptions = {
     method: 'DELETE',
     url: "workers/".concat(workerId)
+  };
+  return Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["fetchClient"])()(requestOptions).then(handleResponse);
+}
+
+function restore(workerId) {
+  var requestOptions = {
+    method: 'GET',
+    url: "workers/".concat(workerId, "/restore")
   };
   return Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["fetchClient"])()(requestOptions).then(handleResponse);
 }

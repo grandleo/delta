@@ -19,9 +19,6 @@
                 <a href="" class="cookie-bar__modal__close">
                     <img src="/images/img/close.png" alt="">
                 </a>
-                <div class="cookie-bar__modal__img">
-                    <img src="/images/img/cookie.png" alt="">
-                </div>
                 <p class="cookie-bar__modal__text">Мы используем cookie, чтобы вы могли эффективно пользоваться сайтом.</p>
                 <div class="cookie-bar__modal__btns">
                     <a href="" id="cookieBarMoreDetails" type="button" class="cookie-bar__link">подробнее</a>

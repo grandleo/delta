@@ -80,9 +80,13 @@ Route::prefix('v1/manager')
         Route::resource('user', 'UserApiController')->only([
             'show',
         ]);
+        Route::get('tables/{id}/restore', 'TableApiController@restore');
         Route::resource('tables', 'TableApiController')->only([
             'index', 'show', 'update', 'destroy',
         ]);
+
+        Route::get('workers/{id}/restore', 'WorkerApiController@restore');
+
         Route::resource('workers', 'WorkerApiController')->only([
             'index', 'show', 'update', 'destroy',
         ]);
