@@ -17,7 +17,7 @@
         <div class="col-12">
             <div class="mt-4">
                 <p class="mb-0">Всего ресторанов</p>
-                <h4 class="font-size-36 dark-blue font-weight-900">{{$places->count()}}</h4>
+                <h4 class="font-size-36 dark-blue font-weight-900">{{$places->total()}}</h4>
             </div>
             <div class="d-flex justify-content-between table-content">
 
@@ -26,7 +26,7 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Название заведения</th>
-                        <th scope="col">Название заведения</th>
+                        <th scope="col">Администратор</th>
                         <th scope="col">Login</th>
                         <th scope="col">Создан</th>
                         <th scope="col">Средств на счету</th>
@@ -41,7 +41,7 @@
                             <td>{{$place->manager->name}}</td>
                             <td>{{$place->slug}}</td>
                             <td>{{$place->created_at}}</td>
-                            <td>{{isset($place->params['rating_avg']) ? $place->params['rating_avg'] : 0 }} P / {{isset($place->params['prices_from']) ? $place->params['prices_from'] : 0 }}</td>
+                            <td><span class="font-weight-bold">{{isset($place->params['rating_avg']) ? $place->params['rating_avg'] : 0 }}</span> P / {{isset($place->params['prices_from']) ? $place->params['prices_from'] : 0 }}</td>
                             <td>
                                 <a class="btn btn-sm btn-sm-control mr-1" href="{{ route('admin.places.show', ['place' => $place->id]) }}">
                                     <img src="/images/icon/pencil.svg" alt="edit"/>
@@ -55,6 +55,7 @@
                     </tbody>
                 </table>
             </div>
+            {{ $places->links('vendor.pagination.bootstrap-4') }}
         </div>
     </div>
 @endsection

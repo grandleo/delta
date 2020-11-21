@@ -26,7 +26,7 @@
             </div>
             <div class="col-auto">
                 <div class="form-group">
-                    <button class="btn btn-primary">+ Добавить стол</button>
+                    <button class="btn btn-primary">Создать новый заказ</button>
                 </div>
             </div>
         </div>

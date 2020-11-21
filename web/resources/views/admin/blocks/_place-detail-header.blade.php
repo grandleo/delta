@@ -6,7 +6,7 @@
     <div class="place-detail__nav">
         <ul class="nav" id="placeDetailTab" role="tablist">
             <li class="nav-item place-detail__nav-item" role="presentation">
-                <a class="nav-link" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="true">Заказы <span class="place-detail__nav-item__result-count">12</span></a>
+                <a class="nav-link" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="true">Заказы <span class="place-detail__nav-item__result-count">{{$place->orders->count()}}</span></a>
             </li>
             <li class="nav-item place-detail__nav-item active">
                 <a class="nav-link" id="workers-tab" data-toggle="tab" href="#workers" role="tab" aria-controls="workers" aria-selected="true">Официанты <span class="place-detail__nav-item__result-count">{{$place->workers->count()}}</span></a>

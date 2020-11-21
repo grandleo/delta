@@ -1,5 +1,5 @@
 // Variables
-@import '../variables';
+@import 'variables';
 
 @import "../_mixins";
 @import '../fonts-local';
@@ -15,6 +15,7 @@
 @import "blocks/table";
 @import "blocks/modal";
 @import "blocks/orders";
+@import "blocks/button";
 
 //pages
 @import "pages/dashboard";

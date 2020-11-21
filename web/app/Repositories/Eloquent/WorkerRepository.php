@@ -6,6 +6,7 @@ use App\Repositories\WorkerRepositoryInterface;
 
 use App\Models\Worker;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class WorkerRepository extends BaseRepository implements WorkerRepositoryInterface
 {
@@ -89,6 +90,7 @@ class WorkerRepository extends BaseRepository implements WorkerRepositoryInterfa
             $model->delete();
         }
         else {
+            DB::table('table_worker')->where('worker_id', $id)->delete();
             $model->forceDelete();
         }
         return true;
