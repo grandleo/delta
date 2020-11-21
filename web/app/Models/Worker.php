@@ -75,6 +75,10 @@ class Worker extends Authenticatable
         return $this->belongsToMany('App\Models\Table');
     }
 
+    public function worker_shift() {
+        $worker_shifts = collect($this->place->params['worker_shifts']);
+        return $worker_shifts->where('key', $this->params['shift_key'])->first();
+    }
     /**
      * The channels the user receives notification broadcasts on.
      *

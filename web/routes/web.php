@@ -19,7 +19,7 @@ Route::group(['middleware' => 'admin.guest', 'prefix' => 'admin',  'as' => 'admi
 
 Route::group(['middleware' => 'admin.auth', 'prefix' => 'admin',  'as' => 'admin.'], function() {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('/places', App\Http\Controllers\Admin\PlaceController::class);
 });
 
 Route::get('/mid{marker_code}', [App\Http\Controllers\TableMarkerController::class, 'index'])

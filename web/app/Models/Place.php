@@ -63,6 +63,16 @@ class Place extends Model
         return $this->hasMany('App\Models\ProductCategory');
     }
 
+    public function workers()
+    {
+        return $this->hasMany('App\Models\Worker');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Models\Order');
+    }
+
 
     // METHODS
 

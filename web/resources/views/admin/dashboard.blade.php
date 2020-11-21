@@ -3,7 +3,7 @@
 @section('meta.title', 'Dashboard')
 
 @section('content')
-    <div class="row dashboard">
+    <div class="row dashboard wrapper-main">
         <div class="col-12">
             <div class="row m-0 dashboard__header-info">
                 <div class="col-xl-2 col-lg-3 col-md-3 d-flex align-items-center justify-content-center">

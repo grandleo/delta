@@ -12,9 +12,13 @@
 //blocks
 @import "blocks/header";
 @import "blocks/sidebar";
+@import "blocks/table";
+@import "blocks/modal";
+@import "blocks/orders";
 
 //pages
 @import "pages/dashboard";
+@import "pages/places";
 
 // components
 @import '../components/box-shadow';

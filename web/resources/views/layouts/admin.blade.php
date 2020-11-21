@@ -24,7 +24,7 @@
         <div class="col">
             <div class="row no-gutters">
                 <div class="container-fluid ">
-                    <div class="main">
+                    <div class="main position-relative">
 
                         @yield('content')
                     </div>

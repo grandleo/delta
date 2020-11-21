@@ -1,0 +1,12 @@
+.order-list {
+  margin-top: 35px;
+
+  &__item {
+    &__card {
+      padding: 21px 27px;
+      background: #FFFFFF;
+      box-shadow: -4px -2px 16px #FFFFFF, 4px 2px 16px rgba(136, 165, 191, 0.54);
+      border-radius: 9px;
+    }
+  }
+}
