@@ -27,4 +27,11 @@ interface WorkerRepositoryInterface
      * @return Worker|null
      */
     public function findWithTrashed($id): ?Worker;
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function destroy($id);
 }

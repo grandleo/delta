@@ -23,6 +23,9 @@
                 <a href="#">
                     <img src="{{ asset('images/admin/icon/notification.svg') }}" alt="">
                 </a>
+                <a href="">
+                    <span>выйти</span>
+                </a>
             </div>
         </div>
     </nav>

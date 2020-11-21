@@ -46,10 +46,9 @@ class WorkerApiController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @param $id
      *
-     * @param  $id
-     * @return \Illuminate\Http\Response
+     * @return WorkerResource|\Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -80,11 +79,10 @@ class WorkerApiController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @param Request $request
+     * @param         $id
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -152,19 +150,18 @@ class WorkerApiController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param $id
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $place = $this->getPlace();
 
-        $worker = $this->workerRepository->find($id);
+        $worker = $this->workerRepository->findWithTrashed($id);
         abort_if(!$worker || $worker->place_id !== $place->id, 403);
 
-        $this->workerRepository->delete($id);
+        $this->workerRepository->destroy($id);
 
         return response()->json([
             'status' => 'success',

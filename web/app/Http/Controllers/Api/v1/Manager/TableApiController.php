@@ -145,10 +145,10 @@ class TableApiController extends Controller
     {
         $place = $this->getPlace();
 
-        $table = $this->tableRepository->find($id);
+        $table = $this->tableRepository->findWithTrashed($id);
         abort_if(!$table || $table->place_id !== $place->id, 403);
 
-        $this->tableRepository->delete($id);
+        $this->tableRepository->destroy($id);
 
         return response()->json([
             'status' => 'success',

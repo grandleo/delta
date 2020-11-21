@@ -27,4 +27,11 @@ interface TableRepositoryInterface
      * @return Table|null
      */
     public function findWithTrashed($id): ?Table;
+
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function destroy($id);
 }

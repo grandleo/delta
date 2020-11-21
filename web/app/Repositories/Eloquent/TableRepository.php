@@ -6,6 +6,7 @@ use App\Repositories\TableRepositoryInterface;
 
 use App\Models\Table;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class TableRepository extends BaseRepository implements TableRepositoryInterface
 {
@@ -61,8 +62,32 @@ class TableRepository extends BaseRepository implements TableRepositoryInterface
         return $model;
     }
 
+    /**
+     * @param $id
+     *
+     * @return Table|null
+     */
     public function findWithTrashed($id) : ?Table
     {
         return $this->model->withTrashed()->find($id);
+    }
+
+
+    /**
+     * @param $id
+     *
+     * @return bool|mixed
+     */
+    public function destroy($id)
+    {
+        $model = $this->model->withTrashed()->find($id);
+        if(!$model->trashed()){
+            $model->delete();
+        }
+        else {
+            DB::table('table_worker')->where('table_id', $id)->delete();
+            $model->forceDelete();
+        }
+        return true;
     }
 }

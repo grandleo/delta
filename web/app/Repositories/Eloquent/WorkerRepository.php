@@ -67,9 +67,31 @@ class WorkerRepository extends BaseRepository implements WorkerRepositoryInterfa
         return $model;
     }
 
+    /**
+     * @param $id
+     *
+     * @return Worker|null
+     */
     public function findWithTrashed($id) : ?Worker
     {
         return $this->model->withTrashed()->find($id);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return bool|mixed
+     */
+    public function destroy($id)
+    {
+        $model = $this->model->withTrashed()->find($id);
+        if(!$model->trashed()){
+            $model->delete();
+        }
+        else {
+            $model->forceDelete();
+        }
+        return true;
     }
 
 }
