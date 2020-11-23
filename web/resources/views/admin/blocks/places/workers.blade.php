@@ -59,8 +59,8 @@
         </table>
     </div>
     @else
-        <div class="d-flex justify-content-between table-content">
-            <p>no data</p>
+        <div class="mt-5">
+            <p class="text-center">Официантов пока нет.</p>
         </div>
     @endif
 </div>
@@ -105,7 +105,7 @@
                         <label for="exampleFormControlSelect1">ФИО *</label>
                     </div>
                     <div class="form-group form-label-group">
-                        <select class="form-control" id="exampleFormControlSelect1">
+                        <select required class="form-control" id="exampleFormControlSelect1">
                             <option value="" selected disabled>Смена *</option>
                             <option value="">fds</option>
                         </select>

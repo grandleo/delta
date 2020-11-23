@@ -26,6 +26,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "bootstrap-select": "^1.13.18",
         "chart.js": "^2.9.4",
         "history": "^5.0.0",
         "laravel-echo": "^1.9.0",

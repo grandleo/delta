@@ -62,8 +62,8 @@
             </table>
         </div>
     @else
-        <div class="d-flex justify-content-between table-content">
-            <p>no data</p>
+        <div class="mt-5">
+            <p class="text-center">Столов пока нет.</p>
         </div>
     @endif
 </div>
@@ -78,30 +78,40 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ID">
+                <form class="form-1" id="createTableForm">
+                    @csrf
+                    <input type="hidden" value="{{$place->id}}" required class="form-control" name="place_id">
+
+                    <div class="form-group form-label-group">
+                        <input type="text" required class="form-control" id="id" placeholder="ID" name="marker_code">
+                        <label for="id">ID</label>
+
+                    </div>
+                    <div class="form-group form-label-group">
+                        <input name="name" type="text" class="form-control" id="name" placeholder="Номер стола">
+                        <label for="name">Номер стола</label>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Номер стола">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Закрепленный официант</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
+                        <select name="workers[]" id="workers" multiple class="selectpicker">
                             @foreach($place->workers as $worker)
                                 <option value="{{$worker->id}}">{{$worker->name}}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div>
-                        <label for="">
-                            Доступность стола для заказа
-                            <input type="checkbox">
-                        </label>
+                    <div class="form-group mt-4">
+                        <div class="d-flex justify-content-between align-items-center line-height-1">
+                            <div>
+                                <label role="button" for="isActive">Доступность стола для заказа</label>
+                            </div>
+                            <div class="form-control-switch-checkbox custom-control custom-switch">
+                                <input value="0" id="isActive" type="checkbox" name="active" class="custom-control-input"/>
+                                <label role="button" for="isActive" class="custom-control-label"></label>
+                            </div>
+                        </div>
                     </div>
                     <div class="w-100 form-btn px-0 d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
-                        <button type="button" class="btn btn-primary">Создать</button>
+                        <button type="submit" class="btn btn-primary">Создать</button>
                     </div>
                 </form>
             </div>

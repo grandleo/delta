@@ -325,6 +325,19 @@ body {
   padding: 40px 36px;
 }
 
+.bootstrap-select {
+  width: 100% !important;
+}
+
+.bootstrap-select > .dropdown-toggle {
+  background-color: #fff !important;
+}
+
+.bootstrap-select .filter-option {
+  display: flex;
+  align-items: center;
+}
+
 /*!
  * Bootstrap v4.5.2 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors
@@ -11731,6 +11744,12 @@ a.text-purple:focus {
   box-shadow: 0px 4px 10px rgba(16, 156, 241, 0.24);
 }
 
+.btn.btn-sm,
+.btn-group-sm > .btn {
+  padding: 0 8px !important;
+  height: 27px !important;
+}
+
 .dashboard__header-info {
   background: #DEE8F2;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
@@ -11805,6 +11824,10 @@ a.text-purple:focus {
   padding: 25px;
 }
 
+.dashboard .info-card__content {
+  padding: 35px;
+}
+
 .dashboard .info-card .total-stats__item span {
   font-weight: 500;
   font-size: 12px;
@@ -11831,7 +11854,7 @@ a.text-purple:focus {
   padding: 40px 60px;
 }
 
-.place-detail__link {
+.place-detail__link a {
   font-size: 12px;
   color: #4C5862;
 }

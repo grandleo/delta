@@ -3,8 +3,10 @@
     background-color: white;
     padding: 40px 60px;
     &__link {
-      font-size: 12px;
-      color: #4C5862;
+      a {
+        font-size: 12px;
+        color: #4C5862;
+      }
     }
     &__name {
       font-weight: bold;

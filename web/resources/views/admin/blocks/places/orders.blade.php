@@ -48,4 +48,9 @@
             </div>
         @endforeach
     </div>
+    @if(!$place->orders)
+        <div class="mt-5">
+            <p class="text-center">заказ пока нет.</p>
+        </div>
+    @endif
 </div>
