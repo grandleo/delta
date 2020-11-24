@@ -14,7 +14,7 @@
             </div>
             <div class="col-auto">
                 <div class="table-header__actions">
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#addTableModal">+ Добавить стол</button>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#addEditTableModal">+ Добавить стол</button>
                 </div>
             </div>
         </div>
@@ -24,8 +24,7 @@
 <div class="col-12">
     @if($place->tables->count())
         <div class="d-flex justify-content-between table-content">
-
-            <table class="table">
+            <table class="table" id="placeTables">
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -36,7 +35,7 @@
                     <th></th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody >
                 @foreach($place->tables as $table)
                     <tr>
                         <td scope="row">{{$table->id}}</td>
@@ -49,10 +48,10 @@
                         <td>{{$table->created_at}}</td>
                         <td>{{$table->status}}</td>
                         <td>
-                            <a class="btn btn-sm btn-sm-control mr-1">
+                            <button data-id="{{$table->id}}" data-toggle="modal" data-target="#addEditTableModal" class="btn btn-sm btn-sm-control mr-1">
                                 <img src="/images/icon/pencil.svg" alt="edit"/>
-                            </a>
-                            <button class="btn btn-light btn-sm btn-sm-control">
+                            </button>
+                            <button data-id="{{$table->id}}" class="place-tables-delete btn btn-light btn-sm btn-sm-control">
                                 <img src="/images/icon/trash.svg" alt="delete"/>
                             </button>
                         </td>
@@ -68,11 +67,11 @@
     @endif
 </div>
 
-<div class="modal fade" id="addTableModal" tabindex="-1" aria-labelledby="addTableModalLabel" aria-hidden="true">
+<div class="modal fade" id="addEditTableModal" tabindex="-1" aria-labelledby="addEditTableModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title font-weight-bold" id="addTableModalLabel">Добавить стол</h5>
+                <h5 class="modal-title font-weight-bold" id="addEditTableModalLabel">Добавить стол</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -81,6 +80,7 @@
                 <form class="form-1" id="createTableForm">
                     @csrf
                     <input type="hidden" value="{{$place->id}}" required class="form-control" name="place_id">
+                    <input type="hidden" required class="form-control" value="0" name="table_id">
 
                     <div class="form-group form-label-group">
                         <input type="text" required class="form-control" id="id" placeholder="ID" name="marker_code">
@@ -88,11 +88,11 @@
 
                     </div>
                     <div class="form-group form-label-group">
-                        <input name="name" type="text" class="form-control" id="name" placeholder="Номер стола">
+                        <input name="name" required type="text" class="form-control" id="name" placeholder="Номер стола">
                         <label for="name">Номер стола</label>
                     </div>
                     <div class="form-group">
-                        <select name="workers[]" id="workers" multiple class="selectpicker">
+                        <select name="workers[]" required id="workers" multiple class="selectpicker">
                             @foreach($place->workers as $worker)
                                 <option value="{{$worker->id}}">{{$worker->name}}</option>
                             @endforeach
@@ -104,7 +104,7 @@
                                 <label role="button" for="isActive">Доступность стола для заказа</label>
                             </div>
                             <div class="form-control-switch-checkbox custom-control custom-switch">
-                                <input value="0" id="isActive" type="checkbox" name="active" class="custom-control-input"/>
+                                <input checked value="0" id="isActive" type="checkbox" class="custom-control-input"/>
                                 <label role="button" for="isActive" class="custom-control-label"></label>
                             </div>
                         </div>
@@ -118,3 +118,13 @@
         </div>
     </div>
 </div>
+
+
+<script id="placeTablesTableButtons" class="template-container" type="text/template">
+    <button data-id="%id%" data-toggle="modal" data-target="#addEditTableModal" class="btn btn-sm btn-sm-control mr-1">
+        <img src="/images/icon/pencil.svg" alt="edit"/>
+    </button>
+    <button data-id="%id%" class="place-tables-delete btn btn-light btn-sm btn-sm-control">
+        <img src="/images/icon/trash.svg" alt="delete"/>
+    </button>
+</script>

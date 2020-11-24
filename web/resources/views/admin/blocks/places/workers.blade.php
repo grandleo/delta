@@ -14,7 +14,7 @@
             </div>
             <div class="col-auto">
                 <div class="table-header__actions">
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#addWorkerModal">+ Добавить официанта</button>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#addEditWorkerModal">+ Добавить официанта</button>
                 </div>
             </div>
         </div>
@@ -23,8 +23,7 @@
 <div class="col-12">
     @if($place->workers->count())
         <div class="d-flex justify-content-between table-content">
-
-        <table class="table">
+        <table class="table" id="placeWorkersTable">
             <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -65,11 +64,11 @@
     @endif
 </div>
 
-<div class="modal fade" id="addWorkerModal" tabindex="-1" aria-labelledby="addWorkerModal" aria-hidden="true">
+<div class="modal fade" id="addEditWorkerModal" tabindex="-1" aria-labelledby="addEditWorkerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title font-weight-bold" id="addTableModalLabel">Добавить официанта</h5>
+                <h5 class="modal-title font-weight-bold" id="addEditWorkerModalLabel">Добавить официанта</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

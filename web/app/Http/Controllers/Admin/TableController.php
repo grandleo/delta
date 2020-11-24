@@ -3,10 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\PlaceRepositoryInterface;
 use Illuminate\Http\Request;
+use App\Repositories\TableRepositoryInterface;
+use Illuminate\Support\Facades\Validator;
 
 class TableController extends Controller
 {
+    private $tableRepository;
+    private $placeRepository;
+
+    public function __construct(
+        PlaceRepositoryInterface $placeRepository,
+        TableRepositoryInterface $tableRepository
+    )
+    {
+        $this->placeRepository = $placeRepository;
+        $this->tableRepository = $tableRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -28,15 +42,14 @@ class TableController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @param Request $request
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        dd($request->all());
-        $reqData = $request->validate([
+
+        $validator = Validator::make($request->all(),[
             'place_id'    => 'required',
             'marker_code' => 'nullable|string|min:1|max:10',
             'name'        => 'required|string|min:2|max:250',
@@ -47,15 +60,51 @@ class TableController extends Controller
             'workers.*' => 'required|numeric',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $reqData = $request->all();
+
         $tableWithSameCode = $this->tableRepository->findByWhere([
-            ['id', '!=', 54],
+            ['id', '!=', $reqData['table_id']],
             ['marker_code', '=', $reqData['marker_code']],
         ]);
         if ($tableWithSameCode) {
             return response()->json([
-                __('Данный код уже используется.')
-            ], 200);
+                'marker_code' => [__('Данный код уже используется.')],
+            ], 400);
         }
+
+        $isNew = $reqData['table_id'] == '0';
+
+        $place = $this->getPlace($reqData['place_id']);
+
+        if ($isNew) {
+            $table = $this->tableRepository->create($reqData);
+
+            $reqData_loc = [
+                'active' => $reqData['active'],
+                'workers' => $reqData['workers'],
+            ];
+            $this->tableRepository->updateFromForm($table->id, $reqData_loc);
+        } else {
+            $table = $this->tableRepository->find($reqData['table_id']);
+            if (!$table || $table->place_id !== $place->id)
+            return response()->json([
+                'status' => 'success',
+                'error' => 'Server Error!',
+            ], 403);
+
+            $this->tableRepository->updateFromForm($reqData['table_id'], $reqData);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => $isNew ? __('Стол создан') : __('Успешно сохранено'),
+            'table' => $table->load('workers')
+        ]);
+
     }
 
     /**
@@ -93,13 +142,30 @@ class TableController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param $id
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        //
+
+        $table = $this->tableRepository->findWithTrashed($id);
+        if (!$table) {
+            return response()->json([
+                'error' => __('Стол не найден'),
+            ],400);
+        }
+
+        $this->tableRepository->destroy($id);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => __('Стол удалён'),
+        ]);
+    }
+
+    private function getPlace($place_id = null)
+    {
+        return $this->placeRepository->find($place_id);
     }
 }

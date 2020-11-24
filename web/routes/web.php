@@ -21,7 +21,7 @@ Route::group(['middleware' => 'admin.auth', 'prefix' => 'admin',  'as' => 'admin
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/places', App\Http\Controllers\Admin\PlaceController::class);
     Route::resource('/worker', App\Http\Controllers\Admin\WorkerController::class);
-    Route::post('/table', [App\Http\Controllers\Admin\TableController::class, 'store']);
+    Route::resource('/table', App\Http\Controllers\Admin\TableController::class);
 });
 
 Route::get('/mid{marker_code}', [App\Http\Controllers\TableMarkerController::class, 'index'])

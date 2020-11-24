@@ -9,6 +9,9 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+@import "~toastr/build/toastr.min.css";
+@import '~sweetalert2/src/sweetalert2.scss';
+
 //blocks
 @import "blocks/header";
 @import "blocks/sidebar";
@@ -16,6 +19,8 @@
 @import "blocks/modal";
 @import "blocks/orders";
 @import "blocks/button";
+@import "blocks/toast";
+@import "blocks/data-tables";
 
 //pages
 @import "pages/dashboard";
