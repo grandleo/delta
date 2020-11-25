@@ -55,7 +55,7 @@ class Place extends Model
 
     public function tables()
     {
-        return $this->hasMany('App\Models\Table');
+        return $this->hasMany('App\Models\Table')->orderby('deleted_at', 'ASC')->withTrashed();
     }
 
     public function productCategories()
@@ -65,14 +65,13 @@ class Place extends Model
 
     public function workers()
     {
-        return $this->hasMany('App\Models\Worker');
+        return $this->hasMany('App\Models\Worker')->orderby('deleted_at', 'ASC')->withTrashed();
     }
 
     public function orders()
     {
         return $this->hasMany('App\Models\Order');
     }
-
 
     // METHODS
 

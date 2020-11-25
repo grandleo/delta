@@ -13388,6 +13388,10 @@ body.swal2-toast-column .swal2-toast .swal2-validation-message {
   width: 100%;
 }
 
+.dataTables_filter {
+  display: none;
+}
+
 .dashboard__header-info {
   background: #DEE8F2;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);

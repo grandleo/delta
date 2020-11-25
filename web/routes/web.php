@@ -22,6 +22,8 @@ Route::group(['middleware' => 'admin.auth', 'prefix' => 'admin',  'as' => 'admin
     Route::resource('/places', App\Http\Controllers\Admin\PlaceController::class);
     Route::resource('/worker', App\Http\Controllers\Admin\WorkerController::class);
     Route::resource('/table', App\Http\Controllers\Admin\TableController::class);
+    Route::get('/table/{id}/restore', [App\Http\Controllers\Admin\TableController::class, 'restore']);
+    Route::get('/worker/{id}/restore', [App\Http\Controllers\Admin\WorkerController::class, 'restore']);
 });
 
 Route::get('/mid{marker_code}', [App\Http\Controllers\TableMarkerController::class, 'index'])

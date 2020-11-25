@@ -34,7 +34,7 @@ class Worker extends Authenticatable
         'place_id',
         'name', 'email', 'password',
         'name_full', 'phone',
-        'image',
+        'image', 'params'
     ];
 
     /**

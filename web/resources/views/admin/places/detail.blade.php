@@ -23,5 +23,15 @@
         </div>
 
     </div>
+
+    <script id="placeTableButtons" class="template-container" type="text/template">
+        <button data-id="%id%" data-toggle="modal" data-target="#addEditTableModal" class="btn btn-sm btn-sm-control mr-1">
+            <img src="/images/icon/pencil.svg" alt="edit"/>
+        </button>
+        <button data-id="%id%" class="place-tables-delete btn btn-light btn-sm btn-sm-control">
+            <img src="/images/icon/trash.svg" alt="delete"/>
+        </button>
+    </script>
+
 @endsection
 

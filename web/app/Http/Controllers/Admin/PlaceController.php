@@ -50,6 +50,7 @@ class PlaceController extends Controller
     public function show($id)
     {
         $place = Place::with('workers')->find($id);
+        $place['worker_shifts'] = $place->getJson('params', 'worker_shifts', []);
         return view('admin.places.detail', compact('place'));
 
     }

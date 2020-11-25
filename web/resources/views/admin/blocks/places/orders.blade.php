@@ -48,7 +48,7 @@
             </div>
         @endforeach
     </div>
-    @if(!$place->orders)
+    @if(!$place->orders->count())
         <div class="mt-5">
             <p class="text-center">заказ пока нет.</p>
         </div>

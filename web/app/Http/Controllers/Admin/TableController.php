@@ -148,11 +148,11 @@ class TableController extends Controller
      */
     public function destroy($id)
     {
-
         $table = $this->tableRepository->findWithTrashed($id);
         if (!$table) {
             return response()->json([
-                'error' => __('Стол не найден'),
+                'status' => 'error',
+                'message' => __('Стол не найден'),
             ],400);
         }
 
@@ -161,6 +161,29 @@ class TableController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => __('Стол удалён'),
+        ]);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restore($id)
+    {
+        $table = $this->tableRepository->findWithTrashed($id);
+        if (!$table) {
+            return response()->json([
+                'status' => 'success',
+                'message' => __('Стол не найден'),
+            ], 404);
+        }
+
+        $table->restore();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => __('Стол восстановлен'),
         ]);
     }
 

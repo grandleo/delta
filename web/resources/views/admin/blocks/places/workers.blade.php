@@ -6,7 +6,7 @@
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Поиск">
+                    <input class="form-control" id="placeWorkersTableSearch" type="text" placeholder="Поиск">
                     <a class="search-btn">
                         <img src="/images/icon/search-admin.svg" alt="">
                     </a>
@@ -41,14 +41,20 @@
                     <td scope="row">{{$worker->id}}</td>
                     <td>{{$worker->name}}</td>
                     <td>{{$worker->email}}</td>
-                    <td>{{$worker->created_at}}</td>
-                    <td>{{$worker->worker_shift() ? $worker->worker_shift()['name'] : ""}}</td>
+                    <td>{{date('m-d-yy', strtotime($worker->created_at))}}</td>
+                    <td>{{$worker->worker_shift() ? $worker->worker_shift()['name'] . ' (' . $worker->worker_shift()['from'] . ' - ' . $worker->worker_shift()['until'] . ')'  : ""}}</td>
                     <td>{{$worker->phone}}</td>
                     <td>
-                        <a class="btn btn-sm btn-sm-control mr-1" href="{{ route('admin.places.show', ['place' => $place->id]) }}">
-                            <img src="/images/icon/pencil.svg" alt="edit"/>
-                        </a>
-                        <button class="btn btn-light btn-sm btn-sm-control">
+                        @if($worker->deleted_at)
+                            <button data-id="{{$worker->id}}" type="button" class="restore-place-worker btn btn-sm btn-sm-control mr-1" href="{{ route('admin.places.show', ['place' => $place->id]) }}">
+                                <img class="w-75" src="/images/icon/restore.svg" alt="restore" />
+                            </button>
+                        @else
+                            <a data-id="{{$worker->id}}" class="btn btn-sm btn-sm-control mr-1" href="{{ route('admin.places.show', ['place' => $place->id]) }}">
+                                <img src="/images/icon/pencil.svg" alt="edit"/>
+                            </a>
+                        @endif
+                        <button data-id="{{$worker->id}}" class="delete-place-worker btn btn-light btn-sm btn-sm-control">
                             <img src="/images/icon/trash.svg" alt="delete"/>
                         </button>
                     </td>
@@ -63,7 +69,6 @@
         </div>
     @endif
 </div>
-
 <div class="modal fade" id="addEditWorkerModal" tabindex="-1" aria-labelledby="addEditWorkerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -74,20 +79,23 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-1">
+                <form class="form-1" id="createPlaceWorkerForm">
+                    @csrf
+                    <input type="hidden" id="placeWorkerID" value="0" required class="form-control" name="worker_id">
+                    <input type="hidden" value="{{$place->id}}" required class="form-control" name="place_id">
                     <legend class="col-form-label font-weight-bold">Общая информация</legend>
                     <div class="form-group form-control-manager-image w-25">
                         <input
-                                id="current-form.image"
+                                id="placeWorkerImageUpload"
                                 type="file"
-                                name="image_new"
+                                name="image"
                                 accept="image/x-png,image/gif,image/jpeg"
                                 class="d-none"
                         />
-{{--                        <label for="current-form.image" role="button" class="d-block m-0 py-2 text-center">--}}
-{{--                            <img alt="photo" class="img-fluid" />--}}
-{{--                        </label>--}}
-                        <label for="current-form.image" role="button" class="d-block m-0 py-4 text-center">
+                        <label for="placeWorkerImageUpload" id="placeWorkerNewImageLabel" role="button" class="d-none m-0 py-1 text-center">
+                            <img alt="photo" class="img-fluid" id="placeWorkerNewImage"/>
+                        </label>
+                        <label for="placeWorkerImageUpload" role="button" class="m-0 p-5 text-center">
                             + Прикрепите фото
                         </label>
                     </div>
@@ -100,59 +108,65 @@
                         <label for="exampleFormControlSelect1">Ресторан (на будущее)</label>
                     </div>
                     <div class="form-group form-label-group">
-                        <input required type="text" class="form-control" id="exampleFormControlInput1" placeholder="ФИО *">
-                        <label for="exampleFormControlSelect1">ФИО *</label>
+                        <input required type="text" name="name_full" class="form-control" id="nameFull" placeholder="ФИО *">
+                        <label for="nameFull">ФИО *</label>
                     </div>
                     <div class="form-group form-label-group">
-                        <select required class="form-control" id="exampleFormControlSelect1">
+                        <input required type="text" name="name" class="form-control" id="name" placeholder="Краткое имя (для отображения в чате) *">
+                        <label for="name">Краткое имя (для отображения в чате) *</label>
+                    </div>
+                    <div class="form-group form-label-group">
+                        <select name="shift_key" required class="form-control" id="exampleFormControlSelect1">
                             <option value="" selected disabled>Смена *</option>
-                            <option value="">fds</option>
+                            @foreach($place->worker_shifts as $worker_shift)
+                                <option value="{{$worker_shift['key']}}">{{$worker_shift['name'] . '(' . $worker_shift['from'] . ' - ' . $worker_shift['until'] . ')' }}</option>
+                            @endforeach
                         </select>
                         <label for="exampleFormControlSelect1">Смена *</label>
                     </div>
                     <legend class="col-form-label font-weight-bold">Контактная информация (на будущее)</legend>
                     <div class="form-group form-label-group">
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Телефон">
+                        <input type="text" name="phone" class="form-control" id="exampleFormControlInput1" placeholder="Телефон">
                         <label for="exampleFormControlSelect1">Телефон</label>
                     </div>
                     <div class="form-group form-label-group">
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Номер карты">
+                        <input type="text" name="card_number" class="form-control" id="exampleFormControlInput1" placeholder="Номер карты">
                         <label for="exampleFormControlSelect1">Номер карты</label>
                     </div>
 
                     <legend class="col-form-label font-weight-bold">Данные для авторизации в системе</legend>
                     <div class="form-group form-label-group">
-                        <input required type="text" class="form-control" id="exampleFormControlInput1" placeholder="Логин *">
-                        <label for="exampleFormControlSelect1">Логин *</label>
+                        <input required name="email" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Email *">
+                        <label for="exampleFormControlSelect1">Email *</label>
                     </div>
                     <div class="form-group form-label-group">
-                        <input required type="text" class="form-control" id="exampleFormControlInput1" placeholder="Пароль *">
+                        <input required name="password" type="password" class="form-control" id="exampleFormControlInput1" placeholder="Пароль *">
                         <label for="exampleFormControlSelect1">Пароль *</label>
                     </div>
 
                     <div class="form-group form-label-group">
-                        <input required type="text" class="form-control" id="exampleFormControlInput1" placeholder="Повторите пароль *">
+                        <input required name="password_confirmation" type="password" class="form-control" id="exampleFormControlInput1" placeholder="Повторите пароль *">
                         <label for="exampleFormControlSelect1">Повторите пароль *</label>
                     </div>
                     <div class="form-group mt-4">
                         <div class="d-flex justify-content-between align-items-center line-height-1">
                             <div>
-                                <label role="button" for="active">Возможность авторизоваться</label>
+                                <label role="button" for="isActiveWorker">Возможность авторизоваться</label>
                             </div>
                             <div class="form-control-switch-checkbox custom-control custom-switch">
-                                <input id="active" type="checkbox" name="active" class="custom-control-input"/>
-                                <label role="button" for="active" class="custom-control-label"></label>
+                                <input id="isActiveWorker" type="checkbox" name="active" class="custom-control-input"/>
+                                <label role="button" for="isActiveWorker" class="custom-control-label"></label>
                             </div>
                         </div>
                     </div>
                     <div class="form-group mt-4">
                         <div class="d-flex justify-content-between align-items-center line-height-1">
                             <div>
-                                <label role="button" for="seeAllOrders">Все заказы</label>
+                                <label role="button" for="placeWorkerSeeAllOrders">Все заказы</label>
                             </div>
                             <div class="form-control-switch-checkbox custom-control custom-switch">
-                                <input id="seeAllOrders" type="checkbox" name="active" class="custom-control-input"/>
-                                <label role="button" for="seeAllOrders" class="custom-control-label"></label>
+                                <input id="placeWorkerSeeAllOrders" type="checkbox" name="orders_see_all" class="custom-control-input"/>
+                                <label role="button" for="placeWorkerSeeAllOrders" class="custom-control-label"></label>
                             </div>
                         </div>
                     </div>

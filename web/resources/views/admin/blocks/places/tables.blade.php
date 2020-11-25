@@ -6,7 +6,7 @@
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Поиск">
+                    <input id="placeTablesSearchInput" class="form-control" type="text" placeholder="Поиск">
                     <a class="search-btn">
                         <img src="/images/icon/search-admin.svg" alt="">
                     </a>
@@ -45,12 +45,19 @@
                                 <p class="m-0">{{$worker->name_full}}</p>
                             @endforeach
                         </td>
-                        <td>{{$table->created_at}}</td>
+                        <td>{{date('m-d-yy', strtotime($table->created_at))}}</td>
                         <td>{{$table->status}}</td>
                         <td>
-                            <button data-id="{{$table->id}}" data-toggle="modal" data-target="#addEditTableModal" class="btn btn-sm btn-sm-control mr-1">
-                                <img src="/images/icon/pencil.svg" alt="edit"/>
-                            </button>
+                            @if($table->deleted_at)
+                                <button data-id="{{$table->id}}" type="button" class="restore-place-table btn btn-sm btn-sm-control mr-1" href="{{ route('admin.places.show', ['place' => $place->id]) }}">
+                                    <img class="w-75" src="/images/icon/restore.svg" alt="restore" />
+                                </button>
+                            @else
+                                <button data-id="{{$table->id}}" data-toggle="modal" data-target="#addEditTableModal" class="btn btn-sm btn-sm-control mr-1">
+                                    <img src="/images/icon/pencil.svg" alt="edit"/>
+                                </button>
+                            @endif
+
                             <button data-id="{{$table->id}}" class="place-tables-delete btn btn-light btn-sm btn-sm-control">
                                 <img src="/images/icon/trash.svg" alt="delete"/>
                             </button>
@@ -118,13 +125,3 @@
         </div>
     </div>
 </div>
-
-
-<script id="placeTablesTableButtons" class="template-container" type="text/template">
-    <button data-id="%id%" data-toggle="modal" data-target="#addEditTableModal" class="btn btn-sm btn-sm-control mr-1">
-        <img src="/images/icon/pencil.svg" alt="edit"/>
-    </button>
-    <button data-id="%id%" class="place-tables-delete btn btn-light btn-sm btn-sm-control">
-        <img src="/images/icon/trash.svg" alt="delete"/>
-    </button>
-</script>
