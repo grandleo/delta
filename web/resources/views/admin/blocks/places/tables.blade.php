@@ -53,7 +53,7 @@
                                     <img class="w-75" src="/images/icon/restore.svg" alt="restore" />
                                 </button>
                             @else
-                                <button data-id="{{$table->id}}" data-toggle="modal" data-target="#addEditTableModal" class="btn btn-sm btn-sm-control mr-1">
+                                <button data-id="{{$table->id}}" data-toggle="modal" data-target="#addEditTableModal" class="edit-place-table btn btn-sm btn-sm-control mr-1">
                                     <img src="/images/icon/pencil.svg" alt="edit"/>
                                 </button>
                             @endif
@@ -92,7 +92,6 @@
                     <div class="form-group form-label-group">
                         <input type="text" required class="form-control" id="id" placeholder="ID" name="marker_code">
                         <label for="id">ID</label>
-
                     </div>
                     <div class="form-group form-label-group">
                         <input name="name" required type="text" class="form-control" id="name" placeholder="Номер стола">

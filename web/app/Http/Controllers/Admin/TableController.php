@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Manager\TableResource;
+use App\Http\Resources\Manager\WorkerShortResource;
 use App\Repositories\PlaceRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Repositories\TableRepositoryInterface;
@@ -108,14 +110,24 @@ class TableController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @param $id
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return TableResource|\Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        //
+        $table = $this->tableRepository->find($id, ['workers']);
+
+        if (!$table) {
+            return response()->json([
+                'status' => 'error',
+                'message' => __('Стол не найден'),
+            ],400);
+        }
+        return response()->json([
+            'status' => 'error',
+            'table' => $table,
+        ],200);
     }
 
     /**

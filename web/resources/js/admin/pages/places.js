@@ -27,6 +27,14 @@ $(document).ready(function () {
     placeDataTable.search(this.value).draw();
   });
 
+  $('#addEditTableModal').on( 'click', function () {
+    var createTableForm = $("#createTableForm");
+
+    createTableForm.find("[name='table_id']").val(0);
+    createTableForm.find("[name='marker_code']").val("");
+    createTableForm.find("[name='name']").val("");
+  });
+
   var createTableForm = document.getElementById("createTableForm");
   createTableForm.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -110,7 +118,7 @@ $(document).ready(function () {
     }).then((result) => {
       if (result.isConfirmed) {
         var table_id = $(this).data('id');
-        axios.delete('/admin/table/' + table_id + '',)
+        axios.delete('/admin/table/' + table_id + '/restore',)
           .then(response => {
             toastr.success(response.data.message);
             console.log(placeDataTable.row($(this).parents('tr')));
@@ -126,6 +134,30 @@ $(document).ready(function () {
       }
     })
   })
+
+  $(document).on('click', '.edit-place-table', function (e) {
+    e.preventDefault();
+    var table_id = $(this).data('id');
+    axios.get('/admin/table/' + table_id,).then(response => {
+      let data = response.data.table;
+      var createTableForm = $("#createTableForm");
+      createTableForm.find("[name='table_id']").val(data.id);
+      createTableForm.find("[name='marker_code']").val(data.marker_code);
+      createTableForm.find("[name='name']").val(data.name);
+      $('#workers').val(4);
+      console.log($('#workers'));
+
+    }).catch((error) => {
+      console.log(error);
+      let errors = error.response.data;
+      if (typeof errors === 'object' && errors !== null) {
+        let firstErrorKey = Object.keys(errors)[0];
+        toastr.error(errors[firstErrorKey])
+        return false;
+      }
+      toastr.error(error.response.data)
+    });
+  });
 
   // place workers
   var placeWorkersTable = $('#placeWorkersTable');
