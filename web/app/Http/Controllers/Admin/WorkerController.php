@@ -79,16 +79,15 @@ class WorkerController extends Controller
         $file = $request->file('image');
         if ($file) {
             $fileName = time();
-//            $res = [];
 
             $path = 'places/'.$request->place_id;
-//            Storage::disk('public')->makeDirectory($path);
-//            $img = Image::make($file);
-//
-//            $fileName = 'wk-'.$fileName;
-//            $img->fit(120);
-//
-//            $img->save('storage/'.$path.'/'.$fileName.'.jpg');
+            Storage::disk('public')->makeDirectory($path);
+            $img = Image::make($file);
+
+            $fileName = 'wk-'.$fileName;
+            $img->fit(120);
+
+            $img->save('storage/'.$path.'/'.$fileName.'.jpg');
             $reqData['image'] = $path.'/'.$fileName.'.jpg';
         }
 
@@ -128,14 +127,24 @@ class WorkerController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @param $id
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        //
+        $worker = $this->workerRepository->find($id);
+
+        if (!$worker) {
+            return response()->json([
+                'status' => 'error',
+                'message' => __('Официант не найден'),
+            ],400);
+        }
+        return response()->json([
+            'status' => 'error',
+            'worker' => $worker,
+        ],200);
     }
 
     /**

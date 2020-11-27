@@ -81,7 +81,6 @@ class TableController extends Controller
         $isNew = $reqData['table_id'] == '0';
 
         $place = $this->getPlace($reqData['place_id']);
-
         if ($isNew) {
             $table = $this->tableRepository->create($reqData);
 
@@ -169,10 +168,11 @@ class TableController extends Controller
         }
 
         $this->tableRepository->destroy($id);
-
+        $table = $this->tableRepository->findWithTrashed($id);
         return response()->json([
             'status' => 'success',
             'message' => __('Стол удалён'),
+            'table' => $table
         ]);
     }
 
@@ -196,6 +196,7 @@ class TableController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => __('Стол восстановлен'),
+            'table' => $table,
         ]);
     }
 

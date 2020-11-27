@@ -58,7 +58,6 @@ class TableRepository extends BaseRepository implements TableRepositoryInterface
         }
 
         $model->save();
-
         return $model;
     }
 
@@ -69,7 +68,7 @@ class TableRepository extends BaseRepository implements TableRepositoryInterface
      */
     public function findWithTrashed($id) : ?Table
     {
-        return $this->model->withTrashed()->find($id);
+        return $this->model->with(['workers'])->withTrashed()->find($id);
     }
 
 

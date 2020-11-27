@@ -14,7 +14,7 @@
             </div>
             <div class="col-auto">
                 <div class="table-header__actions">
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#addEditTableModal">+ Добавить стол</button>
+                    <button id="openAddEditTableModal" class="btn btn-primary" data-toggle="modal" data-target="#addEditTableModal">+ Добавить стол</button>
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
                 </thead>
                 <tbody >
                 @foreach($place->tables as $table)
-                    <tr>
+                    <tr data-index="{{ $loop->index }}">
                         <td scope="row">{{$table->id}}</td>
                         <td>{{$table->name}}</td>
                         <td>
@@ -49,7 +49,7 @@
                         <td>{{$table->status}}</td>
                         <td>
                             @if($table->deleted_at)
-                                <button data-id="{{$table->id}}" type="button" class="restore-place-table btn btn-sm btn-sm-control mr-1" href="{{ route('admin.places.show', ['place' => $place->id]) }}">
+                                <button data-id="{{$table->id}}" type="button" class="restore-place-table btn btn-sm btn-sm-control mr-1">
                                     <img class="w-75" src="/images/icon/restore.svg" alt="restore" />
                                 </button>
                             @else
@@ -100,7 +100,9 @@
                     <div class="form-group">
                         <select name="workers[]" required id="workers" multiple class="selectpicker">
                             @foreach($place->workers as $worker)
-                                <option value="{{$worker->id}}">{{$worker->name}}</option>
+                                @if($worker->deleted_at == null)
+                                    <option value="{{$worker->id}}">{{$worker->name}}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -124,3 +126,21 @@
         </div>
     </div>
 </div>
+
+<script id="placeTableButtons" class="template-container" type="text/template">
+    <button data-id="%id%" data-toggle="modal" data-target="#addEditTableModal" class="edit-place-table btn btn-sm btn-sm-control mr-1">
+        <img src="/images/icon/pencil.svg" alt="edit"/>
+    </button>
+    <button data-id="%id%" class="place-tables-delete btn btn-light btn-sm btn-sm-control">
+        <img src="/images/icon/trash.svg" alt="delete"/>
+    </button>
+</script>
+
+<script id="placeTableResetButtons" class="template-container" type="text/template">
+    <button data-id="%id%" type="button" class="restore-place-table btn btn-sm btn-sm-control mr-1">
+        <img class="w-75" src="/images/icon/restore.svg" alt="restore" />
+    </button>
+    <button data-id="%id%" class="place-tables-delete btn btn-light btn-sm btn-sm-control">
+        <img src="/images/icon/trash.svg" alt="delete"/>
+    </button>
+</script>

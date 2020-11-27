@@ -37,7 +37,7 @@
             </thead>
             <tbody>
             @foreach($place->workers as $worker)
-                <tr>
+                <tr data-index="{{ $loop->index }}">
                     <td scope="row">{{$worker->id}}</td>
                     <td>{{$worker->name}}</td>
                     <td>{{$worker->email}}</td>
@@ -50,9 +50,9 @@
                                 <img class="w-75" src="/images/icon/restore.svg" alt="restore" />
                             </button>
                         @else
-                            <a data-id="{{$worker->id}}" class="btn btn-sm btn-sm-control mr-1" href="{{ route('admin.places.show', ['place' => $place->id]) }}">
+                            <button data-toggle="modal" data-target="#addEditWorkerModal" data-id="{{$worker->id}}" class="edit-place-worker btn btn-sm btn-sm-control mr-1">
                                 <img src="/images/icon/pencil.svg" alt="edit"/>
-                            </a>
+                            </button>
                         @endif
                         <button data-id="{{$worker->id}}" class="delete-place-worker btn btn-light btn-sm btn-sm-control">
                             <img src="/images/icon/trash.svg" alt="delete"/>
@@ -103,7 +103,6 @@
                     <div class="form-group form-label-group">
                         <select class="form-control" id="exampleFormControlSelect1">
                                 <option value="" selected disabled>Ресторан (на будущее)</option>
-                                <option value="">fds</option>
                         </select>
                         <label for="exampleFormControlSelect1">Ресторан (на будущее)</label>
                     </div>

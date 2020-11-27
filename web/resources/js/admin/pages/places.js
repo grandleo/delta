@@ -7,7 +7,7 @@ import moment from 'moment'
 $(document).ready(function () {
   // place tables
   var placeTables = $('#placeTables');
-
+  var editedIndex = 0;
   if (placeTables) {
     var placeDataTable = placeTables.DataTable({
       searching: true,
@@ -23,13 +23,12 @@ $(document).ready(function () {
     });
   }
 
-  $('#placeTablesSearchInput').on( 'keyup', function () {
+  $('#placeTablesSearchInput').on('keyup', function () {
     placeDataTable.search(this.value).draw();
   });
 
-  $('#addEditTableModal').on( 'click', function () {
+  $('#openAddEditTableModal').on('click', function () {
     var createTableForm = $("#createTableForm");
-
     createTableForm.find("[name='table_id']").val(0);
     createTableForm.find("[name='marker_code']").val("");
     createTableForm.find("[name='name']").val("");
@@ -40,40 +39,46 @@ $(document).ready(function () {
     e.preventDefault();
     var formData = new FormData(createTableForm);
     formData.append('active', ($("#isActive").prop('checked') ? 1 : 0))
-
     axios.post('/admin/table', formData)
       .then(response => {
         toastr.success(response.data.message);
         var data = response.data.table
-        $("[data-dismiss=modal]").trigger({ type: "click" });
+        $("[data-dismiss=modal]").trigger({type: "click"});
 
         var workers = '';
-        data.workers.map(item =>{
-          workers += '<p class="m-0">'+item.name_full+'</p>';
+        data.workers.map(item => {
+          workers += '<p class="m-0">' + item.name_full + '</p>';
         })
 
-        console.log(workers);
-        placeDataTable.row.add([
+        let responseData = [
           data.id,
           data.name,
           workers,
           moment(data.updated_at).format('MM-D-yyyy'),
           0,
           template('placeTableButtons', {id: data.id}),
-        ]).draw(false).node();
+        ];
+        var tableForm = $("#createTableForm");
+
+        if (tableForm.find("[name='table_id']").value == '0') {
+          placeDataTable.row.add(responseData).draw(false).node();
+        } else {
+          placeDataTable.row(editedIndex).data(responseData).draw(false).node();
+        }
         createTableForm.reset()
       }).catch((error) => {
+      console.log(error);
       let errors = error.response.data;
-        if(typeof errors === 'object' && errors !== null) {
-          let firstErrorKey = Object.keys(errors)[0];
-          toastr.error(errors[firstErrorKey])
-          return false;
-        }
-        toastr.error(error.response.data)
+      if (typeof errors === 'object' && errors !== null) {
+        let firstErrorKey = Object.keys(errors)[0];
+        toastr.error(errors[firstErrorKey])
+        return false;
+      }
+      toastr.error(error.response.data)
     });
   });
 
-  $(document).on('click', '.place-tables-delete', function(e) {
+  $(document).on('click', '.place-tables-delete', function (e) {
     e.preventDefault();
     Swal.fire({
       title: 'Вы уверены?',
@@ -89,12 +94,32 @@ $(document).ready(function () {
         axios.delete('/admin/table/' + table_id,)
           .then(response => {
             toastr.success(response.data.message);
-            placeDataTable.row($(this).parents('tr') )
-              .remove()
-              .draw()
+            let data = response.data.table;
+
+
+            if (data) {
+              var workers = '';
+              data.workers.map(item => {
+                workers += '<p class="m-0">' + item.name_full + '</p>';
+              })
+              let responseData = [
+                data.id,
+                data.name,
+                workers,
+                moment(data.updated_at).format('MM-D-yyyy'),
+                0,
+                template('placeTableResetButtons', {id: data.id}),
+              ];
+
+              placeDataTable.row($(this).parents('tr')).data(responseData).draw(false).node();
+            } else {
+              placeDataTable.row($(this).parents('tr'))
+                .remove()
+                .draw()
+            }
           }).catch((error) => {
           let errors = error.response.data;
-          if(typeof errors === 'object' && errors !== null) {
+          if (typeof errors === 'object' && errors !== null) {
             let firstErrorKey = Object.keys(errors)[0];
             toastr.error(errors[firstErrorKey])
             return false;
@@ -105,7 +130,7 @@ $(document).ready(function () {
     })
   })
 
-  $(document).on('click', '.restore-place-table', function(e) {
+  $(document).on('click', '.restore-place-table', function (e) {
     e.preventDefault();
     Swal.fire({
       title: 'Вы уверены?',
@@ -118,13 +143,29 @@ $(document).ready(function () {
     }).then((result) => {
       if (result.isConfirmed) {
         var table_id = $(this).data('id');
-        axios.delete('/admin/table/' + table_id + '/restore',)
+        axios.get('/admin/table/' + table_id + '/restore',)
           .then(response => {
             toastr.success(response.data.message);
-            console.log(placeDataTable.row($(this).parents('tr')));
+            var data = response.data.table;
+            var workers = '';
+            console.log(data);
+            data.workers.map(item => {
+              workers += '<p class="m-0">' + item.name_full + '</p>';
+            })
+            let responseData = [
+              data.id,
+              data.name,
+              workers,
+              moment(data.updated_at).format('MM-D-yyyy'),
+              0,
+              template('placeTableButtons', {id: data.id}),
+            ];
+            placeDataTable.row($(this).parents('tr').data('index')).data(responseData).draw(false).node();
+
           }).catch((error) => {
+          console.log(error);
           let errors = error.response.data;
-          if(typeof errors === 'object' && errors !== null) {
+          if (typeof errors === 'object' && errors !== null) {
             let firstErrorKey = Object.keys(errors)[0];
             toastr.error(errors[firstErrorKey])
             return false;
@@ -138,15 +179,22 @@ $(document).ready(function () {
   $(document).on('click', '.edit-place-table', function (e) {
     e.preventDefault();
     var table_id = $(this).data('id');
+    editedIndex = $(this).parents('tr').data('index');
+
     axios.get('/admin/table/' + table_id,).then(response => {
       let data = response.data.table;
+      console.log(data);
       var createTableForm = $("#createTableForm");
       createTableForm.find("[name='table_id']").val(data.id);
       createTableForm.find("[name='marker_code']").val(data.marker_code);
       createTableForm.find("[name='name']").val(data.name);
-      $('#workers').val(4);
-      console.log($('#workers'));
+      let workers = [];
 
+      data.workers.map(item => {
+        workers.push(item.id)
+      });
+
+      $('.selectpicker').selectpicker('val', workers);
     }).catch((error) => {
       console.log(error);
       let errors = error.response.data;
@@ -158,6 +206,11 @@ $(document).ready(function () {
       toastr.error(error.response.data)
     });
   });
+
+
+
+
+
 
   // place workers
   var placeWorkersTable = $('#placeWorkersTable');
@@ -177,7 +230,7 @@ $(document).ready(function () {
     });
   }
 
-  $('#placeWorkersTableSearch').on( 'keyup', function () {
+  $('#placeWorkersTableSearch').on('keyup', function () {
     placeWorkersDataTable.search(this.value).draw();
   });
 
@@ -199,21 +252,23 @@ $(document).ready(function () {
       .then(response => {
         toastr.success(response.data.message);
         var data = response.data.worker
-        $("[data-dismiss=modal]").trigger({ type: "click" });
+
+        $("[data-dismiss=modal]").trigger({type: "click"});
 
         placeWorkersDataTable.row.add([
           data.id,
           data.name,
           data.email,
           moment(data.created_at).format('MM-D-yyyy'),
-          (data.worker_shift ? `${data.worker_shift.name} (${data.worker_shift.from} - ${data.worker_shift.until})`: ""),
+          (data.worker_shift ? `${data.worker_shift.name} (${data.worker_shift.from} - ${data.worker_shift.until})` : ""),
           data.phone,
           template('placeTableButtons', {id: data.id}),
         ]).draw(false).node();
+
         createPlaceWorkerForm.reset()
       }).catch((error) => {
       let errors = error.response.data.errors;
-      if(typeof errors === 'object' && errors !== null) {
+      if (typeof errors === 'object' && errors !== null) {
         let firstErrorKey = Object.keys(errors)[0];
         toastr.error(errors[firstErrorKey])
         return false;
@@ -222,7 +277,7 @@ $(document).ready(function () {
     });
   });
 
-  $(document).on('click', '.delete-place-worker', function(e) {
+  $(document).on('click', '.delete-place-worker', function (e) {
     e.preventDefault();
     Swal.fire({
       title: 'Вы уверены?',
@@ -241,9 +296,10 @@ $(document).ready(function () {
             placeWorkersDataTable.row($(this).parents('tr') )
               .remove()
               .draw()
+
           }).catch((error) => {
           let errors = error.response.data;
-          if(typeof errors === 'object' && errors !== null) {
+          if (typeof errors === 'object' && errors !== null) {
             let firstErrorKey = Object.keys(errors)[0];
             toastr.error(errors[firstErrorKey])
             return false;
@@ -255,13 +311,54 @@ $(document).ready(function () {
 
   })
 
+
+  $(document).on('click', '.edit-place-worker', function (e) {
+    e.preventDefault();
+    var worker_id = $(this).data('id');
+    editedIndex = $(this).parents('tr').data('index');
+
+    axios.get('/admin/worker/' + worker_id,).then(response => {
+
+      let data = response.data.worker;
+      var createPlaceWorkerForm = $("#createPlaceWorkerForm");
+
+      createPlaceWorkerForm.find("[name='worker_id']").val(data.id);
+      createPlaceWorkerForm.find("[name='name_full']").val(data.name_full);
+      createPlaceWorkerForm.find("[name='name']").val(data.name);
+      createPlaceWorkerForm.find("[name='name']").val(data.name);
+      createPlaceWorkerForm.find("[name='phone']").val(data.phone);
+      createPlaceWorkerForm.find("[name='card_number']").val(data.params.card_number);
+      createPlaceWorkerForm.find("[name='email']").val(data.email);
+
+      if (data.image) {
+        let placeWorkerNewImageLabel = $('#placeWorkerNewImageLabel');
+        placeWorkerNewImageLabel.removeClass('d-none')
+        placeWorkerNewImageLabel.siblings('label').first().addClass('d-none')
+        placeWorkerNewImageLabel.find('img').attr('src', '/storage/' + data.image)
+      }
+
+      let workers = [];
+    }).catch((error) => {
+      console.log(error);
+      let errors = error.response.data;
+      if (typeof errors === 'object' && errors !== null) {
+        let firstErrorKey = Object.keys(errors)[0];
+        toastr.error(errors[firstErrorKey])
+        return false;
+      }
+      toastr.error(error.response.data)
+    });
+  });
+
+
+
   // helper
-  function template(templateId, data ){
+  function template(templateId, data) {
     return document.getElementById(templateId).innerHTML
       .replace(
         /%(\w*)%/g, // or /{(\w*)}/g for "{this} instead of %this%"
-        function( m, key ){
-          return data.hasOwnProperty( key ) ? data[ key ] : "";
+        function (m, key) {
+          return data.hasOwnProperty(key) ? data[key] : "";
         }
       );
   }

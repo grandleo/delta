@@ -17,6 +17,7 @@ class PlaceController extends Controller
     public function index()
     {
         $places = Place::paginate(10);
+
         return view('admin.places.index', compact('places'));
     }
 
