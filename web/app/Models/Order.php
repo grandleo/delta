@@ -18,6 +18,8 @@ class Order extends Model
         'paid' => 1,
     ];
 
+    protected $with = ['orderStatus'];
+
     /**
      * The attributes that are mass assignable.
      *

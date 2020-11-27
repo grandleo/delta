@@ -14,7 +14,7 @@
             </div>
             <div class="col-auto">
                 <div class="table-header__actions">
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#addEditWorkerModal">+ Добавить официанта</button>
+                    <button class="btn btn-primary" id="openAddEditWorkerModal" data-toggle="modal" data-target="#addEditWorkerModal">+ Добавить официанта</button>
                 </div>
             </div>
         </div>
@@ -39,14 +39,14 @@
             @foreach($place->workers as $worker)
                 <tr data-index="{{ $loop->index }}">
                     <td scope="row">{{$worker->id}}</td>
-                    <td>{{$worker->name}}</td>
+                    <td>{{$worker->name_full}}</td>
                     <td>{{$worker->email}}</td>
                     <td>{{date('m-d-yy', strtotime($worker->created_at))}}</td>
                     <td>{{$worker->worker_shift() ? $worker->worker_shift()['name'] . ' (' . $worker->worker_shift()['from'] . ' - ' . $worker->worker_shift()['until'] . ')'  : ""}}</td>
                     <td>{{$worker->phone}}</td>
                     <td>
                         @if($worker->deleted_at)
-                            <button data-id="{{$worker->id}}" type="button" class="restore-place-worker btn btn-sm btn-sm-control mr-1" href="{{ route('admin.places.show', ['place' => $place->id]) }}">
+                            <button data-id="{{$worker->id}}" type="button" class="restore-place-worker btn btn-sm btn-sm-control mr-1">
                                 <img class="w-75" src="/images/icon/restore.svg" alt="restore" />
                             </button>
                         @else
@@ -178,3 +178,23 @@
         </div>
     </div>
 </div>
+
+
+<script id="placeWorkerButtons" class="template-container" type="text/template">
+    <button data-id="%id%" data-toggle="modal" data-target="#addEditWorkerModal" class="edit-place-worker btn btn-sm btn-sm-control mr-1">
+        <img src="/images/icon/pencil.svg" alt="edit"/>
+    </button>
+    <button data-id="%id%" class="delete-place-worker btn btn-light btn-sm btn-sm-control">
+        <img src="/images/icon/trash.svg" alt="delete"/>
+    </button>
+</script>
+
+<script id="placeWorkerResetButtons" class="template-container" type="text/template">
+    <button data-id="%id%" type="button" class="restore-place-worker btn btn-sm btn-sm-control mr-1">
+        <img class="w-75" src="/images/icon/restore.svg" alt="restore" />
+    </button>
+    <button data-id="%id%" class="delete-place-worker btn btn-light btn-sm btn-sm-control">
+        <img src="/images/icon/trash.svg" alt="delete"/>
+    </button>
+</script>
+

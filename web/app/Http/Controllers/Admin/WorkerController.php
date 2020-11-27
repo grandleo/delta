@@ -110,12 +110,12 @@ class WorkerController extends Controller
                 'params' => $reqData['params'],
                 'active' => $reqData['active'],
             ];
-            $this->workerRepository->updateFromForm($worker->id, $reqData_loc);
+            $worker = $this->workerRepository->updateFromForm($worker->id, $reqData_loc);
         } else {
             $worker = $this->workerRepository->find($id);
             abort_if(!$worker || $worker->place_id !== $place->id, 403);
 
-            $this->workerRepository->updateFromForm($id, $reqData);
+            $worker = $this->workerRepository->updateFromForm($id, $reqData);
         }
         $worker['worker_shift'] = $worker->worker_shift();
 
@@ -134,7 +134,7 @@ class WorkerController extends Controller
     public function show($id)
     {
         $worker = $this->workerRepository->find($id);
-
+        $worker['worker_shift'] = $worker->worker_shift();
         if (!$worker) {
             return response()->json([
                 'status' => 'error',
@@ -177,6 +177,7 @@ class WorkerController extends Controller
     public function destroy($id)
     {
         $worker = $this->workerRepository->findWithTrashed($id);
+        $worker['worker_shift'] = $worker->worker_shift();
         if (!$worker) {
             return response()->json([
                 'status' => 'error',
@@ -189,6 +190,7 @@ class WorkerController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => __('Официант удалён'),
+            'worker' => $worker
         ]);
     }
 
@@ -204,9 +206,12 @@ class WorkerController extends Controller
 
         $worker->restore();
 
+        $worker['worker_shift'] = $worker->worker_shift();
+
         return response()->json([
             'status' => 'success',
             'message' => __('Официант восстановлен'),
+            'worker' => $worker
         ]);
     }
 

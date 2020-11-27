@@ -54325,7 +54325,7 @@ function _typeof(obj) {
 $(document).ready(function () {
   // place tables
   var placeTables = $('#placeTables');
-  var editedIndex = 0;
+  var placeTableEditedIndex = null;
 
   if (placeTables) {
     var placeDataTable = placeTables.DataTable({
@@ -54374,12 +54374,11 @@ $(document).ready(function () {
       if (tableForm.find("[name='table_id']").value == '0') {
         placeDataTable.row.add(responseData).draw(false).node();
       } else {
-        placeDataTable.row(editedIndex).data(responseData).draw(false).node();
+        placeDataTable.row(placeTableEditedIndex).data(responseData).draw(false).node();
       }
 
       createTableForm.reset();
     })["catch"](function (error) {
-      console.log(error);
       var errors = error.response.data;
 
       if (_typeof(errors) === 'object' && errors !== null) {
@@ -54455,7 +54454,6 @@ $(document).ready(function () {
           toastr.success(response.data.message);
           var data = response.data.table;
           var workers = '';
-          console.log(data);
           data.workers.map(function (item) {
             workers += '<p class="m-0">' + item.name_full + '</p>';
           });
@@ -54464,7 +54462,6 @@ $(document).ready(function () {
           })];
           placeDataTable.row($(_this2).parents('tr').data('index')).data(responseData).draw(false).node();
         })["catch"](function (error) {
-          console.log(error);
           var errors = error.response.data;
 
           if (_typeof(errors) === 'object' && errors !== null) {
@@ -54481,10 +54478,9 @@ $(document).ready(function () {
   $(document).on('click', '.edit-place-table', function (e) {
     e.preventDefault();
     var table_id = $(this).data('id');
-    editedIndex = $(this).parents('tr').data('index');
+    placeTableEditedIndex = $(this).parents('tr').data('index');
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/admin/table/' + table_id).then(function (response) {
       var data = response.data.table;
-      console.log(data);
       var createTableForm = $("#createTableForm");
       createTableForm.find("[name='table_id']").val(data.id);
       createTableForm.find("[name='marker_code']").val(data.marker_code);
@@ -54509,6 +54505,7 @@ $(document).ready(function () {
   }); // place workers
 
   var placeWorkersTable = $('#placeWorkersTable');
+  var placeWorkerEditedIndex = 0;
 
   if (placeWorkersTable) {
     var placeWorkersDataTable = placeWorkersTable.DataTable({
@@ -54528,28 +54525,42 @@ $(document).ready(function () {
   $('#placeWorkersTableSearch').on('keyup', function () {
     placeWorkersDataTable.search(this.value).draw();
   });
+  var createPlaceWorkerForm = $('#createPlaceWorkerForm');
+  $('#openAddEditWorkerModal').on('click', function () {
+    createPlaceWorkerForm[0].reset();
+    createPlaceWorkerForm.find('input[type=checkbox]').prop('checked', false);
+    createPlaceWorkerForm.find("[name='password']").attr('required');
+    createPlaceWorkerForm.find("[name='password_confirmation']").attr('required');
+    var placeWorkerNewImageLabel = $('#placeWorkerNewImageLabel');
+    placeWorkerNewImageLabel.addClass('d-none');
+    placeWorkerNewImageLabel.siblings('label').first().removeClass('d-none');
+  });
   $('#placeWorkerImageUpload').on('change', function () {
     readImageURL(this, 'placeWorkerNewImage');
     $('#placeWorkerNewImageLabel').removeClass('d-none');
     $('#placeWorkerNewImageLabel').siblings('label').first().addClass('d-none');
   });
-  var createPlaceWorkerForm = document.getElementById("createPlaceWorkerForm");
-  createPlaceWorkerForm.addEventListener("submit", function (e) {
+  createPlaceWorkerForm.on("submit", function (e) {
     e.preventDefault();
-    var formData = new FormData(createPlaceWorkerForm);
+    var formData = new FormData(document.getElementById("createPlaceWorkerForm"));
     formData.append('active', $("#isActiveWorker").prop('checked') ? 1 : 0);
     formData.append('orders_see_all', $("#placeWorkerSeeAllOrders").prop('checked') ? 1 : 0);
     var placeWorkerID = document.getElementById("placeWorkerID").value;
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/worker', formData).then(function (response) {
       toastr.success(response.data.message);
       var data = response.data.worker;
+      console.log(placeWorkerID);
+
+      if (placeWorkerID != '0') {
+        addUpdatePlaceWorkerRow(data, 'placeWorkerButtons', placeWorkerEditedIndex);
+      } else {
+        addUpdatePlaceWorkerRow(data, 'placeWorkerButtons');
+      }
+
       $("[data-dismiss=modal]").trigger({
         type: "click"
       });
-      placeWorkersDataTable.row.add([data.id, data.name, data.email, moment__WEBPACK_IMPORTED_MODULE_2___default()(data.created_at).format('MM-D-yyyy'), data.worker_shift ? "".concat(data.worker_shift.name, " (").concat(data.worker_shift.from, " - ").concat(data.worker_shift.until, ")") : "", data.phone, template('placeTableButtons', {
-        id: data.id
-      })]).draw(false).node();
-      createPlaceWorkerForm.reset();
+      createPlaceWorkerForm[0].reset();
     })["catch"](function (error) {
       var errors = error.response.data.errors;
 
@@ -54562,6 +54573,20 @@ $(document).ready(function () {
       toastr.error(error.response.data);
     });
   });
+
+  function addUpdatePlaceWorkerRow(data, templateId) {
+    var index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    var item = [data.id, data.name_full, data.email, moment__WEBPACK_IMPORTED_MODULE_2___default()(data.created_at).format('MM-D-yyyy'), data.worker_shift ? "".concat(data.worker_shift.name, " (").concat(data.worker_shift.from, " - ").concat(data.worker_shift.until, ")") : "", data.phone, template(templateId, {
+      id: data.id
+    })];
+
+    if (index != null) {
+      placeWorkersDataTable.row(index).data(item).draw(false).node();
+    } else {
+      placeWorkersDataTable.row.add(item).draw(false).node();
+    }
+  }
+
   $(document).on('click', '.delete-place-worker', function (e) {
     var _this3 = this;
 
@@ -54579,7 +54604,44 @@ $(document).ready(function () {
         var table_id = $(_this3).data('id');
         axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]('/admin/worker/' + table_id).then(function (response) {
           toastr.success(response.data.message);
-          placeWorkersDataTable.row($(_this3).parents('tr')).remove().draw();
+
+          if (response.data.worker.deleted_at) {
+            placeWorkersDataTable.row($(_this3).parents('tr')).remove().draw();
+          } else {
+            addUpdatePlaceWorkerRow(response.data.worker, 'placeWorkerResetButtons', $(_this3).parents('tr'));
+          }
+        })["catch"](function (error) {
+          var errors = error.response.data;
+
+          if (_typeof(errors) === 'object' && errors !== null) {
+            var firstErrorKey = Object.keys(errors)[0];
+            toastr.error(errors[firstErrorKey]);
+            return false;
+          }
+
+          toastr.error(error.response.data);
+        });
+      }
+    });
+  });
+  $(document).on('click', '.restore-place-worker', function (e) {
+    var _this4 = this;
+
+    e.preventDefault();
+    sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.fire({
+      title: 'Вы уверены?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'да',
+      cancelButtonText: 'Отмена'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        var table_id = $(_this4).data('id');
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/admin/worker/' + table_id + '/restore').then(function (response) {
+          toastr.success(response.data.message);
+          addUpdatePlaceWorkerRow(response.data.worker, 'placeWorkerButtons', $(_this4).parents('tr'));
         })["catch"](function (error) {
           var errors = error.response.data;
 
@@ -54597,17 +54659,31 @@ $(document).ready(function () {
   $(document).on('click', '.edit-place-worker', function (e) {
     e.preventDefault();
     var worker_id = $(this).data('id');
-    editedIndex = $(this).parents('tr').data('index');
+    placeWorkerEditedIndex = $(this).parents('tr').data('index');
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/admin/worker/' + worker_id).then(function (response) {
       var data = response.data.worker;
       var createPlaceWorkerForm = $("#createPlaceWorkerForm");
       createPlaceWorkerForm.find("[name='worker_id']").val(data.id);
       createPlaceWorkerForm.find("[name='name_full']").val(data.name_full);
       createPlaceWorkerForm.find("[name='name']").val(data.name);
-      createPlaceWorkerForm.find("[name='name']").val(data.name);
       createPlaceWorkerForm.find("[name='phone']").val(data.phone);
+      createPlaceWorkerForm.find("[name='shift_key']").val(data.worker_shift.key);
       createPlaceWorkerForm.find("[name='card_number']").val(data.params.card_number);
       createPlaceWorkerForm.find("[name='email']").val(data.email);
+      createPlaceWorkerForm.find("[name='password']").removeAttr('required');
+      createPlaceWorkerForm.find("[name='password_confirmation']").removeAttr('required');
+
+      if (data.status === 1) {
+        createPlaceWorkerForm.find("[name='active']").prop('checked', true);
+      } else {
+        createPlaceWorkerForm.find("[name='active']").prop('checked', false);
+      }
+
+      if (data.params.orders_see_all === 1) {
+        createPlaceWorkerForm.find("[name='orders_see_all']").prop('checked', true);
+      } else {
+        createPlaceWorkerForm.find("[name='orders_see_all']").prop('checked', false);
+      }
 
       if (data.image) {
         var placeWorkerNewImageLabel = $('#placeWorkerNewImageLabel');

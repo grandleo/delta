@@ -34,16 +34,37 @@
 </div>
 <div class="col-12">
     <div class="row order-list">
+        <div class="col-12 mb-3">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link text-danger" href="#">Ожидают обработки ()</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">В работе ()</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Готовые</a>
+                </li>
+            </ul>
+        </div>
         @foreach($place->orders as $order)
             <div class="order-list__item col-md-4">
                 <div class="order-list__item__card bg-white mb-4">
-                    <p><span class="font-weight-bold">Заказ №{{$order->id}}</span> / Создан {{$order->created_at}}</p>
-                    <p><span class="font-weight-bold">Стол </span>{{$order->id}} <span>Гость №</span></p>
+                    <p><span class="font-weight-bold">Заказ № {{ $order->id }}</span> / Создан {{date('m.d.yy в H:i ', strtotime($order->created_at)) }}</p>
+                    <p><span class="font-weight-bold">Стол </span>{{ $order->id }} <span>Гость № {{$order->guest_id}}</span></p>
                     <p>
                        <p class="m-0"> <small class="d-inline-block">Закрепленный официант</small></p>
                         <span class="font-weight-bold d-inline-block">Евгений Казаков</span>
                     </p>
-                    <p>{{$order->id}}</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="{{$order->orderStatus ? "text-" . $order->orderStatus->color : ""}}">{{$order->orderStatus ? str_replace(['{order_id}'], [$order->id],  $order->orderStatus->params['message_template']) : ""}}</p>
+                            <p>{{$order->order_status_at}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>{{$order->amount .' '. $order->currency}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         @endforeach
