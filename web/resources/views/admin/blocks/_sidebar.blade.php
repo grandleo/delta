@@ -23,19 +23,19 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link {{ (request()->is('admin/order')) ? 'active' : '' }}" href="{{ route('admin.order.index') }}">
                     <div class="nav-link-icon"></div>
                     <span>Заказы</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link {{ (request()->is('admin/worker')) ? 'active' : '' }}" href="{{ route('admin.worker.index') }}">
                     <div class="nav-link-icon"></div>
                     <span>Официанты</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link {{ (request()->is('admin/guest')) ? 'active' : '' }}" href="{{ route('admin.guest.index') }}">
                     <div class="nav-link-icon"></div>
                     <span>Гости (клиенты)</span>
                 </a>

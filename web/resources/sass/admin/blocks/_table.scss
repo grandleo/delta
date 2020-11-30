@@ -32,7 +32,27 @@
       }
     }
   }
-
+  &__link {
+    font-weight: 500;
+    font-size: 12px;
+    a {
+      color: #4C5862;
+    }
+  }
+  &__filter-nav {
+   margin-top: 40px;
+    .nav-item {
+      a.nav-link {
+        font-size: 16px;
+        color: #828282;
+        font-weight: 600;
+        &.active {
+          color: #EB5757;
+          text-decoration-line: underline;
+        }
+      }
+    }
+  }
 }
 .table-content {
   margin-top: 35px;
@@ -56,5 +76,10 @@
       letter-spacing: 0.01em;
       color: #334D6E;
     }
+  }
+  &__avatar-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
   }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Worker;
 use App\Repositories\PlaceRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Repositories\WorkerRepositoryInterface;
@@ -32,7 +33,9 @@ class WorkerController extends Controller
      */
     public function index()
     {
-        //
+        $workers = Worker::with(['place', 'tables', 'orders'])->paginate(10);
+
+        return view('admin.worker.index', compact('workers'));
     }
 
     /**

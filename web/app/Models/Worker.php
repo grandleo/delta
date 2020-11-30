@@ -75,6 +75,11 @@ class Worker extends Authenticatable
         return $this->belongsToMany('App\Models\Table');
     }
 
+    public function orders()
+    {
+        return $this->hasMany('App\Models\Order');
+    }
+
     public function worker_shift() {
         $worker_shifts = collect($this->place->params['worker_shifts']);
         return $worker_shifts->where('key', $this->params['shift_key'])->first();
